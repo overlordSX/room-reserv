@@ -1,0 +1,44 @@
+@import "../_var.less";
+
+/**
+ * Базовые стили верстки
+ **/
+
+:root {
+    .css-var();
+}
+
+html {
+    height: 100%;
+    min-height: 100vh;
+    -ms-text-size-adjust: 100%;
+    -webkit-text-size-adjust: 100%;
+}
+
+body {
+    &:extend(.custom-scrollbar all);
+
+    --scrollbar-size: var(--page-scrollbar-width) !important;
+    --scrollbar-size-ff: normal;
+
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    padding: 0;
+    min-height: calc(100 * var(--vh));
+    min-width: 360px;
+    width: calc(100% - var(--scroll-lock-compensation));
+    background: var(--page-bg-color);
+    color: @cTextBlack;
+    font: 400 var(--fs14)/var(--lh-text) @font;
+
+    ::selection {
+        background-color: fade(@cBrand, 10);
+    }
+}
+
+.content-container {
+    box-sizing: border-box;
+    margin: 0 auto;
+    width: var(--content-width);
+}

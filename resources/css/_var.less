@@ -1,0 +1,248 @@
+// todo подумать нужны ли спрайты, и что делать с символами
+/*@import (optional) "../build/sprite";
+@import (optional) "../build/symbols";*/
+
+@import "_mixins";
+
+/**
+ * Переменные
+ **/
+.css-var() {
+    --page-scrollbar-width: 8px;
+
+    // на мобилках некорректно работает vh в css, переопределяется в JS
+    // в некоторых блоках, где нужно избежать дерготни контента при сворачивании / разворачивании панельки браузера, используйте vh, а не --vh
+    --vh: 1vh;
+    --sw: var(--page-scrollbar-width);
+
+    // Layout
+    --content-max-width: 1180px; // Максимальная ширина контента
+    --content-width: min(calc(100% - 2 * var(--page-gutter)), var(--content-max-width)); // Текущая ширина контента
+    --page-width: calc(100vw - var(--sw)); // Ширина страницы без учета скроллбара
+
+    --page-gutter: 130px;
+    --wide-block-gutter: calc(var(--page-gutter) * 56/130);
+    --wide-block-gutter-lg: calc(var(--page-gutter) * 79/130);
+    --grid-gap: 32px;
+
+    --header-height: 72px;
+
+    // Поля ввода
+    // todo актуализировать цвета и тд
+    --input-color: @cTextGrey;
+    --input-placeholder-color: @cTextGrey;
+    --input-background-color: @cWhite;
+    --input-border-color: @cBordersGrey;
+
+    --input-hover-border-color: @cBordersBlack;
+
+    --input-focus-color: @cTextBlack;
+    --input-focus-border-color: @cBordersBlack;
+
+    --input-border-radius: @borderRadius;
+    --input-padding-top: 10px;
+    --input-padding-bottom: var(--input-padding-top);
+    --input-padding-left: 12px;
+    --input-padding-right: var(--input-padding-left);
+    --input-height: 40px;
+    --input-border-width: 1px;
+    --input-font-size: var(--fs14);
+
+    // Типографика
+    --lh-text: 1.4;
+    --lh-caption: 1.2;
+
+    --fs10: 10px;
+    --fs12: 12px;
+    --fs14: 14px;
+    --fs16: 16px;
+    --fs18: 18px;
+    --fs20: 20px;
+    .responsive(--fs20, 20px, .98);
+    --fs24: 24px;
+    .responsive(--fs24, 24px, .96);
+    --fs30: 30px;
+    .responsive(--fs30, 30px, .96);
+    --fs32: 32px;
+    .responsive(--fs32, 32px, .94);
+    --fs36: 36px;
+    .responsive(--fs36, 36px, .92);
+    --fs40: 40px;
+    .responsive(--fs40, 40px, .9);
+    --fs48: 48px;
+    .responsive(--fs48, 48px, .89);
+
+    // Вертикальные отступы
+    --m8: 8px;
+    --m10: 10px;
+    --m12: 12px;
+    --m16: 16px;
+    --m18: 18px;
+    --m20: 20px;
+    .responsive(--m20, 20px, .98);
+    --m22: 22px;
+    .responsive(--m22, 22px, .98);
+    --m24: 24px;
+    .responsive(--m24, 24px, .98);
+    --m28: 28px;
+    .responsive(--m28, 28px, .98);
+    --m32: 32px;
+    .responsive(--m32, 32px, .98);
+    --m36: 36px;
+    .responsive(--m36, 36px, .98);
+    --m40: 40px;
+    .responsive(--m40, 40px, .95);
+    --m48: 48px;
+    .responsive(--m48, 48px, .93);
+    --m54: 54px;
+    .responsive(--m54, 54px, .9);
+    --m60: 60px;
+    .responsive(--m60, 60px, .9);
+    --m64: 64px;
+    .responsive(--m64, 64px, .9);
+
+
+    @media @mediaXl {
+        --page-gutter: 60px;
+    }
+
+    @media @mediaLg {
+        --page-gutter: 25px;
+        --grid-gap: 24px;
+        --wide-block-gutter: var(--page-gutter);
+        --wide-block-gutter-lg: var(--page-gutter);
+    }
+
+    @media @mediaHeaderMobile {
+        --header-height: 56px;
+    }
+
+    @media @mediaSm {
+        --input-font-size: var(--fs16);
+    }
+
+    @media @mediaXs {
+        --grid-gap: 16px;
+    }
+}
+
+@borderRadiusSm: 5px;
+@borderRadius: 10px;
+@borderRadiusMd: 30px;
+
+/**
+ * Сетка
+ **/
+
+@screenXs: 480px;
+@screenSm: 768px;
+@screenMd: 1024px;
+@screenLg: 1240px;
+@screenXl: 1440px;
+
+@screenLgH: 800px; // Ноутбуки с маленькой высотой экрана
+@screenMdH: 768px; // Планшеты с горизонтальной ориентацией
+@screenXsH: 480px; // Телефоны с горизонтальной ориентацией
+
+@screenXsMax: (@screenXs - 1);
+@screenSmMax: (@screenSm - 1);
+@screenMdMax: (@screenMd - 1);
+@screenLgMax: (@screenLg - 1);
+@screenXlMax: (@screenXl - 1);
+
+@screenLgHMax: (@screenLgH - 1);
+@screenMdHMax: (@screenMdH - 1);
+@screenXsHMax: (@screenXsH - 1);
+
+@mediaXs: ~'(max-width: @{screenXsMax})';
+@mediaSm: ~'(max-width: @{screenSmMax})';
+@mediaMd: ~'(max-width: @{screenMdMax})';
+@mediaLg: ~'(max-width: @{screenLgMax})';
+@mediaXl: ~'(max-width: @{screenXlMax})';
+
+@mediaLgH: ~'(max-height: @{screenLgHMax})';
+@mediaMdH: ~'(max-height: @{screenMdHMax})';
+@mediaXsH: ~'(max-height: @{screenXsHMax})';
+
+@mediaMoreXs: ~'(min-width: @{screenXs})';
+@mediaMoreSm: ~'(min-width: @{screenSm})';
+@mediaMoreMd: ~'(min-width: @{screenMd})';
+@mediaMoreLg: ~'(min-width: @{screenLg})';
+@mediaMoreXl: ~'(min-width: @{screenXl})';
+
+@mediaMoreLgH: ~'(min-height: @{screenLgH})';
+@mediaMoreMdH: ~'(min-height: @{screenMdH})';
+@mediaMoreXsH: ~'(min-height: @{screenXsH})';
+
+@mediaHover: ~'(pointer: fine), (-ms-high-contrast: none), (-ms-high-contrast: active)';
+@mediaNotHover: ~'(pointer: coarse)';
+
+@mediaHeaderDesktop: @mediaMoreMd;
+@mediaHeaderMobile: @mediaMd;
+
+@mediaScrollAnimation: @mediaMoreMd;
+
+@columnsCount: 12;
+
+/**
+ * Шрифты
+ **/
+@fontName: 'Inter';
+@font: @fontName, Arial, sans-serif, -apple-system;
+
+/**
+ * Цвета
+ **/
+@cBlack: #000;
+@cWhite: #fff;
+@cBrand: fade(#727650, 90);
+
+@cTextBlack: #1b1b1b;
+@cTextGrey: #909090;
+@cTextGreyLight: #dfdfdf;
+
+@cBgBlack: #1b1b1b;
+@cBgGrey: fade(#d9d9d9, 15);
+
+@cBordersGrey: #909090;
+@cBordersGreyLight: fade(@cBordersGrey, 30);
+@cBordersBlack: #1b1b1b;
+
+@cOverlay: fade(@cWhite, 80);
+
+// Фильтры используются для покраски контентных изображений
+@fBlack: brightness(0);
+@fWhite: brightness(0) invert(1);
+
+@dropdownShadow: 0 0 10px fade(@cBlack, 10);
+@headerShadow: 0 5px 5px fade(@cBlack, 5);
+
+/**
+ * UI
+ **/
+@hoverOpacity: .8;
+@activeOpacity: .6;
+@disabledOpacity: .3;
+
+@defaultFocusRuleset: {
+    // todo css focus rules
+    outline: 1px dashed @cWhite !important;
+    outline-offset: 5px;
+}
+
+@defaultActiveRuleset: {
+    opacity: @activeOpacity;
+}
+
+/**
+ * Анимация
+ **/
+@transitTime: .2s; // Используется для ховеров на текст и иконки (изменение цвета, прозрачности)
+@transitTimeMedium: .4s; // Используется для анимации стейтов
+@transitTimeSlow: .8s; // Используется для анимации по скроллу
+@transitEase: ease;
+
+@transitDelay: .6s;
+
+@headerZindex: 200;
+@bottomBarZindex: 100;

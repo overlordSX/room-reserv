@@ -1,0 +1,21 @@
+@import "_var.less";
+
+/****
+ * Подключение шрифтов
+ ****/
+
+.font(@fontName, @fontFileName, @weight: normal, @style: normal) {
+    @font-face {
+        font-family: @fontName;
+        src: url('../../public/fonts/@{fontFileName}.woff2') format('woff2'),
+        url('../../public/fonts/@{fontFileName}.woff') format('woff');
+        font-weight: @weight;
+        font-style: @style;
+        font-display: swap;
+    }
+}
+
+.font(@fontName, 'Inter-Regular', 400);
+.font(@fontName, 'Inter-Medium', 500);
+.font(@fontName, 'Inter-SemiBold', 600);
+.font(@fontName, 'Inter-Bold', 700);

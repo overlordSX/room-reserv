@@ -1,8 +1,10 @@
 <template>
     <Head title="Hello, world" />
 
-    <div>
-        hello, world
+    <div class="main-page">
+        <span class="hello__text">
+            hello, world
+        </span>
     </div>
 
     <!-- пример использования роутов laravel
