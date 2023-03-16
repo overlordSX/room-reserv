@@ -1,0 +1,215 @@
+@import "../../_var.less";
+
+@import "../../_var.less";
+
+/**
+ * Текстовые ссылки
+ *
+ * .link отвечает за очистку дефолтных стилей ссылок
+ *
+ * модификаторы &--uline, &--hover-uline, &--dashed, &--hover-dashed добавляют подчёркивание
+ *
+ * модификатор .link--with-icon используется для ссылок с иконками (задаёт отступ + стили подчёркивания в комбинации с .link--uline и пр.)
+ * для таких ссылок нужно оборачивать иконку в .link__icon, а текст в .link__text
+
+ * если нужна многострочность у ссылок с иконкой, нужно обернуть .link__text в .link__text-wrap
+ */
+.link {
+    --link-color: currentColor;
+    --link-icon-color: var(--link-color);
+    --link-border-color: transparent;
+
+    --link-hover-color: @cWhite;
+    --link-hover-icon-color: currentColor;
+    --link-hover-border-color: currentColor;
+
+    --link-selected-color: var(--link-hover-color);
+    --link-selected-icon-color: var(--link-hover-icon-color);
+    --link-selected-border-color: var(--link-hover-border-color);
+
+    --link-border-width: 0px;
+    --link-border-style: solid;
+    --link-gap: 14px;
+
+    .clear-btn();
+    .clear-link(var(--link-color));
+    .transit();
+    cursor: pointer;
+    border-bottom: var(--link-border-width) var(--link-border-style) var(--link-border-color);
+
+    .hover({
+        color: var(--link-hover-color);
+        border-bottom-color: var(--link-hover-border-color);
+
+        .link {
+            &__icon {
+                color: var(--link-hover-icon-color);
+            }
+        }
+    });
+
+    &__icon {
+        .transit(~'color');
+        position: relative;
+        flex-shrink: 0;
+        color: var(--link-icon-color);
+    }
+
+    svg {
+        .transit(~'transform');
+    }
+
+    &__text {
+        .transit(~'border-bottom-color');
+        position: relative;
+        z-index: 2;
+        text-align: left;
+        max-width: 100%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .link__icon + .link__text,
+    .link__text + .link__icon,
+    .link__icon + .link__text-wrap,
+    .link__text-wrap + .link__icon {
+        margin-left: var(--link-gap);
+    }
+
+    // счётчик у иконки
+    &__counter {
+    }
+
+    // Ссылка с икнокой
+    &--with-icon {
+        display: inline-flex;
+        align-items: center;
+        max-width: 100%;
+        border-width: 0 !important;
+
+        .link {
+            // поддержка многострочных ссылок с иконкой и подчёркиванием
+            &__text-wrap {
+                border-bottom-style: inherit;
+                border-bottom-color: inherit;
+                border-width: 0 !important;
+            }
+
+            &__text {
+                .transit(~'border-bottom-color');
+                border-width: var(--link-border-width);
+                border-bottom-style: inherit;
+                border-bottom-color: inherit;
+            }
+
+            > &__text {
+                white-space: nowrap;
+            }
+        }
+    }
+
+    // Ссылка с подчёркиванием
+    &--uline,
+    &--dashed {
+        --link-border-width: 1px;
+        --link-border-color: currentColor;
+        --link-hover-color: currentColor;
+        --link-hover-border-color: transparent;
+    }
+
+    &--hover-uline,
+    &--hover-dashed {
+        --link-border-width: 1px;
+        --link-border-color: transparent;
+        --link-hover-color: currentColor;
+        --link-hover-border-color: currentColor;
+    }
+
+    &--dashed,
+    &--hover-dashed {
+        --link-border-style: dashed;
+    }
+
+    &--uline-animated,
+    &--hover-uline-animated {
+        position: relative;
+        background-image: linear-gradient(currentColor, currentColor);
+        background-size: 100% 1px;
+        background-repeat: no-repeat;
+        background-position: left bottom;
+
+        .hover({
+            background-size: 0 1px;
+        }, false, false);
+
+        // fix ховер при наведении между строками
+        &:before {
+            .pseudo();
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+        }
+    }
+
+    &--uline-animated {
+        background-size: 100% 1px;
+
+        .hover({
+            background-size: 0 1px;
+        }, false, false);
+    }
+
+    &--hover-uline-animated {
+        background-size: 0 1px;
+
+        .hover({
+            background-size: 100% 1px;
+        }, false, false);
+    }
+
+    // Выбранная ссылка
+    &--selected,
+    &--current {
+        pointer-events: none;
+        color: var(--link-selected-color);
+        border-bottom-color: var(--link-selected-border-color);
+
+        .link {
+            &__icon {
+                color: var(--link-selected-icon-color);
+            }
+        }
+    }
+
+    // Неактивные ссылки
+    &--static {
+        pointer-events: none;
+    }
+
+    &--disabled,
+    &:disabled,
+    &[disabled] {
+        opacity: @disabledOpacity;
+        pointer-events: none;
+    }
+
+    // Ссылки - текстовые кнопки
+    &--text-btn {
+        --link-color: @cBrand;
+        --link-hover-color: currentColor;
+    }
+
+    // Лого
+    &--logo {
+        .hover({
+            opacity: @hoverOpacity;
+        }, false, false);
+
+        img {
+            display: block;
+            max-width: 100%;
+        }
+    }
+}
+

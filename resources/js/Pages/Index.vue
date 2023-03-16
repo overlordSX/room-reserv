@@ -1,11 +1,7 @@
-<template>
-    <Head title="Hello, world" />
-
-    <div class="main-page">
-        <span class="hello__text">
-            hello, world
-        </span>
-    </div>
+<template class="index-template">
+    <Base title="hello, world">
+        from index.vue
+    </Base>
 
     <!-- пример использования роутов laravel
     <NavLink :href="route('dashboard')" :active="route().current('dashboard')">
@@ -15,5 +11,5 @@
 </template>
 
 <script setup lang="ts">
-    import { Head } from '@inertiajs/vue3';
+    import Base from "@/Layouts/Base.vue";
 </script>
