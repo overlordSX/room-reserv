@@ -15,16 +15,16 @@
         "defaults"
     ],
     "devDependencies": {
-        "@inertiajs/vue3": "^1.0.0",
-        "@vitejs/plugin-vue": "^4.0.0",
-        "autoprefixer": "^10.4.12",
-        "axios": "^1.1.2",
-        "laravel-vite-plugin": "^0.7.2",
+        "@inertiajs/vue3": "^1.0.2",
+        "@vitejs/plugin-vue": "^4.1.0",
+        "autoprefixer": "^10.4.14",
+        "axios": "^1.3.4",
+        "laravel-vite-plugin": "^0.7.4",
         "less": "^4.1.3",
-        "postcss": "^8.4.18",
+        "postcss": "^8.4.21",
         "typescript": "^4.9.5",
-        "vite": "^4.0.0",
-        "vue": "^3.2.41",
+        "vite": "^4.2.1",
+        "vue": "^3.2.47",
         "vue-loader": "^17.0.1"
     }
 }

@@ -2,10 +2,23 @@
 
 .header {
     display: flex;
+    height: var(--header-height);
+    align-items: center;
     background-color: @cBrand;
+    color: @cWhite;
 
     &__grid {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: var(--m64);
+    }
+
+    &--with-nav {
         display: grid;
-        justify-content: center;
+        grid-template-columns: max-content max-content max-content;
+        justify-content: space-between;
+        align-items: center;
+        gap: var(--m64);
     }
 }
