@@ -20,8 +20,8 @@ Route::get('/', function () {
     return Inertia::render('Index', [ // все это хавал Welcome
         'canLogin' => Route::has('login'),
         'canRegister' => Route::has('register'),
-        'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
+//        'laravelVersion' => Application::VERSION,
+//        'phpVersion' => PHP_VERSION,
     ]);
 });
 

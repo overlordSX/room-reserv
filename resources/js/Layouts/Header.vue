@@ -9,16 +9,41 @@
 
                 </div>
 
-<!--                <nav class="header__nav header-nav">
+                <!-- <nav class="header__nav header-nav">
                     <a href="javascript:void(0);" class="link link&#45;&#45;hover-uline">Справка</a>
                 </nav>-->
 
+<!--                <div v-if="canLogin">
+                    <Link
+                        v-if="$page.props.auth.user"
+                        :href="route('dashboard')"
+                    >Dashboard</Link
+                    >
+
+                    <template v-else>
+                        <Link
+                            :href="route('login')"
+                        >Log in</Link
+                        >
+
+                        <Link
+                            v-if="canRegister"
+                            :href="route('register')"
+                        >Register</Link>
+                    </template>
+                </div>-->
+
                 <div class="header__log-in">
-                    <a href="javascript:void(0);" class="link link--hover-uline">
+                    <Link :href="route('login')" class="link link--hover-uline">
                         Войти
-                    </a>
+                    </Link>
                 </div>
             </div>
         </div>
     </header>
 </template>
+
+<script setup lang="ts">
+import { Head, Link } from '@inertiajs/vue3';
+
+</script>

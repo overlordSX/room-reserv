@@ -1,0 +1,31 @@
+@import "../_var.less";
+
+.guest-layout {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    flex-direction: column;
+    background-color: @cBrand;
+
+    &__return-header {
+        align-self: center;
+        display: flex;
+        height: 62px;
+        background-color: white;
+        width: var(--content-width);
+        padding-left: calc(-1 * var(--page-gutter));
+        padding-right: calc(-1 * var(--page-gutter));
+        // todo доделать страницу для не авторизованных
+    }
+
+    &__form {
+        width: 392px;
+        max-width: 100%;
+        align-self: center;
+        justify-self: center;
+        margin: auto 0;
+    }
+}
