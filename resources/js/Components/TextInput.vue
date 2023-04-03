@@ -2,6 +2,7 @@
     <input
         :value="modelValue"
         @input="$emit('update:modelValue', $event.target.value)"
+        class="input"
         ref="input"
     />
 </template>

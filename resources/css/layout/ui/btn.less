@@ -1,0 +1,126 @@
+@import "../../_var.less";
+
+.btn {
+    --btn-bg-color: @cBrand;
+    --btn-border-color: var(--btn-bg-color);
+    --btn-color: @cWhite;
+
+    --btn-hover-bg-color: transparent;
+    --btn-hover-border-color: @cBrand;
+    --btn-hover-color: @cBlack;
+
+    --btn-border-width: 2px;
+    --btn-border-radius: @borderRadius;
+    --btn-height: 42px;
+    --btn-icon-gap: 11px;
+
+    .clear-link();
+    .clear-btn();
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    background: var(--btn-bg-color);
+    border: var(--btn-border-width) solid var(--btn-border-color);
+    color: var(--btn-color);
+    height: var(--btn-height);
+    border-radius: var(--btn-border-radius);
+    padding: 0 16px;
+    font-weight: 500;
+    font-size: var(--fs16);
+    line-height: var(--lh-caption);
+    white-space: nowrap;
+    text-align: center;
+    user-select: none;
+    flex-shrink: 0;
+    transition: all @transitTime @transitEase, box-shadow @transitTime * 2 @transitEase;
+
+    @hoverRuleset: {
+        color: var(--btn-hover-color);
+        border-color: var(--btn-hover-border-color);
+        background-color: var(--btn-hover-bg-color);
+    }
+
+    @activeRuleset: {
+        box-shadow: 0 0 15px -5px var(--btn-hover-bg-color);
+    }
+
+    .hover(@hoverRuleset: @hoverRuleset, @activeRuleset: @activeRuleset);
+
+    &__icon {
+        --menu-icon-line-width: 1px;
+
+        flex-shrink: 0;
+    }
+
+    &__text, &__icon, &__count {
+        &:not(:first-child) {
+            margin-left: var(--btn-icon-gap);
+        }
+    }
+
+    .price {
+        --unit-margin: 0px;
+    }
+
+    // Модификаторы стейта
+    &--disabled,
+    &:disabled,
+    &.slick-disabled,
+    &[disabled] {
+        pointer-events: none;
+        opacity: @disabledOpacity;
+    }
+
+    &--hidden {
+        opacity: 0;
+        pointer-events: none !important;
+    }
+
+    &--static {
+        pointer-events: none;
+    }
+
+
+    // Модификаторы цвета
+    &--white {
+        --btn-bg-color: @cWhite;
+        --btn-border-color: var(--btn-bg-color);
+        --btn-color: @cBrand;
+    }
+
+    &--black {
+        --btn-bg-color: @cBgBlack;
+        --btn-hover-bg-color: @cBrand;
+    }
+
+    &--clear-white {
+        --btn-bg-color: transparent;
+        --btn-border-color: @cWhite;
+        --btn-color: @cWhite;
+    }
+
+    &--clear-black {
+        --btn-bg-color: transparent;
+        --btn-border-color: @cBordersBlack;
+        --btn-color: @cBordersBlack;
+
+        --btn-hover-bg-color: @cBrand;
+        --btn-hover-border-color: transparent;
+    }
+
+    &--clear-grey {
+        --btn-bg-color: transparent;
+        --btn-border-color: @cTextGrey;
+        --btn-color: @cTextGrey;
+    }
+
+    &--transparent {
+        --btn-bg-color: transparent;
+        --btn-border-color: transparent;
+        --btn-color: @cTextBlack;
+        --btn-hover-bg-color: @cBrand;
+        --btn-hover-color: @cWhite;
+    }
+}

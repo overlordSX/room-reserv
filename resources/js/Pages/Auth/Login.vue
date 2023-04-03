@@ -43,15 +43,18 @@
                 </label>
             </div>
 
-            <div class="form__item">
+            <div class="form__footer">
                 <Link
                     v-if="canResetPassword"
                     :href="route('password.request')"
+                    class="link link--hover-uline"
                 >
-                    Забыли пароль?
+                    <div class="link__text">
+                        Забыли пароль?
+                    </div>
                 </Link>
 
-                <button :disabled="form.processing">
+                <button class="btn" :disabled="form.processing">
                     Войти
                 </button>
             </div>

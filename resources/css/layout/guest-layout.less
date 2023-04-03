@@ -2,14 +2,14 @@
 
 .guest-layout {
     position: absolute;
-    top: 0;
+    top: var(--header-height);
     bottom: 0;
     left: 0;
     right: 0;
     display: flex;
     flex-direction: column;
-    background-color: @cBrand;
 
+    //todo remove
     &__return-header {
         align-self: center;
         display: flex;
@@ -24,8 +24,11 @@
     &__form {
         width: 392px;
         max-width: 100%;
+        padding: var(--m40) var(--m30);
         align-self: center;
         justify-self: center;
         margin: auto 0;
+        background-color: @cBrand;
+        border-radius: @borderRadius;
     }
 }
