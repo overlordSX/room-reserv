@@ -12,15 +12,52 @@
 
     &__group-item {
         display: flex;
-        gap: var(--m20);
+        gap: var(--m10) var(--m20);
     }
 
     &__btn-wrapper {
+        width: 100%;
+        max-width: 200px;
         align-self: flex-end;
+        justify-self: flex-end;
     }
 
     &__btn {
         --btn-height: 48px;
         width: 100%;
+    }
+
+    @media @mediaLg {
+        &__fields {
+            grid-template-columns: 3fr 4fr 3fr;
+        }
+
+        &__btn-wrapper {
+            grid-column: ~'1 / -1';
+        }
+    }
+
+    @media @mediaMd {
+        &__fields {
+            grid-template-columns: 2fr 3fr;
+        }
+
+        &__btn-wrapper {
+            grid-column: unset;
+        }
+    }
+
+    @media @mediaSm {
+        &__fields {
+            grid-template-columns: 100%;
+        }
+
+        &__group-item {
+            flex-direction: column;
+        }
+
+        &__btn-wrapper {
+            margin-top: var(--m30);
+        }
     }
 }

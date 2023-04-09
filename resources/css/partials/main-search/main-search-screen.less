@@ -3,7 +3,6 @@
 .main-search-screen {
     display: flex;
     align-items: center;
-    height: calc(var(--vh) * 100);
-    margin-top: calc(-1 * var(--header-height));
+    min-height: calc(var(--vh) * 100 - var(--header-height));
     background: @cBgBrandAlpha;
 }
