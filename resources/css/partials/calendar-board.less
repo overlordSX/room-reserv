@@ -1,0 +1,93 @@
+@import "../_var.less";
+
+.calendar-board {
+    display: grid;
+    grid-template-columns: 20% 80%;
+    min-height: calc(var(--vh) * 100 - var(--header-height));
+
+    &__nav {
+        display: flex;
+        flex-direction: column;
+        gap: var(--m16);
+        padding: 8px;
+        background: fade(#ffdd0d, 20);
+    }
+
+    &__calendar {
+        display: flex;
+        padding: 8px;
+        background: fade(#bbbbbb, 20);
+    }
+}
+
+.select-hotel {
+    padding: var(--m30) var(--m20);
+    background: #a0aec0;
+    border-radius: @borderRadius;
+    color: @cWhite;
+
+    &__title {
+        margin-bottom: var(--m12);
+    }
+
+    &__list {
+        display: flex;
+        flex-direction: column;
+        gap: var(--m8);
+    }
+
+    &__item {
+        padding: 4px 12px;
+        background: fade(#120d48, 60);
+        border-radius: @borderRadius;
+
+        &--current {
+            background: #6054fa;
+        }
+    }
+}
+
+.rooms-calendar {
+    display: flex;
+    gap: 20px;
+    width: 100%;
+    background: #bfa0c0;
+    border-radius: @borderRadius;
+    padding: var(--m20);
+
+    &__rooms-column {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        background: #6054fa;
+        border-radius: @borderRadius;
+    }
+
+    &__room {
+        // todo padding-bottom-hack
+        transform: rotate(90deg);
+        padding-bottom: 100%;
+    }
+
+    &__dates  {
+        width: 100%;
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+        gap: 10px;
+    }
+
+    &__date {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        border: 2px solid black;
+    }
+
+    &__date-header {
+        text-align: center;
+        background: red;
+        padding: 2px;
+        color: white;
+        border-bottom: 2px solid black;
+    }
+}
