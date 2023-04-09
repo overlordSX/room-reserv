@@ -1,6 +1,8 @@
 <template class="index-template">
     <Base title="hello, world">
-        from index.vue
+        <template v-slot:full-page>
+            <SearchRooms />
+        </template>
     </Base>
 
     <!-- пример использования роутов laravel
@@ -12,4 +14,5 @@
 
 <script setup lang="ts">
     import Base from "@/Layouts/Base.vue";
+    import SearchRooms from "@/Partials/SearchRooms.vue";
 </script>

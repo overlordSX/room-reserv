@@ -1,0 +1,17 @@
+@import "../../_var.less";
+
+.main-search {
+    display: flex;
+    flex-direction: column;
+    gap: var(--m32);
+    padding: var(--m54) var(--m76) var(--m76);
+    background: @cBrand;
+    border-radius: @borderRadiusMd;
+
+    &__title {
+        align-self: center;
+        font: 600 var(--fs52)/var(--lh-caption) @font;
+        text-transform: uppercase;
+        color: @cWhite;
+    }
+}

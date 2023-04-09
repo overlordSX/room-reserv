@@ -1,0 +1,26 @@
+@import "../../_var.less";
+
+.main-search-form {
+    --input-height: 48px;
+
+    &__fields {
+        display: grid;
+        grid-template-columns: 3fr 4fr 3fr 3fr;
+        align-items: center;
+        gap: var(--grid-gap);
+    }
+
+    &__group-item {
+        display: flex;
+        gap: var(--m20);
+    }
+
+    &__btn-wrapper {
+        align-self: flex-end;
+    }
+
+    &__btn {
+        --btn-height: 48px;
+        width: 100%;
+    }
+}

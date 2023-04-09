@@ -16,34 +16,33 @@
     --sw: var(--page-scrollbar-width);
 
     // Layout
-    --content-max-width: 1180px; // Максимальная ширина контента
+    --content-max-width: 1156px; // Максимальная ширина контента
     --content-width: min(calc(100% - 2 * var(--page-gutter)), var(--content-max-width)); // Текущая ширина контента
     --page-width: calc(100vw - var(--sw)); // Ширина страницы без учета скроллбара
 
-    --page-gutter: 130px;
+    --page-gutter: 140px;
     --wide-block-gutter: calc(var(--page-gutter) * 56/130);
     --wide-block-gutter-lg: calc(var(--page-gutter) * 79/130);
     --grid-gap: 32px;
 
-    //--header-height: 72px; // в шапке особо нету ничего, можно и поуже сделать
     --header-height:  56px;
 
     // Поля ввода
     // todo актуализировать цвета и тд
     --input-color: @cTextGrey;
-    --input-placeholder-color: @cTextGrey;
+    --input-placeholder-color: @cTextGreyLight;
     --input-background-color: @cWhite;
-    --input-border-color: @cBordersGrey;
+    --input-border-color: @cBrand;
 
-    --input-hover-border-color: @cBordersGreyLight;
+    --input-hover-border-color: @cBordersBrand;
 
     --input-focus-color: @cTextBlack;
-    --input-focus-border-color: @cBordersBlack;
+    --input-focus-border-color: @cBordersBrand;
 
     --input-border-radius: @borderRadius;
     --input-padding-top: 10px;
     --input-padding-bottom: var(--input-padding-top);
-    --input-padding-left: 12px;
+    --input-padding-left: 10px;
     --input-padding-right: var(--input-padding-left);
     --input-height: 42px;
     --input-border-width: 2px;
@@ -72,6 +71,8 @@
     .responsive(--fs40, 40px, .9);
     --fs48: 48px;
     .responsive(--fs48, 48px, .89);
+    --fs52: 52px;
+    .responsive(--fs52, 52px, .89);
 
     // Вертикальные отступы
     --m8: 8px;
@@ -103,6 +104,8 @@
     .responsive(--m60, 60px, .9);
     --m64: 64px;
     .responsive(--m64, 64px, .9);
+    --m76: 76px;
+    .responsive(--m76, 76px, .9);
 
 
     @media @mediaXl {
@@ -129,9 +132,9 @@
     }
 }
 
-@borderRadiusSm: 5px;
 @borderRadius: 10px;
-@borderRadiusMd: 30px;
+@borderRadiusMd: 15px;
+@borderRadiusLg: 30px;
 
 /**
  * Сетка
@@ -201,15 +204,17 @@
 @cBrand: fade(#727650, 90);
 
 @cTextBlack: #1b1b1b;
-@cTextGrey: #909090;
-@cTextGreyLight: #dfdfdf;
+@cTextGrey: fade(@cBlack, 80);
+@cTextGreyLight: fade(@cBlack, 65);
 
 @cBgBlack: #1b1b1b;
+@cBgBrandAlpha: fade(@cBrand, 20);
 @cBgGrey: fade(#d9d9d9, 15);
 
 @cBordersGrey: #909090;
 @cBordersGreyLight: fade(@cBordersGrey, 30);
 @cBordersBlack: #1b1b1b;
+@cBordersBrand: #727650;
 
 @cOverlay: fade(@cWhite, 80);
 
