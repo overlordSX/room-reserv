@@ -25,6 +25,7 @@
         "typescript": "^4.9.5",
         "vite": "^4.2.1",
         "vue": "^3.2.47",
-        "vue-loader": "^17.0.1"
+        "vue-loader": "^17.0.1",
+        "vue3-slide-up-down": "^2.0.1"
     }
 }

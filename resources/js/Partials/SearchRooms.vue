@@ -16,5 +16,5 @@
 
 <script setup lang="ts">
 
-import RoomSearchForm from "@/Components/RoomSearchForm.vue";
+import RoomSearchForm from "../Components/RoomSearchForm.vue";
 </script>

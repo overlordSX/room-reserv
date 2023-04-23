@@ -13,6 +13,6 @@
 </template>
 
 <script setup lang="ts">
-    import Base from "@/Layouts/Base.vue";
-    import SearchRooms from "@/Partials/SearchRooms.vue";
+    import Base from "../Layouts/Base.vue";
+    import SearchRooms from "../Partials/SearchRooms.vue";
 </script>

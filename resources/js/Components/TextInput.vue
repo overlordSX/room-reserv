@@ -3,21 +3,25 @@
         :value="modelValue"
         @input="$emit('update:modelValue', $event.target.value)"
         class="input"
+        :class="{'input--green-border': isGreen}"
         ref="input"
     />
 </template>
 
-<script setup>
-import { onMounted, ref } from 'vue';
+<script setup lang="ts">
+import {onMounted, ref} from 'vue';
 
-defineProps({
-    modelValue: {
-        type: String,
-        required: true,
-    },
+type TComponentProps = {
+    modelValue: any,
+    isGreen: boolean
+}
+
+const props = withDefaults(defineProps<TComponentProps>(), {
+    modelValue: {type: String, required: true,},
+    isGreen: false,
 });
 
-defineEmits(['update:modelValue']);
+const emit = defineEmits(['update:modelValue']);
 
 const input = ref(null);
 
@@ -27,5 +31,5 @@ onMounted(() => {
     }
 });
 
-defineExpose({ focus: () => input.value.focus() });
+defineExpose({focus: () => input.value.focus()});
 </script>

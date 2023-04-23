@@ -67,9 +67,9 @@
 
 
 <script setup>
-import InputError from '@/Components/InputError.vue';
-import InputLabel from '@/Components/InputLabel.vue';
-import TextInput from '@/Components/TextInput.vue';
+import InputError from '../Components/InputError.vue';
+import InputLabel from '../Components/InputLabel.vue';
+import TextInput from '../Components/TextInput.vue';
 import {useForm} from '@inertiajs/vue3';
 //todo инвертировать инпуты и кнопку, кнопка белая, инпуты прозранчые
 
