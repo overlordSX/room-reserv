@@ -3,27 +3,36 @@
 .calendar-board {
     display: grid;
     grid-template-columns: 20% 80%;
-    min-height: calc(var(--vh) * 100 - var(--header-height));
+    padding-top: var(--m30);
+    min-height: calc(var(--vh) * 100 - var(--header-height) - var(--m30));
 
     &__nav {
         display: flex;
         flex-direction: column;
         gap: var(--m16);
+        margin: 4px;
+        border-radius: 4px;
         padding: 8px;
-        background: fade(#ffdd0d, 20);
+        background: fade(@cBrand, 70);
+    }
+
+    &__title {
+        align-self: center;
+        font-size: var(--fs24);
+        font-weight: 600;
+        color: @cWhite;
     }
 
     &__calendar {
         display: flex;
-        padding: 8px;
-        background: fade(#bbbbbb, 20);
+        margin: 4px;
     }
 }
 
 .select-hotel {
-    padding: var(--m30) var(--m20);
+    padding: var(--m10) var(--m10);
     background: #a0aec0;
-    border-radius: @borderRadius;
+    border-radius: 4px;
     color: @cWhite;
 
     &__title {
@@ -39,7 +48,7 @@
     &__item {
         padding: 4px 12px;
         background: fade(#120d48, 60);
-        border-radius: @borderRadius;
+        border-radius: 4px;
 
         &--current {
             background: #6054fa;
@@ -51,22 +60,25 @@
     display: flex;
     gap: 20px;
     width: 100%;
-    background: #bfa0c0;
-    border-radius: @borderRadius;
-    padding: var(--m20);
+    background: #f0f0f0;
+    border-radius: 4px;
+    padding: var(--m10);
 
     &__rooms-column {
         position: relative;
         display: flex;
         flex-direction: column;
-        background: #6054fa;
-        border-radius: @borderRadius;
+        padding-top: var(--m48);
+        //background: #6054fa;
+        border-radius: 4px;
     }
 
     &__room {
+        height: 40px;
+        width: max-content;
         // todo padding-bottom-hack
-        transform: rotate(90deg);
-        padding-bottom: 100%;
+        //transform: rotate(90deg);
+        //padding-bottom: 100%;
     }
 
     &__dates  {
@@ -80,14 +92,15 @@
         display: flex;
         flex-direction: column;
         height: 100%;
-        border: 2px solid black;
+        border: 2px solid @cBordersBlack;
+        border-radius: 4px;
     }
 
     &__date-header {
         text-align: center;
-        background: red;
+        background: @cBrand;
         padding: 2px;
         color: white;
-        border-bottom: 2px solid black;
+        border-bottom: 2px solid @cBordersBlack;
     }
 }
