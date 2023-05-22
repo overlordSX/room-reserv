@@ -1,0 +1,46 @@
+@import "../../_var";
+
+.rooms-calendar {
+    display: flex;
+    gap: 20px;
+    width: 100%;
+    background: #f0f0f0;
+    border-radius: 4px;
+    padding: var(--m10);
+
+    &__rooms-column {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        padding-top: var(--m48);
+        border-radius: 4px;
+    }
+
+    &__room {
+        height: 40px;
+        width: max-content;
+    }
+
+    &__dates  {
+        width: 100%;
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+        gap: 10px;
+    }
+
+    &__date {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        border: 2px solid @cBordersBlack;
+        border-radius: 4px;
+    }
+
+    &__date-header {
+        text-align: center;
+        background: @cBrand;
+        padding: 2px;
+        color: white;
+        border-bottom: 2px solid @cBordersBlack;
+    }
+}

@@ -1,0 +1,35 @@
+@import "../../_var.less";
+
+.calendar-board {
+    display: grid;
+    grid-template-columns: 1fr 4fr;
+    gap: var(--grid-gap);
+    min-height: calc(var(--vh) * 100 - var(--header-height) - var(--m32));
+
+    padding-top: var(--m32);
+
+    &__nav {
+        display: flex;
+        flex-direction: column;
+        gap: var(--m16);
+        border-radius: 4px;
+        padding: var(--m24) var(--m18);
+        background: @cBrand;
+    }
+
+    &__title {
+        align-self: center;
+        font-size: var(--fs24);
+        font-weight: 600;
+        color: @cWhite;
+        letter-spacing: -0.02em;
+    }
+
+    &__pick-date {
+        display: flex;
+    }
+
+    &__calendar {
+        display: flex;
+    }
+}

@@ -23,8 +23,8 @@
     --page-gutter: 140px;
     --wide-block-gutter: calc(var(--page-gutter) * 56/130);
     --wide-block-gutter-lg: calc(var(--page-gutter) * 79/130);
-    --grid-gap: 32px;
-    .responsive(--grid-gap, 32px, .98);
+    --grid-gap: 16px;
+    .responsive(--grid-gap, 16px, .98);
 
     --header-height:  56px;
 
@@ -83,14 +83,10 @@
     --m18: 18px;
     --m20: 20px;
     .responsive(--m20, 20px, .98);
-    --m22: 22px;
-    .responsive(--m22, 22px, .98);
     --m24: 24px;
     .responsive(--m24, 24px, .98);
     --m28: 28px;
     .responsive(--m28, 28px, .98);
-    --m30: 30px;
-    .responsive(--m30, 30px, .98);
     --m32: 32px;
     .responsive(--m32, 32px, .98);
     --m36: 36px;
@@ -99,10 +95,8 @@
     .responsive(--m40, 40px, .95);
     --m48: 48px;
     .responsive(--m48, 48px, .93);
-    --m54: 54px;
-    .responsive(--m54, 54px, .9);
-    --m60: 60px;
-    .responsive(--m60, 60px, .9);
+    --m52: 54px;
+    .responsive(--m52, 52px, .9);
     --m64: 64px;
     .responsive(--m64, 64px, .9);
     --m76: 76px;
@@ -208,6 +202,7 @@
 @cTextGrey: fade(@cBlack, 80);
 @cTextGreyLight: fade(@cBlack, 65);
 
+@cBgBrand: #808462;
 @cBgBlack: #1b1b1b;
 @cBgBrandAlpha: fade(@cBrand, 20);
 @cBgGrey: fade(#d9d9d9, 15);

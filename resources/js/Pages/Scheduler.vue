@@ -5,7 +5,11 @@
                 <div class="calendar-board__nav">
                     <div class="calendar-board__title">Планировщик</div>
 
-                    <div class="select-hotel">
+                    <div class="calendar-board__pick-date">
+                        <DatePicker :additional-settings="{inline: true}" ></DatePicker>
+                    </div>
+
+                    <div class="calendar-board__select-hotel select-hotel">
                         <div class="select-hotel__title">
                             Выберите отель из списка
                         </div>
@@ -98,4 +102,6 @@
 <script setup>
 import Base from "@/Layouts/Base.vue";
 import {Head} from '@inertiajs/vue3';
+import DatePicker from "@/Components/DatePicker.vue";
+
 </script>

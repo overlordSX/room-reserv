@@ -29,6 +29,7 @@
     },
     "dependencies": {
         "@vuepic/vue-datepicker": "^5.1.2",
+        "vue-multiselect": "^2.1.7",
         "vue3-slide-up-down": "^2.0.1"
     }
 }

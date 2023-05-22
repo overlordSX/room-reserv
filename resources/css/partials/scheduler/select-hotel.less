@@ -1,0 +1,28 @@
+@import "../../_var";
+
+.select-hotel {
+    padding: var(--m10) var(--m10);
+    background: #a0aec0;
+    border-radius: 4px;
+    color: @cWhite;
+
+    &__title {
+        margin-bottom: var(--m12);
+    }
+
+    &__list {
+        display: flex;
+        flex-direction: column;
+        gap: var(--m8);
+    }
+
+    &__item {
+        padding: 4px 12px;
+        background: fade(#120d48, 60);
+        border-radius: 4px;
+
+        &--current {
+            background: #6054fa;
+        }
+    }
+}
