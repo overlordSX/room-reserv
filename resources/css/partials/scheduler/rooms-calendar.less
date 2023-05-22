@@ -2,11 +2,26 @@
 
 .rooms-calendar {
     display: flex;
-    gap: 20px;
+    flex-direction: column;
+    gap: var(--grid-gap);
     width: 100%;
     background: #f0f0f0;
     border-radius: 4px;
-    padding: var(--m10);
+    padding: var(--m20) var(--grid-gap);
+
+
+    &__row {
+
+    }
+
+    &__item {
+        width: 100%;
+    }
+
+
+
+
+
 
     &__rooms-column {
         position: relative;

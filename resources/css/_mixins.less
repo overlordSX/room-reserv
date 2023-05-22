@@ -262,16 +262,9 @@
     }
 }
 
-// Используется для того, чтобы у блока не было разрывов при печати и при использовании columns у родителя
-.avoid-break() {
-    -webkit-column-break-inside: avoid;
-    page-break-inside: avoid;
-    break-inside: avoid;
-}
 
 .responsive(@name, @size, @ratio: 1, @min: 0, @decimal: 0) {
-    // responsive генерирует плравила только для @media, чтобы в _var.less оставалось объявление переменной, и шторм ее видел
-    //@{name}: @size;
+    // responsive генерирует правила только для @media, чтобы в _var.less оставалось объявление переменной, и шторм ее видел
 
     @media @mediaXl {
             @{name}: max(round(@size * @ratio, @decimal), @min);

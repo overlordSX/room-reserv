@@ -6,7 +6,7 @@
                     <div class="calendar-board__title">Планировщик</div>
 
                     <div class="calendar-board__pick-date">
-                        <DatePicker :additional-settings="{inline: true}" ></DatePicker>
+                        <DatePicker :additional-settings="{inline: true}"></DatePicker>
                     </div>
 
                     <div class="calendar-board__select-hotel select-hotel">
@@ -46,52 +46,88 @@
                 </div>
 
                 <div class="calendar-board__calendar">
+                    <div class="calendar-board__calendar-header">
+
+                    </div>
+
                     <div class="rooms-calendar">
-                        <div class="rooms-calendar__rooms-column">
-                            <div class="rooms-calendar__room">
-                                Номер 1
-                            </div>
-                            <div class="rooms-calendar__room">
-                                Номер 2
-                            </div>
-                        </div>
-                        <div class="rooms-calendar__dates">
-                            <div class="rooms-calendar__date">
-                                <div class="rooms-calendar__date-header">
-                                    8 суббота
-                                </div>
-                            </div>
-                            <div class="rooms-calendar__date">
-                                <div class="rooms-calendar__date-header">
-                                    9 воскресеньк
-                                </div>
-                            </div>
-                            <div class="rooms-calendar__date">
-                                <div class="rooms-calendar__date-header">
-                                    10 понедельник
-                                </div>
-                            </div>
-                            <div class="rooms-calendar__date">
-                                <div class="rooms-calendar__date-header">
-                                    11 вторник
-                                </div>
-                            </div>
-                            <div class="rooms-calendar__date">
-                                <div class="rooms-calendar__date-header">
-                                    12 понедельник
-                                </div>
-                            </div>
-                            <div class="rooms-calendar__date">
-                                <div class="rooms-calendar__date-header">
-                                    13 понедельник
-                                </div>
-                            </div>
-                            <div class="rooms-calendar__date">
-                                <div class="rooms-calendar__date-header">
-                                    14 понедельник
+                        <div
+                            class="rooms-calendar__row">
+                            <div class="rooms-calendar__item room-calendar-item">
+                                <div class="room-calendar-item__room-name"></div>
+
+                                <div
+                                    v-for="item in items"
+                                    :key="item.id"
+                                    class="room-calendar-item__day-load">
+                                    {{ dateFrom }}
                                 </div>
                             </div>
                         </div>
+
+                        <div
+                            v-for="item in items"
+                            :key="item.id"
+                            class="rooms-calendar__row">
+                            <div class="rooms-calendar__item room-calendar-item">
+                                <div class="room-calendar-item__room-name">{{ item.name }}</div>
+
+                                <div
+                                    v-for="client in item.load"
+                                    :key="client.name"
+                                    class="room-calendar-item__day-load">
+                                    {{ client.name }} {{ client.people }} человек
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <!--                        <div class="rooms-calendar__rooms-column">
+                                                    <div class="rooms-calendar__room">
+                                                        Номер 1
+                                                    </div>
+                                                    <div class="rooms-calendar__room">
+                                                        Номер 2
+                                                    </div>
+                                                </div>
+
+                                                <div class="rooms-calendar__dates">
+                                                    <div class="rooms-calendar__date">
+                                                        <div class="rooms-calendar__date-header">
+                                                            8 суббота
+                                                        </div>
+                                                    </div>
+                                                    <div class="rooms-calendar__date">
+                                                        <div class="rooms-calendar__date-header">
+                                                            9 воскресеньк
+                                                        </div>
+                                                    </div>
+                                                    <div class="rooms-calendar__date">
+                                                        <div class="rooms-calendar__date-header">
+                                                            10 понедельник
+                                                        </div>
+                                                    </div>
+                                                    <div class="rooms-calendar__date">
+                                                        <div class="rooms-calendar__date-header">
+                                                            11 вторник
+                                                        </div>
+                                                    </div>
+                                                    <div class="rooms-calendar__date">
+                                                        <div class="rooms-calendar__date-header">
+                                                            12 понедельник
+                                                        </div>
+                                                    </div>
+                                                    <div class="rooms-calendar__date">
+                                                        <div class="rooms-calendar__date-header">
+                                                            13 понедельник
+                                                        </div>
+                                                    </div>
+                                                    <div class="rooms-calendar__date">
+                                                        <div class="rooms-calendar__date-header">
+                                                            14 понедельник
+                                                        </div>
+                                                    </div>
+                                                </div>-->
                     </div>
                 </div>
             </div>
@@ -99,9 +135,17 @@
     </Base>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import Base from "@/Layouts/Base.vue";
-import {Head} from '@inertiajs/vue3';
-import DatePicker from "@/Components/DatePicker.vue";
+import DatePicker from "@/Components/forms/DatePicker.vue";
+import {TSchedulerItem} from "@/types/TSchedulerItem";
+
+const props = defineProps<{
+    dateFrom: string,
+    items: TSchedulerItem[],
+}>();
+
+
+console.log(Date.parse(props.dateFrom));
 
 </script>

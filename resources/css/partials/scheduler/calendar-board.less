@@ -3,10 +3,9 @@
 .calendar-board {
     display: grid;
     grid-template-columns: 1fr 4fr;
+    padding: var(--m32) var(--grid-gap) var(--grid-gap);
     gap: var(--grid-gap);
-    min-height: calc(var(--vh) * 100 - var(--header-height) - var(--m32));
-
-    padding-top: var(--m32);
+    min-height: calc(var(--vh) * 100 - var(--header-height) - var(--m32) - var(--grid-gap));
 
     &__nav {
         display: flex;
