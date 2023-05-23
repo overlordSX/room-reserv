@@ -10,8 +10,6 @@ class SchedulerController extends Controller
 {
     public function index(): \Inertia\Response|\Inertia\ResponseFactory
     {
-//        echo '<pre>'; print_r(App::getLocale()); echo '</pre>';
-
         return inertia('Scheduler', [
             'dateFrom' => date('Y-F-d'),
             'items' => [

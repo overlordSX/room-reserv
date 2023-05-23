@@ -3,59 +3,34 @@
 .rooms-calendar {
     display: flex;
     flex-direction: column;
-    gap: 0 var(--grid-gap);
-    width: 100%;
-    background: #f0f0f0;
-    border-radius: 4px;
+    gap: var(--m24) var(--grid-gap);
     padding: var(--m20) var(--grid-gap);
+    background: @cBgGrey;
+    border-radius: 4px;
 
-
-    &__row {
-
+    &__header {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: var(--grid-gap);
+        justify-content: space-between;
+        padding-right: 14px;
     }
 
-    &__item {
-        width: 100%;
+    &__nav {
+        display: flex;
+        align-items: center;
+        gap: var(--grid-gap);
     }
 
+    &__current-dates {
+        font-size: var(--fs16);
+        font-weight: 600;
+    }
 
-
-
-
-
-    &__rooms-column {
-        position: relative;
+    &__list {
         display: flex;
         flex-direction: column;
-        padding-top: var(--m48);
-        border-radius: 4px;
-    }
-
-    &__room {
-        height: 40px;
-        width: max-content;
-    }
-
-    &__dates  {
-        width: 100%;
-        display: grid;
-        grid-template-columns: repeat(7, 1fr);
-        gap: 10px;
-    }
-
-    &__date {
-        display: flex;
-        flex-direction: column;
-        height: 100%;
-        border: 2px solid @cBordersBlack;
-        border-radius: 4px;
-    }
-
-    &__date-header {
-        text-align: center;
-        background: @cBrand;
-        padding: 2px;
-        color: white;
-        border-bottom: 2px solid @cBordersBlack;
+        gap: 0 var(--grid-gap);
     }
 }

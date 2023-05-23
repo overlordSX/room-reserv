@@ -126,4 +126,30 @@
         --btn-hover-bg-color: @cBrand;
         --btn-hover-color: @cWhite;
     }
+
+    &--arrow {
+        --btn-height: 36px;
+        --btn-bg-color: @cWhite;
+        --btn-border-color: @cWhite;
+        --btn-color: @cBrand;
+        --btn-hover-bg-color: transparent;
+        --btn-hover-border-color: @cBrand;
+        --btn-hover-color: @cTextBlack;
+
+        border-radius: 50%;
+        padding: 0;
+        width: var(--btn-height);
+
+        svg {
+            display: block;
+            fill: transparent !important;
+            stroke: currentColor;
+            stroke-width: 1.5px;
+        }
+    }
+
+    &--today-btn {
+        --btn-height: 36px;
+        border-radius: 4px;
+    }
 }

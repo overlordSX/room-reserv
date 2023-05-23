@@ -46,39 +46,59 @@
                 </div>
 
                 <div class="calendar-board__calendar">
-                    <div class="calendar-board__calendar-header">
-
-                    </div>
-
                     <div class="rooms-calendar">
-                        <div
-                            class="rooms-calendar__row">
-                            <div class="rooms-calendar__item room-calendar-item">
-                                <div class="room-calendar-item__room-name"></div>
+                        <div class="rooms-calendar__header">
+                            <div class="rooms-calendar__nav">
+                                <button class="btn btn--arrow" style="transform: scale(-1, 1);">
+                                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M6.75024 3.75001L12.0002 9L6.75024 14.25" stroke="#727650" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </svg>
+                                </button>
 
-                                <div
-                                    v-for="(item, index) in 7"
-                                    :key="index"
-                                    class="room-calendar-item__date-header">
-                                    {{ startDateAddDays(index) }}
-                                </div>
+                                <button class="btn btn--white btn--today-btn">Сегодня</button>
+
+                                <button class="btn btn--arrow">
+                                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M6.75024 3.75001L12.0002 9L6.75024 14.25" stroke="#727650" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </svg>
+                                </button>
+                            </div>
+
+                            <div class="rooms-calendar__current-dates">
+                                {{fullDate(startDate)}}&nbsp;&mdash; {{fullDate(startDateAddDays(6))}}
                             </div>
                         </div>
 
-                        <div
-                            v-for="(item, index) in items"
-                            :key="item.id"
-                            class="rooms-calendar__row">
-                            <div class="rooms-calendar__item room-calendar-item">
-                                <div class="room-calendar-item__room-name">{{ item.name }}</div>
+                        <div class="rooms-calendar__list">
+                            <div
+                                class="rooms-calendar__row">
+                                <div class="rooms-calendar__item room-calendar-item">
+                                    <div class="room-calendar-item__room-name"></div>
 
-                                <div
-                                    v-for="client in item.load"
-                                    :key="client.name"
-                                    class="room-calendar-item__day-load"
-                                    :class="{'room-calendar-item__day-load--last-in-column': index + 1 === items.length}"
-                                >
-                                    {{ client.name }} {{ client.people }} человек
+                                    <div
+                                        v-for="(item, index) in 7"
+                                        :key="index"
+                                        class="room-calendar-item__date-header">
+                                        {{ dateWithMonth(startDateAddDays(index)) }}
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div
+                                v-for="(item, index) in items"
+                                :key="item.id"
+                                class="rooms-calendar__row">
+                                <div class="rooms-calendar__item room-calendar-item">
+                                    <div class="room-calendar-item__room-name">{{ item.name }}</div>
+
+                                    <div
+                                        v-for="client in item.load"
+                                        :key="client.name"
+                                        class="room-calendar-item__day-load"
+                                        :class="{'room-calendar-item__day-load--last-in-column': index + 1 === items.length}"
+                                    >
+                                        {{ client.name }} {{ client.people }} человек
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -94,25 +114,26 @@ import Base from "@/Layouts/Base.vue";
 import DatePicker from "@/Components/forms/DatePicker.vue";
 import {TSchedulerItem} from "@/types/TSchedulerItem";
 import {ref} from "vue";
-import {dateWithMonth} from "@/helpers/dates";
+import {dateWithMonth, fullDate} from "@/helpers/dates";
 
 type TComponentProps = {
-    dateFrom?: string,
+    dateFrom?: string | Date,
     items: TSchedulerItem[],
-};
+}
 
+//todo почекать обновления vue, мб пофиксят
 const props = withDefaults(defineProps<TComponentProps>(), {
-    dateFrom: '',
+    dateFrom: new Date(),
 });
 
 
 const startDate = ref<Date>(new Date(props.dateFrom));
 
 function startDateAddDays(cntDays: number) {
-    let localDate = startDate.value;
+    let localDate = new Date(startDate.value);
 
     localDate.setDate(localDate.getDate() + cntDays);
 
-    return dateWithMonth(localDate);
+    return localDate;
 }
 </script>
