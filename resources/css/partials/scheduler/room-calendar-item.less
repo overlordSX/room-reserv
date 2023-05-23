@@ -6,10 +6,37 @@
     gap: var(--m8);
 
     &__room-name {
-
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        font-weight: 600;
     }
 
     &__day-load {
         display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 40px;
+        padding: 12px 14px;
+        border-bottom: 1px solid @cBordersBrand;
+        background-color: @cWhite;
+
+        &--last-in-column {
+            border-bottom-color: transparent;
+            border-radius: 0 0 4px 4px;
+        }
+    }
+
+    &__date-header {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-sizing: border-box;
+        padding: 4px;
+        min-height: 40px;
+        border-radius: 4px 4px 0 0;
+        background-color: @cBrand;
+        color: @cWhite;
+        font-weight: 600;
     }
 }

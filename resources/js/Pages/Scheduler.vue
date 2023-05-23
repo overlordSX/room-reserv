@@ -57,16 +57,16 @@
                                 <div class="room-calendar-item__room-name"></div>
 
                                 <div
-                                    v-for="item in items"
-                                    :key="item.id"
-                                    class="room-calendar-item__day-load">
-                                    {{ dateFrom }}
+                                    v-for="(item, index) in 7"
+                                    :key="index"
+                                    class="room-calendar-item__date-header">
+                                    {{ startDateAddDays(index) }}
                                 </div>
                             </div>
                         </div>
 
                         <div
-                            v-for="item in items"
+                            v-for="(item, index) in items"
                             :key="item.id"
                             class="rooms-calendar__row">
                             <div class="rooms-calendar__item room-calendar-item">
@@ -75,59 +75,13 @@
                                 <div
                                     v-for="client in item.load"
                                     :key="client.name"
-                                    class="room-calendar-item__day-load">
-                                    {{ client.name }} {{ client.people }} человек
+                                    class="room-calendar-item__day-load"
+                                    :class="{'room-calendar-item__day-load--last-in-column': index + 1 === items.length}"
+                                >
+                                    {{ client.name }} {{ client.people }} человек
                                 </div>
                             </div>
                         </div>
-
-
-                        <!--                        <div class="rooms-calendar__rooms-column">
-                                                    <div class="rooms-calendar__room">
-                                                        Номер 1
-                                                    </div>
-                                                    <div class="rooms-calendar__room">
-                                                        Номер 2
-                                                    </div>
-                                                </div>
-
-                                                <div class="rooms-calendar__dates">
-                                                    <div class="rooms-calendar__date">
-                                                        <div class="rooms-calendar__date-header">
-                                                            8 суббота
-                                                        </div>
-                                                    </div>
-                                                    <div class="rooms-calendar__date">
-                                                        <div class="rooms-calendar__date-header">
-                                                            9 воскресеньк
-                                                        </div>
-                                                    </div>
-                                                    <div class="rooms-calendar__date">
-                                                        <div class="rooms-calendar__date-header">
-                                                            10 понедельник
-                                                        </div>
-                                                    </div>
-                                                    <div class="rooms-calendar__date">
-                                                        <div class="rooms-calendar__date-header">
-                                                            11 вторник
-                                                        </div>
-                                                    </div>
-                                                    <div class="rooms-calendar__date">
-                                                        <div class="rooms-calendar__date-header">
-                                                            12 понедельник
-                                                        </div>
-                                                    </div>
-                                                    <div class="rooms-calendar__date">
-                                                        <div class="rooms-calendar__date-header">
-                                                            13 понедельник
-                                                        </div>
-                                                    </div>
-                                                    <div class="rooms-calendar__date">
-                                                        <div class="rooms-calendar__date-header">
-                                                            14 понедельник
-                                                        </div>
-                                                    </div>
-                                                </div>-->
                     </div>
                 </div>
             </div>
@@ -139,13 +93,26 @@
 import Base from "@/Layouts/Base.vue";
 import DatePicker from "@/Components/forms/DatePicker.vue";
 import {TSchedulerItem} from "@/types/TSchedulerItem";
+import {ref} from "vue";
+import {dateWithMonth} from "@/helpers/dates";
 
-const props = defineProps<{
-    dateFrom: string,
+type TComponentProps = {
+    dateFrom?: string,
     items: TSchedulerItem[],
-}>();
+};
+
+const props = withDefaults(defineProps<TComponentProps>(), {
+    dateFrom: '',
+});
 
 
-console.log(Date.parse(props.dateFrom));
+const startDate = ref<Date>(new Date(props.dateFrom));
 
+function startDateAddDays(cntDays: number) {
+    let localDate = startDate.value;
+
+    localDate.setDate(localDate.getDate() + cntDays);
+
+    return dateWithMonth(localDate);
+}
 </script>

@@ -6,8 +6,8 @@ export const BREAKPOINTS = {
     xl: 1440,
 };
 
-export const datepickerDefaultSettings = {
-    locale: 'ru',
+export const datePickerDefaultSettings = {
+    locale: 'ru-RU',
     selectText: 'Выбрать',
     cancelText: 'Закрыть',
     placeholder: 'Выберите дату',

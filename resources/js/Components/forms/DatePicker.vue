@@ -5,7 +5,7 @@
 
 <script setup lang="ts">
 import VueDatePicker from '@vuepic/vue-datepicker';
-import {datepickerDefaultSettings} from "@/helpers/consts";
+import {datePickerDefaultSettings} from "@/helpers/consts";
 import {ref} from "vue";
 
 const props = defineProps<{
@@ -13,7 +13,7 @@ const props = defineProps<{
 }>();
 
 const datePickerSettings = ref({
-    ...datepickerDefaultSettings,
+    ...datePickerDefaultSettings,
     ...props.additionalSettings,
 });
 
