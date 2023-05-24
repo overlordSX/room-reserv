@@ -15,8 +15,6 @@ export function fullDate (date: Date) {
         localeMatcher: "lookup",
     });
 
-    console.log(formatter.formatToParts(date));
-
     let formatParts = formatter.formatToParts(date);
 
     let day = formatParts.find((item) => {

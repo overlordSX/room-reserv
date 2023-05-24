@@ -10,8 +10,10 @@ class SchedulerController extends Controller
 {
     public function index(): \Inertia\Response|\Inertia\ResponseFactory
     {
+//        echo '<pre>'; print_r(date('Y-F-d')); echo '</pre>';
+
         return inertia('Scheduler', [
-            'dateFrom' => date('Y-F-d'),
+            'dateFrom' => date('Y-m-d'),
             'items' => [
                 [
                     'id' => 1,
@@ -19,37 +21,26 @@ class SchedulerController extends Controller
                     'load' => [
                         [
                             'name' => 'Иван Которин',
-                            'duration' => 1,
+                            'startDate' => '2023-05-23',
+                            'duration' => 2,
                             'people' => 2,
                         ],
                         [
                             'name' => 'Кирилл Рева',
-                            'duration' => 1,
+                            'startDate' => '2023-05-25',
+                            'duration' => 2,
                             'people' => 1,
                         ],
                         [
                             'name' => 'Иван Которин',
+                            'startDate' => '2023-05-28',
                             'duration' => 1,
                             'people' => 1,
                         ],
                         [
                             'name' => 'Кирилл Рева',
-                            'duration' => 1,
-                            'people' => 1,
-                        ],
-                        [
-                            'name' => 'Иван Которин',
-                            'duration' => 1,
-                            'people' => 1,
-                        ],
-                        [
-                            'name' => 'Кирилл Рева',
-                            'duration' => 1,
-                            'people' => 1,
-                        ],
-                        [
-                            'name' => 'Иван Которин',
-                            'duration' => 1,
+                            'startDate' => '2023-05-29',
+                            'duration' => 3,
                             'people' => 1,
                         ],
                     ]
@@ -60,41 +51,29 @@ class SchedulerController extends Controller
                     'load' => [
                         [
                             'name' => 'Иван Которин',
-                            'duration' => 1,
-                            'people' => 2,
-                        ],
-                        [
-                            'name' => 'Кирилл Рева',
-                            'duration' => 1,
-                            'people' => 1,
-                        ],
-                        [
-                            'name' => 'Иван Которин',
+                            'startDate' => '2023-05-24',
                             'duration' => 1,
                             'people' => 1,
                         ],
                         [
                             'name' => 'Кирилл Рева',
+                            'startDate' => '2023-05-29',
                             'duration' => 1,
                             'people' => 1,
                         ],
                         [
                             'name' => 'Иван Которин',
-                            'duration' => 1,
-                            'people' => 1,
-                        ],
-                        [
-                            'name' => 'Кирилл Рева',
-                            'duration' => 1,
-                            'people' => 1,
-                        ],
-                        [
-                            'name' => 'Иван Которин',
+                            'startDate' => '2023-05-30',
                             'duration' => 1,
                             'people' => 1,
                         ],
                     ]
                 ],
+                [
+                    'id' => 3,
+                    'name' => 'Номер 3',
+                    'load' => [],
+                ]
             ],
         ]);
     }
