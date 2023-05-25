@@ -6,7 +6,12 @@
                     <div class="calendar-board__title">Планировщик</div>
 
                     <div class="calendar-board__pick-date">
-                        <DatePicker :additional-settings="{inline: true}"></DatePicker>
+                        <VueDatePicker
+                            v-model="datePickerDate"
+                            v-bind="datePickerSettings"
+                            @update:model-value="setDateRange"
+                        >
+                        </VueDatePicker>
                     </div>
 
                     <div class="calendar-board__select-hotel select-hotel">
@@ -105,7 +110,6 @@
                                 >
                                     <template v-if="client.people">{{ client.name }}
                                         <!-- {{ client.people }} человек--></template>
-<!--                                    {{client.cellDate}}-->
                                 </div>
                             </div>
                         </div>
@@ -118,11 +122,12 @@
 
 <script setup lang="ts">
 import Base from "@/Layouts/Base.vue";
-import DatePicker from "@/Components/forms/DatePicker.vue";
 import {TSchedulerItem} from "@/types/TSchedulerItem";
 import {ref} from "vue";
 import {dateWithMonth, fullDate} from "@/helpers/dates";
 import {TRoomLoad} from "@/types/TRoomLoad";
+import VueDatePicker from "@vuepic/vue-datepicker";
+import {datePickerDefaultSettings} from "@/helpers/consts";
 
 type TComponentProps = {
     dateFrom?: string | Date,
@@ -136,14 +141,27 @@ const props = withDefaults(defineProps<TComponentProps>(), {
 
 const daysInterval = ref<number>(7);
 
-
 const startDate = ref<Date>(new Date(props.dateFrom));
 
 const endDate = ref<Date>(startDateAddDays(daysInterval.value - 1));
 
+const datePickerDate = ref([startDate.value, endDate.value])
+
+const datePickerSettings = {
+    ...datePickerDefaultSettings,
+    timePicker: false,
+    inline: true,
+    range: true,
+    autoRange: daysInterval.value - 1,
+    modelType: 'timestamp',
+}
+
+function setDateRange(modelData) {
+    startDate.value = new Date(modelData[0]);
+}
+
 function startDateAddDays(cntDays: number) {
     let localDate = new Date(startDate.value);
-
     localDate.setDate(localDate.getDate() + cntDays);
 
     return localDate;
@@ -199,16 +217,19 @@ function currentDay() {
     let now = new Date();
     startDate.value = new Date(now.getFullYear(), now.getMonth(), now.getDate(), -1 * now.getTimezoneOffset() / 60);
     endDate.value = new Date(startDateAddDays(daysInterval.value - 1));
+    datePickerDate.value = [startDate.value, endDate.value];
 }
 
 function previousWeek() {
     startDate.value = new Date(startDate.value.setDate(startDate.value.getDate() - daysInterval.value));
     endDate.value = new Date(startDateAddDays(daysInterval.value - 1));
+    datePickerDate.value = [startDate.value, endDate.value];
 }
 
 function nextWeek() {
     startDate.value = new Date(startDate.value.setDate(startDate.value.getDate() + daysInterval.value));
     endDate.value = new Date(startDateAddDays(daysInterval.value - 1));
+    datePickerDate.value = [startDate.value, endDate.value];
 }
 
 </script>
