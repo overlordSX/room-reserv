@@ -2,15 +2,44 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Client;
+use App\Models\User;
 use DateInterval;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
+use Nette\Utils\Random;
 
 class SchedulerController extends Controller
 {
     public function index(): \Inertia\Response|\Inertia\ResponseFactory
     {
-//        echo '<pre>'; print_r(date('Y-F-d')); echo '</pre>';
+        /*$client = new Client();
+
+        $client->name = 'hello';
+        $client->family = 'hello';
+        $client->surname = 'hello';
+        $client->email = 'test@mail.ru';
+        $client->phone = '+79520025704';
+
+        $client->save();
+
+        Client::query()->create([
+            'name' => 'hello',
+        ]);*/
+
+        $longDurationColors = [
+            '#e8fcdb',
+            '#EEF2CB',
+            '#E6E9D1',
+        ];
+
+        /*function getRandomColor(array $longDurationColors): string
+        {
+            $randIndex = floor(rand() * count($longDurationColors));
+
+            return $longDurationColors[$randIndex];
+        }*/
+
 
         return inertia('Scheduler', [
             'dateFrom' => date('Y-m-d'),
@@ -20,27 +49,33 @@ class SchedulerController extends Controller
                     'name' => 'Номер 1',
                     'load' => [
                         [
-                            'name' => 'Иван Которин',
+                            'id' => 1,
+                            'name' => 'Иван Которин1',
                             'startDate' => '2023-05-23',
-                            'duration' => 2,
+                            'endDate' => '2023-05-26',
+                            'bgColor' => '#EEF2CB',
                             'people' => 2,
                         ],
                         [
-                            'name' => 'Кирилл Рева',
-                            'startDate' => '2023-05-25',
-                            'duration' => 2,
+                            'id' => 2,
+                            'name' => 'Кирилл Рева1',
+                            'startDate' => '2023-05-26',
+                            'endDate' => '2023-05-28',
+                            'bgColor' => '#E6E9D1',
                             'people' => 1,
                         ],
                         [
-                            'name' => 'Иван Которин',
+                            'id' => 3,
+                            'name' => 'Иван Которин2',
                             'startDate' => '2023-05-28',
-                            'duration' => 1,
+                            'endDate' => '2023-05-29',
                             'people' => 1,
                         ],
                         [
-                            'name' => 'Кирилл Рева',
+                            'name' => 'Кирилл Рева2',
                             'startDate' => '2023-05-29',
-                            'duration' => 3,
+                            'endDate' => '2023-06-01',
+                            'bgColor' => '#e8fcdb',
                             'people' => 1,
                         ],
                     ]
@@ -50,21 +85,24 @@ class SchedulerController extends Controller
                     'name' => 'Номер 2',
                     'load' => [
                         [
-                            'name' => 'Иван Которин',
+                            'id' => 1,
+                            'name' => 'Иван Которин3',
                             'startDate' => '2023-05-24',
-                            'duration' => 1,
+                            'endDate' => '2023-05-25',
                             'people' => 1,
                         ],
                         [
-                            'name' => 'Кирилл Рева',
+                            'id' => 2,
+                            'name' => 'Кирилл Рева3',
                             'startDate' => '2023-05-29',
-                            'duration' => 1,
+                            'endDate' => '2023-05-30',
                             'people' => 1,
                         ],
                         [
-                            'name' => 'Иван Которин',
+                            'id' => 3,
+                            'name' => 'Иван Которин4',
                             'startDate' => '2023-05-30',
-                            'duration' => 1,
+                            'endDate' => '2023-05-31',
                             'people' => 1,
                         ],
                     ]

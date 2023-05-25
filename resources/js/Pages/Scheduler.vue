@@ -46,7 +46,6 @@
                 </div>
 
                 <div class="calendar-board__calendar rooms-calendar">
-                    {{ startDate }}
                     <div class="rooms-calendar__header">
                         <div class="rooms-calendar__nav">
                             <button class="btn btn--arrow" style="transform: scale(-1, 1);" @click="previousWeek()">
@@ -70,7 +69,7 @@
 
                         <div class="rooms-calendar__current-dates">
                             {{ fullDate(startDate) }}&nbsp;&mdash;
-                            {{ fullDate(startDateAddDays(daysInterval - 1)) }}
+                            {{ fullDate(endDate) }}
                         </div>
                     </div>
 
@@ -96,15 +95,17 @@
                             <div class="rooms-calendar__item room-calendar-item">
                                 <div class="room-calendar-item__room-name">{{ item.name }}</div>
 
+
                                 <div
                                     v-for="client in getLoad(item.load)"
-                                    :key="client.name"
+                                    :key="client.cellDate"
                                     class="room-calendar-item__day-load"
                                     :class="{'room-calendar-item__day-load--last-in-column': index + 1 === items.length}"
                                     :style="{'--long-duration-bg-color': client.bgColor}"
                                 >
                                     <template v-if="client.people">{{ client.name }}
                                         <!-- {{ client.people }} человек--></template>
+<!--                                    {{client.cellDate}}-->
                                 </div>
                             </div>
                         </div>
@@ -119,7 +120,7 @@
 import Base from "@/Layouts/Base.vue";
 import DatePicker from "@/Components/forms/DatePicker.vue";
 import {TSchedulerItem} from "@/types/TSchedulerItem";
-import {computed, ref} from "vue";
+import {ref} from "vue";
 import {dateWithMonth, fullDate} from "@/helpers/dates";
 import {TRoomLoad} from "@/types/TRoomLoad";
 
@@ -138,16 +139,7 @@ const daysInterval = ref<number>(7);
 
 const startDate = ref<Date>(new Date(props.dateFrom));
 
-/*const localItems = computed(() => {
-    let ar = [];
-    props.items.forEach((item) => {
-        let localItem = item;
-        item.load = getLoad(item.load);
-        ar.push(localItem);
-    })
-
-    return ar;
-})*/
+const endDate = ref<Date>(startDateAddDays(daysInterval.value - 1));
 
 function startDateAddDays(cntDays: number) {
     let localDate = new Date(startDate.value);
@@ -158,85 +150,65 @@ function startDateAddDays(cntDays: number) {
 }
 
 function getLoad(loads: TRoomLoad[]): TRoomLoad[] {
-
     let loadAr = [];
 
-    if (loads.length > 0) {
-        loads.forEach((load: TRoomLoad, index: number) => {
-            let loadStartDate = new Date(load.startDate);
-
-            let dateDiffs = Math.floor((loadStartDate - startDate.value) / (1000 * 60 * 60 * 24));
-
-
-            if (dateDiffs + load.duration !== 0 && (loadStartDate < startDate.value || loadStartDate > startDateAddDays(daysInterval.value - 1))) {
-                return;
-            }
-
-
-            if (loadAr.length === 0 && loadStartDate > startDate.value) {
-                for (let i = 0; i < dateDiffs; i++) {
-                    loadAr.push([]);
-                }
-            }
-
-            if (loadAr.length > 0 && index >= 1) {
-                let previousLoad = loads[index - 1];
-                let previousLoadDate = new Date(previousLoad.startDate);
-                let diffsWithPrevious = Math.floor((loadStartDate - previousLoadDate) / (1000 * 60 * 60 * 24));
-
-                if (diffsWithPrevious > 1 && load.duration === 1 && previousLoad.duration < diffsWithPrevious) {
-                    for (let i = 0; i < diffsWithPrevious - previousLoad.duration; i++) {
-                        loadAr.push([]);
-                    }
-                }
-            }
-
-
-            if (load.duration > 1) {
-                load.bgColor = getRandomColor();
-            }
-
-            for (let i = 0; i < load.duration; i++) {
-                loadAr.push(load);
-            }
-        });
+    for (let i = 0; i < daysInterval.value; i++) {
+        loadAr.push({
+            cellDate: startDateAddDays(i),
+        })
     }
 
-    if (loadAr.length !== daysInterval.value) {
-        let diffs = daysInterval.value - loadAr.length;
+    loads.forEach((load: TRoomLoad) => {
+        let loadStartDate = new Date(load.startDate);
+        let loadEndDate = new Date(load.endDate);
 
-        for (let i = 0; i < diffs; i++) {
-            loadAr.push([]);
+        if (loadStartDate < startDate.value && endDate > startDate.value) {
+            loadStartDate = startDate.value;
         }
-    }
+
+        if (loadEndDate >= endDate.value && startDate < endDate.value) {
+            loadEndDate = startDateAddDays(daysInterval.value);
+        }
+
+        let dateDiffs = Math.abs(Math.floor((loadEndDate - loadStartDate) / (1000 * 60 * 60 * 24)));
+
+        if (dateDiffs === 1) {
+            load.bgColor = '#fff';
+        }
+
+        for (let i = 0; i < dateDiffs; i++) {
+            loadAr.forEach((tempLoad: TRoomLoad, index: number) => {
+                if (tempLoad.cellDate) {
+                let cellDateObj = new Date(tempLoad.cellDate);
+                let localDate = new Date(loadStartDate);
+
+                localDate.setDate(localDate.getDate() + i);
+
+                if (cellDateObj.getTime() === localDate.getTime()) {
+                    loadAr[index] = {...loadAr[index], ...load};
+                }
+            }
+            });
+        }
+    });
 
     return loadAr;
-}
-
-const longDurationColors = ref<string[]>([
-    '#e8fcdb',
-    '#EEF2CB',
-    '#E6E9D1',
-]);
-
-function getRandomColor(): string {
-    let rand = Math.floor(Math.random() * longDurationColors.value.length);
-
-    return longDurationColors.value[rand];
 }
 
 function currentDay() {
     let now = new Date();
     startDate.value = new Date(now.getFullYear(), now.getMonth(), now.getDate(), -1 * now.getTimezoneOffset() / 60);
-    console.log(startDate.value.toISOString());
+    endDate.value = new Date(startDateAddDays(daysInterval.value - 1));
 }
 
 function previousWeek() {
     startDate.value = new Date(startDate.value.setDate(startDate.value.getDate() - daysInterval.value));
+    endDate.value = new Date(startDateAddDays(daysInterval.value - 1));
 }
 
 function nextWeek() {
     startDate.value = new Date(startDate.value.setDate(startDate.value.getDate() + daysInterval.value));
+    endDate.value = new Date(startDateAddDays(daysInterval.value - 1));
 }
 
 </script>

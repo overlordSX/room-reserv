@@ -1,7 +1,9 @@
 export type TRoomLoad = {
-    name: string,
-    duration: number,
-    people: number,
+    id: number,
+    name?: string,
+    people?: number,
     bgColor?: string,
     startDate: string,
+    endDate: string,
+    cellDate?: string,
 }
