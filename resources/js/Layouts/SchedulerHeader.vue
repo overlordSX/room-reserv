@@ -11,31 +11,14 @@
 
                 </a>
 
-                <div class="header__log-in">
-                    <div v-if="canLogin">
-                        <Link
-                            v-if="$page.props.auth.user"
-                            :href="route('dashboard')"
-                            class="link link--hover-uline"
-                        >Личный кабинет</Link>
+                <div class="header__nav header-nav">
+                    <NavLink :href="route('dashboard.hotels-list')" :active="$page.url.startsWith('/dashboard/hotels-list')">
+                        Отели
+                    </NavLink>
 
-                        <template v-else>
-                            <Link
-                                :href="route('login')"
-                                class="link link--hover-uline"
-                            >
-                                Войти
-                            </Link>
-
-                            <Link
-                                v-if="canRegister"
-                                :href="route('register')"
-                                class="link link--hover-uline"
-                            >
-                                Зарегистрироваться
-                            </Link>
-                        </template>
-                    </div>
+                    <NavLink :href="route('dashboard')" :active="route().current('dashboard')">
+                        Планировщик
+                    </NavLink>
                 </div>
             </div>
         </div>
@@ -43,13 +26,7 @@
 </template>
 
 <script setup lang="ts">
-import {Link} from '@inertiajs/vue3';
-
-type TComponentProps = {
-    canLogin?: boolean;
-    canRegister?: boolean;
-};
-
-const props = defineProps<TComponentProps>();
+import {Head, Link} from '@inertiajs/vue3';
+import NavLink from "@/Components/NavLink.vue";
 
 </script>

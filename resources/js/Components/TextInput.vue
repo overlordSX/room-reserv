@@ -13,7 +13,7 @@ import {onMounted, ref} from 'vue';
 
 type TComponentProps = {
     modelValue: any,
-    isGreen: boolean
+    isGreen?: boolean
 }
 
 const props = withDefaults(defineProps<TComponentProps>(), {

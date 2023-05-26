@@ -1,5 +1,9 @@
 <template>
     <Base title="Админка тип">
+        <template #header>
+            <SchedulerHeader />
+        </template>
+
         <template #full-page>
             <div class="calendar-board">
                 <div class="calendar-board__nav">
@@ -128,6 +132,7 @@ import {dateWithMonth, fullDate} from "@/helpers/dates";
 import {TRoomLoad} from "@/types/TRoomLoad";
 import VueDatePicker from "@vuepic/vue-datepicker";
 import {datePickerDefaultSettings} from "@/helpers/consts";
+import SchedulerHeader from "@/Layouts/SchedulerHeader.vue";
 
 type TComponentProps = {
     dateFrom?: string | Date,

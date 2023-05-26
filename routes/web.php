@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\HotelController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SchedulerController;
 use Illuminate\Foundation\Application;
@@ -21,12 +22,17 @@ Route::get('/', function () {
     return Inertia::render('Index', [ // все это хавал Welcome
         'canLogin' => Route::has('login'),
         'canRegister' => Route::has('register'),
-//        'laravelVersion' => Application::VERSION,
-//        'phpVersion' => PHP_VERSION,
     ]);
 });
 
 Route::get('/dashboard', [SchedulerController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::get('/dashboard/hotels-list', [HotelController::class, 'index'])
+    ->middleware(['auth', 'verified'])
+    ->name('dashboard.hotels-list');
+Route::get('/dashboard/hotels-list/add', [HotelController::class, 'add'])
+    ->middleware(['auth', 'verified'])
+    ->name('dashboard.hotels-list.add');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

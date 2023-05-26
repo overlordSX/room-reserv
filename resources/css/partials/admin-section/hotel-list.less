@@ -1,0 +1,63 @@
+@import "../../_var";
+
+.hotel-list {
+    &__header {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: var(--m32);
+    }
+
+    &__list {
+        display: flex;
+        flex-direction: column;
+        gap: var(--m32);
+    }
+
+    &__add-new {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    &__plus {
+        .clear-link();
+        .transit(~'transform, opacity');
+        .size(100px);
+        position: relative;
+        border: 4px solid currentColor;
+        border-radius: 50%;
+        box-sizing: border-box;
+        cursor: pointer;
+        color: @cBrand;
+        transform: scale(1.0);
+
+        .hover({
+            transform: scale(1.1);
+        });
+
+        &:before {
+            .pseudo();
+            top: calc(50% - 2px);
+            left: 10%;
+            height: 4px;
+            width: 80%;
+            background-color: currentColor;
+            border-radius: 10px;
+            transform: translateZ(0);
+        }
+
+        &:after {
+            .pseudo();
+            top: 10%;
+            left: 10%;
+            height: 4px;
+            width: 80%;
+            background-color: currentColor;
+            border-radius: 10px;
+            transform: rotate(90deg) translateX(calc(50% - 2px)) translateZ(0);
+        }
+    }
+
+
+}

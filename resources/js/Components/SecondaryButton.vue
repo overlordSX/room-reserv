@@ -6,7 +6,7 @@ defineProps({
     },
 });
 </script>
-
+<!-- todo delete -->
 <template>
     <button
         :type="type"
