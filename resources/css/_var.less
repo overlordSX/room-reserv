@@ -195,13 +195,14 @@
  **/
 @cBlack: #000;
 @cWhite: #fff;
-@cBrand: fade(#727650, 90);
+@cBrand: #808462;
+@cStars: #FFC107;
 
 @cTextBlack: #1b1b1b;
 @cTextGrey: fade(@cBlack, 80);
 @cTextGreyLight: fade(@cBlack, 65);
 
-@cBgBrand: #808462;
+@cBgBrand: @cBrand;
 @cBgBlack: #1b1b1b;
 @cBgBrandAlpha: fade(@cBrand, 20);
 @cBgGrey: #f4f4f4;
@@ -210,6 +211,7 @@
 @cBordersGreyLight: fade(@cBordersGrey, 30);
 @cBordersBlack: #1b1b1b;
 @cBordersBrand: #727650;
+@cBordersBrandAlpha: fade(@cBordersBrand, 65);
 
 @cOverlay: fade(@cWhite, 80);
 
@@ -218,6 +220,7 @@
 @fWhite: brightness(0) invert(1);
 
 @dropdownShadow: 0 0 10px fade(@cBlack, 10);
+@dropdownHoverShadow: 0 0 10px fade(@cBlack, 20);
 @headerShadow: 0 5px 5px fade(@cBlack, 5);
 
 /**

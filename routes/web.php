@@ -27,17 +27,16 @@ Route::get('/', function () {
 
 Route::get('/dashboard', [SchedulerController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::get('/dashboard/hotels-list', [HotelController::class, 'index'])
-    ->middleware(['auth', 'verified'])
-    ->name('dashboard.hotels-list');
-Route::get('/dashboard/hotels-list/add', [HotelController::class, 'add'])
-    ->middleware(['auth', 'verified'])
-    ->name('dashboard.hotels-list.add');
-
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    Route::get('/dashboard/hotels-list', [HotelController::class, 'index'])->name('dashboard.hotels-list');
+
+    Route::get('/dashboard/hotels-list/add', [HotelController::class, 'add'])->name('dashboard.hotels-list.add');
+    Route::post('/dashboard/hotels-list/add', [HotelController::class, 'store'])->name('dashboard.hotels-list.save');
+    Route::delete('/dashboard/hotels-list', [HotelController::class, 'delete'])->name('dashboard.hotels-list.delete');
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

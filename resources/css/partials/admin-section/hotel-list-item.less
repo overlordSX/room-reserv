@@ -1,0 +1,87 @@
+@import "../../_var";
+
+.hotel-list-item {
+    .transit(box-shadow);
+    display: grid;
+    grid-template-columns: 195px 1fr max-content;
+    align-items: center;
+    gap: var(--grid-gap) var(--m32);
+    padding: var(--m24) var(--m48) var(--m24) 0;
+    background-color: white;
+    box-sizing: border-box;
+    border-radius: 30px;
+    box-shadow: @dropdownShadow;
+    color: @cTextBlack;
+
+    .hover({
+        box-shadow: @dropdownHoverShadow;
+    }, false, false);
+
+    &__picture-wrapper {
+        align-self: flex-start;
+        margin: calc(-1 * var(--m24)) 0;
+    }
+
+    &__placeholder {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        aspect-ratio: 195/168;
+        box-sizing: border-box;
+        background-color: @cBgGrey;
+        border-radius: 30px;
+        border: 2px solid @cBordersBlack;
+        z-index: 2;
+
+        svg {
+            display: block;
+            stroke-width: 2px;
+            margin-right: -2px;
+            margin-left: -2px;
+            stroke: currentColor;
+            z-index: -1;
+        }
+    }
+
+    &__info {
+        align-self: flex-start;
+        color: @cTextGrey;
+    }
+
+    &__name-stars {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: var(--grid-gap);
+        margin-bottom: var(--m24);
+    }
+
+    &__name {
+        font-size: var(--fs18);
+        font-weight: 600;
+        color: @cTextBlack;
+    }
+
+    &__stars {
+        font-weight: 600;
+    }
+
+    &__stars-count {
+        //color: @cStars;
+    }
+
+    &__count-rooms {
+        margin-bottom: var(--m18);
+    }
+
+    &__actions {
+        display: grid;
+        gap: var(--grid-gap);
+        align-items: center;
+    }
+
+    &__btn {
+        padding: 0 26px;
+    }
+}

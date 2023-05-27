@@ -7,11 +7,23 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * @property string name
- * @property int countOfStars
+ * @property int count_of_stars
  * @property string address
- * @property string|null photoUrl
+ * @property string|null photo_url
  */
 class Hotel extends Model
 {
     use HasFactory;
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array<int, string>
+     */
+    protected $fillable = [
+        'name',
+        'count_of_stars',
+        'address',
+        'photo_url',
+    ];
 }

@@ -26,6 +26,9 @@ class SchedulerController extends Controller
         Client::query()->create([
             'name' => 'hello',
         ]);*/
+//        Client::query()->create([
+//            'name' => 'hello',
+//        ]);
 
         $longDurationColors = [
             '#e8fcdb',

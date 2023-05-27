@@ -19,7 +19,7 @@
                 </div>
 
                 <div class="add-hotel__form">
-                    а тут формочка
+                    <AddHotelForm />
                 </div>
             </div>
         </template>
@@ -30,4 +30,5 @@
 import SchedulerHeader from "@/Layouts/SchedulerHeader.vue";
 import Base from "@/Layouts/Base.vue";
 import {Link} from "@inertiajs/vue3";
+import AddHotelForm from "@/Pages/AdminSection/AddHotelForm.vue";
 </script>

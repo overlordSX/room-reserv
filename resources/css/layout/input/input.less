@@ -37,11 +37,45 @@
         color: var(--input-placeholder-color);
     }
 
-    //todo стили
     &--green-border {
-        //--input-border-color: @cWhite;
-        //--input-hover-border-color: @cWhite;
-        //--input-focus-border-color: @cWhite;
+        --input-border-color: @cBordersBrandAlpha;
+        --input-hover-border-color: @cBordersBrand;
+        --input-focus-border-color: @cBordersBrand;
+    }
+}
+
+.input-number {
+    --input-border-color: @cBordersBrandAlpha;
+    --input-hover-border-color: @cBordersBrand;
+    --input-focus-border-color: @cBordersBrand;
+
+    .clear-input();
+    .transit();
+    .size(100%, var(--input-height));
+    display: block;
+    padding: var(--input-padding-top) var(--input-padding-right) var(--input-padding-bottom) var(--input-padding-left);
+    color: var(--input-color);
+    font: 400 var(--input-font-size) @font;
+    border: var(--input-border-width) solid var(--input-border-color);
+    box-sizing: border-box;
+    background-color: var(--input-background-color);
+    border-radius: var(--input-border-radius);
+
+    //вытаскиваю стрелки обратно
+    appearance: initial;
+    -webkit-appearance: initial;
+    -moz-appearance: initial;
+
+    /* Chrome, Safari, Edge, Opera */
+    &::-webkit-outer-spin-button,
+    &::-webkit-inner-spin-button {
+        -webkit-appearance: button;
+        margin: 0;
+    }
+
+    /* Firefox */
+    &[type=number] {
+        -moz-appearance: initial;
     }
 }
 

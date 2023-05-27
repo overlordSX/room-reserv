@@ -13,7 +13,12 @@
                 </div>
 
                 <div class="hotel-list__list">
-
+                    <HotelItem
+                        v-for="item in items"
+                        :key="item.id"
+                        :item="item"
+                        class="hotel-list__item hotel-list-item"
+                    />
                 </div>
 
                 <div class="hotel-list__add-new">
@@ -30,4 +35,10 @@
 import SchedulerHeader from "@/Layouts/SchedulerHeader.vue";
 import Base from "@/Layouts/Base.vue";
 import {Link} from "@inertiajs/vue3";
+import {THotel} from "@/types/THotel";
+import HotelItem from "@/Pages/AdminSection/HotelItem.vue";
+
+const props = withDefaults(defineProps<{items: THotel[]}>(), {
+    items: () => [],
+});
 </script>
