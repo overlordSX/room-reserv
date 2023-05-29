@@ -1,4 +1,4 @@
-<template>
+ <template>
     <div class="hotel-list-item">
         <div class="hotel-list-item__picture-wrapper">
             <div v-if="item.photoUrl" class="hotel-list-item__picture">
@@ -23,7 +23,6 @@
                 </div>
 
                 <div class="hotel-list-item__stars">
-                    <span class="hotel-list-item__stars-count">{{ item.countOfStars }}</span> звезды
                 </div>
             </div>
 
@@ -32,34 +31,32 @@
             </div>
 
             <div class="hotel-list-item__address">
-                Адрес: <span v-html="item.address" />
             </div>
         </div>
 
-        <div class="hotel-list-item__actions">
+<!--        <div class="hotel-list-item__actions">
             <Link
-                :href="route('dashboard.hotels-list.rooms-list.add', item.id)"
+                :href="route('dashboard.hotels-list.' + item.id + '.rooms-list.add')"
                 class="hotel-list-item__btn btn"
             >Добавить номер
             </Link>
 
-            <!-- //todo можно добавить условие отображения, если номера есть то показывать -->
+            &lt;!&ndash; //todo можно добавить условие отображения, если номера есть то показывать &ndash;&gt;
             <Link
-                :href="route('dashboard.hotels-list.rooms-list', {id: item.id})"
-            class="hotel-list-item__btn btn"
+                :href="route('dashboard.hotels-list.' + item.id + '.rooms-list')"
+                class="hotel-list-item__btn btn"
             >Показать номера
             </Link>
-        </div>
+        </div>-->
     </div>
 </template>
 
 <script setup lang="ts">
 
-
-import {THotel} from "@/types/THotel";
 import {Link} from "@inertiajs/vue3";
+import {TRoom} from "@/types/TRoom";
 
 const props = defineProps<{
-    item: THotel,
+    item: TRoom,
 }>();
 </script>
