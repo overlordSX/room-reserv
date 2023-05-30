@@ -106,14 +106,16 @@
 
 
                                 <div
-                                    v-for="client in getLoad(item.load)"
-                                    :key="client.cellDate"
+                                    v-for="load in getLoad(item.load)"
+                                    :key="load.cellDate"
                                     class="room-calendar-item__day-load"
                                     :class="{'room-calendar-item__day-load--last-in-column': index + 1 === items.length}"
-                                    :style="{'--long-duration-bg-color': client.bgColor}"
+                                    :style="{'--long-duration-bg-color': load.bgColor}"
+                                    @click="openPopup"
                                 >
-                                    <template v-if="client.people">{{ client.name }}
-                                        <!-- {{ client.people }} человек--></template>
+                                    <template v-if="load.people">
+                                        <span class="room-calendar-item__cell-name" v-html="load.name"></span>
+                                    </template>
                                 </div>
                             </div>
                         </div>
@@ -122,17 +124,20 @@
             </div>
         </template>
     </Base>
+    <ModalsContainer />
 </template>
 
-<script setup lang="ts">
+<script setup lang="ts" >
 import Base from "@/Layouts/Base.vue";
 import {TSchedulerItem} from "@/types/TSchedulerItem";
-import {ref} from "vue";
+import {ref, resolveComponent} from "vue";
 import {dateWithMonth, fullDate} from "@/helpers/dates";
 import {TRoomLoad} from "@/types/TRoomLoad";
 import VueDatePicker from "@vuepic/vue-datepicker";
 import {datePickerDefaultSettings} from "@/helpers/consts";
 import SchedulerHeader from "@/Layouts/SchedulerHeader.vue";
+import {ModalsContainer, useModal} from "vue-final-modal";
+import AddNewLoad from "@/Components/AddNewLoad.vue";
 
 type TComponentProps = {
     dateFrom?: string | Date,
@@ -235,6 +240,23 @@ function nextWeek() {
     startDate.value = new Date(startDate.value.setDate(startDate.value.getDate() + daysInterval.value));
     endDate.value = new Date(startDateAddDays(daysInterval.value - 1));
     datePickerDate.value = [startDate.value, endDate.value];
+}
+
+const { open } = useModal({
+    attrs: {
+        title: 'Hello World!',
+    },
+    slots: {
+        default: '<p>The content of the modal</p>',
+    },
+    component: AddNewLoad,
+})
+
+function chooseAction(load: TRoomLoad) {
+    console.log(load);
+    if (load.name === undefined) {
+        console.log('no load on this day');
+    }
 }
 
 </script>

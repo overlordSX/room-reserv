@@ -13,6 +13,7 @@
     }
 
     &__day-load {
+        .transit(~'color');
         display: flex;
         align-items: center;
         justify-content: center;
@@ -20,11 +21,25 @@
         padding: 12px 14px;
         border-bottom: 1px solid @cBordersBrand;
         background-color: var(--long-duration-bg-color, @cWhite);
+        cursor: pointer;
+
+        .hover({
+            .room-calendar-item {
+                &__cell-name {
+                    border-bottom-color: currentColor;
+                }
+            }
+        }, false, false);
 
         &--last-in-column {
             border-bottom-color: transparent;
             border-radius: 0 0 4px 4px;
         }
+    }
+
+    &__cell-name {
+        .transit(border-bottom-color);
+        border-bottom: 1px solid transparent;
     }
 
     &__date-header {
