@@ -7,7 +7,6 @@
 
 <script setup lang="ts">
 import formatPrice from "@/helpers/price";
-import {THotel} from "@/types/THotel";
 
 const props = withDefaults(defineProps<{
     unit: string,
