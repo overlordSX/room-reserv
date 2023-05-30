@@ -6,6 +6,12 @@
 
         <template #default>
             <div class="hotel-list page__section">
+                <Link
+                    :href="route('dashboard.hotels-list')"
+                    class="btn">
+                    К списку отелей
+                </Link>
+
                 <div class="hotel-list__header">
                     <div class="hotel-list__title page__section-title">
                         Номера
@@ -35,8 +41,6 @@
 import SchedulerHeader from "@/Layouts/SchedulerHeader.vue";
 import Base from "@/Layouts/Base.vue";
 import {Link} from "@inertiajs/vue3";
-import {THotel} from "@/types/THotel";
-import HotelItem from "@/Pages/AdminSection/HotelItem.vue";
 import RoomItem from "@/Pages/AdminSection/RoomItem.vue";
 import {TRoom} from "@/types/TRoom";
 

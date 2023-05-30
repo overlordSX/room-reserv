@@ -30,6 +30,7 @@ class Room extends Model
         'count_of_rooms',
         'count_of_beds',
         'floor',
+        'hotel_id',
     ];
 
     use HasFactory;

@@ -2,51 +2,60 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\HotelRequest;
-use App\Http\Resources\HotelResource;
+use App\Http\Requests\RoomRequest;
+use App\Http\Resources\RoomResource;
 use App\Models\Hotel;
-use Illuminate\Http\Request;
+use App\Models\Room;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
 class RoomController extends Controller
 {
+    protected function checkIsHotelExists(int $hotelId): void
+    {
+        $hotel = Hotel::query()->find($hotelId);
+
+        if (is_null($hotel)) {
+            abort(404);
+        }
+    }
+
     public function index(int $hotelId): \Inertia\Response|\Inertia\ResponseFactory
     {
+        $this->checkIsHotelExists($hotelId);
+
         // !важно НЕ использовать тут rooms(), иначе будет возвращать hasMany
-        // а в конкретно таком варианте вернет именно rooms
+        // в конкретно таком варианте вернет модельки rooms
         $rooms = Hotel::query()->find($hotelId)->rooms;
 
-        dd($rooms->toArray());
-        //todo
-
-        $roomsList = [];
-        if ($rooms) {
-
-//            echo '<pre>'; print_r($roomsList); echo '</pre>';
-
-        }
-
-//        return inertia('AdminSection/RoomList', ['hotelId' => $hotelId, 'items' => $roomsList]);
+        return inertia('AdminSection/RoomList', [
+            'hotelId' => $hotelId,
+            'items' => RoomResource::collection($rooms)->resolve(),
+        ]);
     }
 
-    public function add(): \Inertia\Response|\Inertia\ResponseFactory
+    public function add(int $hotelId): \Inertia\Response|\Inertia\ResponseFactory
     {
-        return inertia('AdminSection/AddHotel');
+        $this->checkIsHotelExists($hotelId);
+
+        return inertia('AdminSection/AddRoom', ['hotelId' => $hotelId,]);
     }
 
-    public function store(HotelRequest $request): RedirectResponse
+    public function store(RoomRequest $request, int $hotelId): RedirectResponse
     {
+        $this->checkIsHotelExists($hotelId);
+
         $validated = $request->validated();
 
-        // так можно дернуть названия полей из БД
-        //dd(Schema::getColumnListing('hotels'));
-
-        Hotel::query()->create([
+        Room::query()->create([
             'name' => $validated['name'],
-            'address' => $validated['address'],
-            'count_of_stars' => $validated['countOfStars'],
+            'price' => $validated['price'],
+            'square' => $validated['square'],
+            'count_of_rooms' => $validated['countOfRooms'],
+            'count_of_beds' => $validated['countOfBeds'],
+            'floor' => $validated['floor'],
+            'hotel_id' => $hotelId,
         ]);
 
-        return redirect('dashboard/hotels-list');
+        return redirect(route('dashboard.hotels-list.rooms-list', ['id' => $hotelId]));
     }
 }

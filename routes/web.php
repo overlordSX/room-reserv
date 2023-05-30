@@ -37,12 +37,15 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/dashboard/hotels-list/add', [HotelController::class, 'add'])->name('dashboard.hotels-list.add');
     Route::post('/dashboard/hotels-list/add', [HotelController::class, 'store'])->name('dashboard.hotels-list.save');
-
-    //todo function delete
-    Route::delete('/dashboard/hotels-list', [HotelController::class, 'delete'])->name('dashboard.hotels-list.delete');
+    //todo delete action for hotels
+    // Route::delete('/dashboard/hotels-list/{id}/delete', [HotelController::class, 'delete'])->name('dashboard.hotels-list.delete');
 
     Route::get('/dashboard/hotels-list/{id}/rooms-list', [RoomController::class, 'index'])->name('dashboard.hotels-list.rooms-list');
-    Route::post('/dashboard/hotels-list/{id}/rooms-list/add', [RoomController::class, 'store'])->name('dashboard.hotels-list.rooms-list.add');
+
+    Route::get('/dashboard/hotels-list/{id}/rooms-list/add', [RoomController::class, 'add'])->name('dashboard.hotels-list.rooms-list.add');
+    Route::post('/dashboard/hotels-list/{id}/rooms-list/add', [RoomController::class, 'store'])->name('dashboard.hotels-list.rooms-list.save');
+    //todo delete action for rooms
+    // Route::delete('/dashboard/hotels-list/{hotelId}/rooms-list/{roomId}/delete', [HotelController::class, 'delete'])->name('dashboard.hotels-list.rooms-list.delete');
 });
 
 require __DIR__ . '/auth.php';

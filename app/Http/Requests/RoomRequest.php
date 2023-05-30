@@ -11,7 +11,7 @@ class RoomRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -21,9 +21,13 @@ class RoomRequest extends FormRequest
      */
     public function rules(): array
     {
-        //todo
         return [
-            //
+            'name' => 'required|string|max:255',
+            'price' => 'required|integer|min:0',
+            'square' => 'required|integer|min:9',
+            'countOfRooms' => 'required|integer|max:100|min:1',
+            'countOfBeds' => 'required|integer|max:100|min:1',
+            'floor' => 'required|integer|max:500|min:1',
         ];
     }
 }
