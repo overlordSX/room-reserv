@@ -5,32 +5,32 @@
         </template>
 
         <template #default>
-            <div class="hotel-list page__section">
+            <div class="room-list page__section">
                 <Link
                     :href="route('dashboard.hotels-list')"
                     class="btn">
                     К списку отелей
                 </Link>
 
-                <div class="hotel-list__header">
-                    <div class="hotel-list__title page__section-title">
+                <div class="room-list__header">
+                    <div class="room-list__title page__section-title">
                         Номера
                     </div>
                 </div>
 
-                <div class="hotel-list__list">
+                <div class="room-list__list">
                     <RoomItem
                         v-for="item in items"
                         :key="item.id"
                         :item="item"
-                        class="hotel-list__item hotel-list-item"
+                        class="room-list__item room-list-item"
                     />
                 </div>
 
-                <div class="hotel-list__add-new">
+                <div class="room-list__add-new">
                     <Link
                         :href="route('dashboard.hotels-list.rooms-list.add', hotelId)"
-                        class="hotel-list__plus" />
+                        class="room-list__plus" />
                 </div>
             </div>
         </template>

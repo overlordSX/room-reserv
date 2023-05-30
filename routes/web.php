@@ -40,10 +40,11 @@ Route::middleware('auth')->group(function () {
     //todo delete action for hotels
     // Route::delete('/dashboard/hotels-list/{id}/delete', [HotelController::class, 'delete'])->name('dashboard.hotels-list.delete');
 
-    Route::get('/dashboard/hotels-list/{id}/rooms-list', [RoomController::class, 'index'])->name('dashboard.hotels-list.rooms-list');
+    //внутри экшена происходит магия, из инертии можно передать параметр, либо тем именем который он назван в роуте, либо через id
+    Route::get('/dashboard/hotels-list/{hotel}/rooms-list', [RoomController::class, 'index'])->name('dashboard.hotels-list.rooms-list');
 
-    Route::get('/dashboard/hotels-list/{id}/rooms-list/add', [RoomController::class, 'add'])->name('dashboard.hotels-list.rooms-list.add');
-    Route::post('/dashboard/hotels-list/{id}/rooms-list/add', [RoomController::class, 'store'])->name('dashboard.hotels-list.rooms-list.save');
+    Route::get('/dashboard/hotels-list/{hotel}/rooms-list/add', [RoomController::class, 'add'])->name('dashboard.hotels-list.rooms-list.add');
+    Route::post('/dashboard/hotels-list/{hotel}/rooms-list/add', [RoomController::class, 'store'])->name('dashboard.hotels-list.rooms-list.save');
     //todo delete action for rooms
     // Route::delete('/dashboard/hotels-list/{hotelId}/rooms-list/{roomId}/delete', [HotelController::class, 'delete'])->name('dashboard.hotels-list.rooms-list.delete');
 });

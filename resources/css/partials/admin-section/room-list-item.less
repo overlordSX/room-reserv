@@ -1,0 +1,75 @@
+@import "../../_var";
+
+.room-list-item {
+    .transit('box-shadow, opacity');
+    display: flex;
+    flex-direction: column;
+    background: @cWhite;
+    border-radius: 15px;
+    box-shadow: @dropdownShadow;
+
+    .hover({
+        box-shadow: @dropdownHoverShadow;
+    });
+
+    &__picture {
+        .picture(219/329);
+    }
+
+    &__placeholder {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        aspect-ratio: 329/219;
+        box-sizing: border-box;
+        background-color: @cBgGrey;
+        border-radius: 15px;
+        border: 2px solid @cBordersBlack;
+        overflow: hidden;
+        z-index: 2;
+
+        svg {
+            position: absolute;
+            content: '';
+            display: block;
+            height: 100%;
+            width: calc(100% + 6px);
+            left: -3px;
+            top: 0;
+            stroke-width: max(.8%, 1px);
+            stroke: currentColor;
+            z-index: -1;
+        }
+    }
+
+    &__content {
+        padding: var(--m24);
+    }
+
+    &__name {
+        margin-bottom: var(--m20);
+        font-size: var(--fs16);
+        font-weight: 500;
+    }
+
+    &__icons-info {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px var(--m32);
+        margin-bottom: var(--m32);
+    }
+
+    &__price-nights {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 4px 12px;
+    }
+
+    &__price {
+        font-size: var(--fs24);
+        line-height: var(--lh-caption);
+    }
+
+
+}

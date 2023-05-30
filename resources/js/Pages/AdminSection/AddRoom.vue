@@ -6,11 +6,19 @@
 
         <template #default>
             <div class="add-hotel page__section">
-                <Link
-                    :href="route('dashboard.hotels-list.rooms-list', {id: hotelId})"
-                    class="btn">
-                    К списку номеров
-                </Link>
+                <div class="add-hotel__navigation">
+                    <Link
+                        :href="route('dashboard.hotels-list')"
+                        class="btn">
+                        К списку отелей
+                    </Link>
+
+                    <Link
+                        :href="route('dashboard.hotels-list.rooms-list', {id: hotelId})"
+                        class="btn">
+                        К списку номеров
+                    </Link>
+                </div>
 
                 <div class="add-hotel__header">
                     <div class="add-hotel__title page__section-title">
@@ -19,7 +27,7 @@
                 </div>
 
                 <div class="add-hotel__form">
-                    <AddRoomForm  :hotel-id="hotelId"/>
+                    <AddRoomForm :hotel-id="hotelId"/>
                 </div>
             </div>
         </template>
@@ -32,5 +40,5 @@ import Base from "@/Layouts/Base.vue";
 import {Link} from "@inertiajs/vue3";
 import AddRoomForm from "@/Pages/AdminSection/AddRoomForm.vue";
 
-const props = defineProps<{hotelId: number}>();
+const props = defineProps<{ hotelId: number }>();
 </script>

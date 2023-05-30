@@ -10,40 +10,27 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 
 class RoomController extends Controller
 {
-    protected function checkIsHotelExists(int $hotelId): void
+    public function index(Hotel $hotel): \Inertia\Response|\Inertia\ResponseFactory
     {
-        $hotel = Hotel::query()->find($hotelId);
-
-        if (is_null($hotel)) {
-            abort(404);
-        }
-    }
-
-    public function index(int $hotelId): \Inertia\Response|\Inertia\ResponseFactory
-    {
-        $this->checkIsHotelExists($hotelId);
-
         // !важно НЕ использовать тут rooms(), иначе будет возвращать hasMany
         // в конкретно таком варианте вернет модельки rooms
-        $rooms = Hotel::query()->find($hotelId)->rooms;
+//        $rooms = Hotel::query()->find($hotelId)->rooms;
+
+        $rooms = $hotel->rooms;
 
         return inertia('AdminSection/RoomList', [
-            'hotelId' => $hotelId,
+            'hotelId' => $hotel->getKey(),
             'items' => RoomResource::collection($rooms)->resolve(),
         ]);
     }
 
-    public function add(int $hotelId): \Inertia\Response|\Inertia\ResponseFactory
+    public function add(Hotel $hotel): \Inertia\Response|\Inertia\ResponseFactory
     {
-        $this->checkIsHotelExists($hotelId);
-
-        return inertia('AdminSection/AddRoom', ['hotelId' => $hotelId,]);
+        return inertia('AdminSection/AddRoom', ['hotelId' => $hotel->getKey(),]);
     }
 
-    public function store(RoomRequest $request, int $hotelId): RedirectResponse
+    public function store(Hotel $hotel, RoomRequest $request): RedirectResponse
     {
-        $this->checkIsHotelExists($hotelId);
-
         $validated = $request->validated();
 
         Room::query()->create([
@@ -53,9 +40,9 @@ class RoomController extends Controller
             'count_of_rooms' => $validated['countOfRooms'],
             'count_of_beds' => $validated['countOfBeds'],
             'floor' => $validated['floor'],
-            'hotel_id' => $hotelId,
+            'hotel_id' => $hotel->getKey(),
         ]);
 
-        return redirect(route('dashboard.hotels-list.rooms-list', ['id' => $hotelId]));
+        return redirect(route('dashboard.hotels-list.rooms-list', ['hotel' => $hotel->getKey()]));
     }
 }

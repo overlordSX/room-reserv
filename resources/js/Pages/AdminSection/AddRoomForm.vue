@@ -122,6 +122,6 @@ const form = useForm({
 const props = defineProps<{hotelId: number}>();
 
 const submit = () => {
-    form.post(route('dashboard.hotels-list.rooms-list.save', {id: props.hotelId}));
+    form.post(route('dashboard.hotels-list.rooms-list.save', {hotel: props.hotelId}));
 };
 </script>

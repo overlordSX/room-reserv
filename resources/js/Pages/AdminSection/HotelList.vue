@@ -24,7 +24,7 @@
                 <div class="hotel-list__add-new">
                     <Link
                         :href="route('dashboard.hotels-list.add')"
-                        class="hotel-list__plus" />
+                        class="hotel-list__plus plus" />
                 </div>
             </div>
         </template>

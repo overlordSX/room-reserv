@@ -84,4 +84,18 @@
     &__btn {
         padding: 0 26px;
     }
+
+    @media @mediaMd {
+        grid-template-columns: 195px 1fr;
+        padding-left: var(--m24);
+
+        &__picture-wrapper {
+            margin-left: calc(var(--m24) * -1);
+        }
+
+        &__actions {
+            grid-column: ~'1/3';
+            display: flex;
+        }
+    }
 }
