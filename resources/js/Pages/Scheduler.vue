@@ -111,7 +111,7 @@
                                     class="room-calendar-item__day-load"
                                     :class="{'room-calendar-item__day-load--last-in-column': index + 1 === items.length}"
                                     :style="{'--long-duration-bg-color': load.bgColor}"
-                                    @click="openPopup"
+                                    @click="() => open()"
                                 >
                                     <template v-if="load.people">
                                         <span class="room-calendar-item__cell-name" v-html="load.name"></span>
@@ -130,7 +130,7 @@
 <script setup lang="ts" >
 import Base from "@/Layouts/Base.vue";
 import {TSchedulerItem} from "@/types/TSchedulerItem";
-import {ref, resolveComponent} from "vue";
+import {ref} from "vue";
 import {dateWithMonth, fullDate} from "@/helpers/dates";
 import {TRoomLoad} from "@/types/TRoomLoad";
 import VueDatePicker from "@vuepic/vue-datepicker";
@@ -145,6 +145,7 @@ type TComponentProps = {
 }
 
 //todo почекать обновления vue, мб пофиксят
+// @ts-ignore
 const props = withDefaults(defineProps<TComponentProps>(), {
     dateFrom: new Date(),
 });
@@ -242,21 +243,31 @@ function nextWeek() {
     datePickerDate.value = [startDate.value, endDate.value];
 }
 
-const { open } = useModal({
-    attrs: {
-        title: 'Hello World!',
-    },
-    slots: {
-        default: '<p>The content of the modal</p>',
-    },
-    component: AddNewLoad,
-})
-
+const showModal = ref<boolean>(false);
 function chooseAction(load: TRoomLoad) {
     console.log(load);
     if (load.name === undefined) {
         console.log('no load on this day');
     }
+
+    showModal.value = true;
+
+
 }
+
+// исходя из документации - все написано правильно, но шторм жалуется
+// @ts-ignore
+const { open, close } = useModal({
+    component: AddNewLoad,
+    attrs: {
+        title: 'Hello World!',
+        onConfirm() {
+            close();
+        },
+    },
+    slots: {
+        default: '',
+    },
+})
 
 </script>
