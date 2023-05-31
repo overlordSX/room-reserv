@@ -111,7 +111,7 @@
                                     class="room-calendar-item__day-load"
                                     :class="{'room-calendar-item__day-load--last-in-column': index + 1 === items.length}"
                                     :style="{'--long-duration-bg-color': load.bgColor}"
-                                    @click="() => open()"
+                                    @click="chooseAction(item, load)"
                                 >
                                     <template v-if="load.people">
                                         <span class="room-calendar-item__cell-name" v-html="load.name"></span>
@@ -129,7 +129,6 @@
 
 <script setup lang="ts" >
 import Base from "@/Layouts/Base.vue";
-import {TSchedulerItem} from "@/types/TSchedulerItem";
 import {ref} from "vue";
 import {dateWithMonth, fullDate} from "@/helpers/dates";
 import {TRoomLoad} from "@/types/TRoomLoad";
@@ -138,10 +137,11 @@ import {datePickerDefaultSettings} from "@/helpers/consts";
 import SchedulerHeader from "@/Layouts/SchedulerHeader.vue";
 import {ModalsContainer, useModal} from "vue-final-modal";
 import AddNewLoad from "@/Components/AddNewLoad.vue";
+import {TRoomWithLoad} from "@/types/TRoomWithLoad";
 
 type TComponentProps = {
     dateFrom?: string | Date,
-    items: TSchedulerItem[],
+    items: TRoomWithLoad[],
 }
 
 //todo почекать обновления vue, мб пофиксят
@@ -163,6 +163,7 @@ const datePickerSettings = {
     timePicker: false,
     inline: true,
     range: true,
+    autoApply: true,
     autoRange: daysInterval.value - 1,
     modelType: 'timestamp',
 }
@@ -243,31 +244,29 @@ function nextWeek() {
     datePickerDate.value = [startDate.value, endDate.value];
 }
 
-const showModal = ref<boolean>(false);
-function chooseAction(load: TRoomLoad) {
+function chooseAction(item: TRoomWithLoad, load: TRoomLoad) {
     console.log(load);
+
     if (load.name === undefined) {
-        console.log('no load on this day');
+        // исходя из документации - все написано правильно, но шторм жалуется
+        // @ts-ignore
+        const { open, close } = useModal({
+            component: AddNewLoad,
+            attrs: {
+                item: item,
+                load: load,
+                //так можно слушать событие внутри компонента
+                /*onConfirm() {
+                    close();
+                },*/
+            },
+            slots: {
+                default: '',
+            },
+        })
+
+        open();
     }
-
-    showModal.value = true;
-
-
 }
-
-// исходя из документации - все написано правильно, но шторм жалуется
-// @ts-ignore
-const { open, close } = useModal({
-    component: AddNewLoad,
-    attrs: {
-        title: 'Hello World!',
-        onConfirm() {
-            close();
-        },
-    },
-    slots: {
-        default: '',
-    },
-})
 
 </script>

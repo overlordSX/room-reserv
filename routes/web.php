@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ClientController;
 use App\Http\Controllers\HotelController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RoomController;
@@ -47,6 +48,12 @@ Route::middleware('auth')->group(function () {
     Route::post('/dashboard/hotels-list/{hotel}/rooms-list/add', [RoomController::class, 'store'])->name('dashboard.hotels-list.rooms-list.save');
     //todo delete action for rooms
     // Route::delete('/dashboard/hotels-list/{hotelId}/rooms-list/{roomId}/delete', [HotelController::class, 'delete'])->name('dashboard.hotels-list.rooms-list.delete');
+
+
+    Route::post('/dashboard/clients/add', [ClientController::class, 'store'])->name('dashboard.clients.save');
+
+//    Route::get('/dashboard', [SchedulerController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
+     Route::post('/dashboard/room/{room}/add-load', [SchedulerController::class, 'saveLoad'])->name('dashboard.room.save-load');
 });
 
 require __DIR__ . '/auth.php';

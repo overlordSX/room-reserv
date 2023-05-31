@@ -1,5 +1,8 @@
+import {TRoomLoad} from "@/types/TRoomLoad";
+
 export type TRoom = {
     id: number,
+    hotelId: number,
     name: string,
     photoUrl?: string,
     price: number,
@@ -7,4 +10,5 @@ export type TRoom = {
     countOfRooms: number,
     countOFBeds: number,
     floor: number,
+    load?: TRoomLoad[],
 }

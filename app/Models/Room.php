@@ -14,9 +14,12 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property int count_of_rooms
  * @property int count_of_beds
  * @property int floor
+ * @property Hotel hotel
  */
 class Room extends Model
 {
+    use HasFactory;
+
     /**
      * The attributes that are mass assignable.
      *
@@ -33,12 +36,10 @@ class Room extends Model
         'hotel_id',
     ];
 
-    use HasFactory;
-
     /**
      * возвращает модель Отеля к которой принадлежит номер
      */
-    public function post(): BelongsTo
+    public function hotel(): BelongsTo
     {
         return $this->belongsTo(Hotel::class);
     }

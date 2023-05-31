@@ -13,6 +13,5 @@ export const datePickerDefaultSettings = {
     placeholder: 'Выберите дату',
     enableTimePicker: false,
     format: 'dd.MM.yyyy',
-    autoApply: true,
     textInput: true,
 };

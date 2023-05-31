@@ -2,46 +2,25 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\RoomLoadRequest;
 use App\Models\Client;
-use App\Models\User;
-use DateInterval;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\App;
-use Nette\Utils\Random;
+use App\Models\Reservation;
+use App\Models\Room;
+use Carbon\Carbon;
+use Illuminate\Http\RedirectResponse;
 
 class SchedulerController extends Controller
 {
-    public function index(): \Inertia\Response|\Inertia\ResponseFactory
+    public function index(): \Inertia\Response
     {
-        /*$client = new Client();
+        $reservations = Reservation::all();
 
-        $client->name = 'hello';
-        $client->family = 'hello';
-        $client->surname = 'hello';
-        $client->email = 'test@mail.ru';
-        $client->phone = '+79520025704';
-
-        $client->save();
-
-        Client::query()->create([
-            'name' => 'hello',
+        //todo
+        /*return inertia('Scheduler', [
+            'dateFrom' => date('Y-m-d'),
+            'items' => '',
         ]);*/
-//        Client::query()->create([
-//            'name' => 'hello',
-//        ]);
 
-        $longDurationColors = [
-            '#e8fcdb',
-            '#EEF2CB',
-            '#E6E9D1',
-        ];
-
-        /*function getRandomColor(array $longDurationColors): string
-        {
-            $randIndex = floor(rand() * count($longDurationColors));
-
-            return $longDurationColors[$randIndex];
-        }*/
 
 
         return inertia('Scheduler', [
@@ -117,5 +96,31 @@ class SchedulerController extends Controller
                 ]
             ],
         ]);
+    }
+
+    public function saveLoad(Room $room, RoomLoadRequest $request): RedirectResponse
+    {
+        $validated = $request->validated();
+
+        /*dd([
+            'count_of_guests' => $validated['countOfGuests'],
+            'date_income0' => Carbon::parse($validated['dateIncome'])->format('Y-m-d h:i:s'),
+            'date_income' => Carbon::parse($validated['dateIncome'])->setTimezone(0)->format('Y-m-d h:i:s'),
+            'date_outcome0' => Carbon::parse($validated['dateOutcome'])->format('Y-m-d h:i:s'),
+            'date_outcome' => Carbon::parse($validated['dateOutcome'])->setTimezone(0)->format('Y-m-d h:i:s'),
+            'room_id' => $room->getKey(),
+            'client_id' => Client::query()->firstWhere('phone', $validated['phone'])->getKey(),
+        ]);*/
+
+        Reservation::query()->create([
+            'count_of_guests' => $validated['countOfGuests'],
+            'date_income' => Carbon::parse($validated['dateIncome'])->format('Y-m-d '),
+            'date_outcome' => Carbon::parse($validated['dateOutcome'])->format('Y-m-d h:i:s'), //todo почекать что все норм при работе с датами (когда есть время)
+            'room_id' => $room->getKey(),
+            'client_id' => Client::query()->firstWhere('phone', $validated['phone'])->getKey(),
+        ]);
+
+        // по хорошему надо возвращать добавленный roomLoad, но пока что так
+        return redirect(route('dashboard'));
     }
 }
