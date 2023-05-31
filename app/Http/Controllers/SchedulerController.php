@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\RoomLoadRequest;
+use App\Http\Resources\RoomWithLoadResource;
 use App\Models\Client;
 use App\Models\Reservation;
 use App\Models\Room;
@@ -13,17 +14,32 @@ class SchedulerController extends Controller
 {
     public function index(): \Inertia\Response
     {
-        $reservations = Reservation::all();
+//        $reservations = Reservation::query()->groupBy('room_id')->get() ;
+
+        //todo + join клиента и возможно руками надо будет группировать load
+        $rooms = Room::query()
+            ->selectRaw('select reservations.id, room_id')
+            ->leftJoin(
+                'reservations',
+                'rooms.id',
+                '=',
+                'reservations.room_id')
+            ->get();
+
+//        dd($rooms);
+
+        $result = RoomWithLoadResource::collection($rooms)->resolve();
+
+
 
         //todo
-        /*return inertia('Scheduler', [
-            'dateFrom' => date('Y-m-d'),
-            'items' => '',
-        ]);*/
-
-
-
         return inertia('Scheduler', [
+            'dateFrom' => date('Y-m-d'),
+            'items' => $result,
+        ]);
+
+
+        /*return inertia('Scheduler', [
             'dateFrom' => date('Y-m-d'),
             'items' => [
                 [
@@ -95,7 +111,7 @@ class SchedulerController extends Controller
                     'load' => [],
                 ]
             ],
-        ]);
+        ]);*/
     }
 
     public function saveLoad(Room $room, RoomLoadRequest $request): RedirectResponse
@@ -112,12 +128,16 @@ class SchedulerController extends Controller
             'client_id' => Client::query()->firstWhere('phone', $validated['phone'])->getKey(),
         ]);*/
 
+        $client = Client::query()->firstWhere('phone', $validated['phone']);
+
+        dd($client);
+
         Reservation::query()->create([
             'count_of_guests' => $validated['countOfGuests'],
             'date_income' => Carbon::parse($validated['dateIncome'])->format('Y-m-d '),
             'date_outcome' => Carbon::parse($validated['dateOutcome'])->format('Y-m-d h:i:s'), //todo почекать что все норм при работе с датами (когда есть время)
             'room_id' => $room->getKey(),
-            'client_id' => Client::query()->firstWhere('phone', $validated['phone'])->getKey(),
+            'client_id' => '',
         ]);
 
         // по хорошему надо возвращать добавленный roomLoad, но пока что так
