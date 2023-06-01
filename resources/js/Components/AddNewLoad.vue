@@ -77,7 +77,6 @@ import AddNewClient from "@/Components/AddNewClient.vue";
 import {ref} from "vue";
 import VueDatePicker from "@vuepic/vue-datepicker";
 import {datePickerDefaultSettings} from "@/helpers/consts";
-import {TRoomLoad} from "@/types/TRoomLoad";
 
 const props = defineProps<{
     item: TRoomWithLoad,

@@ -96,7 +96,7 @@
 </template>
 
 <script setup lang="ts">
-import {VueFinalModal, useModal} from "vue-final-modal";
+import {VueFinalModal} from "vue-final-modal";
 import {useForm} from "@inertiajs/vue3";
 import InputError from "@/Components/InputError.vue";
 import InputLabel from "@/Components/InputLabel.vue";

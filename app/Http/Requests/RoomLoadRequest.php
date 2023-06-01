@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use App\Models\Client;
+use App\Rules\IsDateIntervalAvailable;
 use Illuminate\Foundation\Http\FormRequest;
 
 class RoomLoadRequest extends FormRequest
@@ -24,8 +25,9 @@ class RoomLoadRequest extends FormRequest
     {
         return [
             'phone' => 'required|numeric|digits:11|exists:' . Client::class,
+            'roomId' => 'required|numeric',
             'countOfGuests' => 'required|numeric|min:1|max:50',
-            'dateIncome' => 'required',
+            'dateIncome' => ['required', new IsDateIntervalAvailable(),],
             'dateOutcome' => 'required',
         ];
     }
