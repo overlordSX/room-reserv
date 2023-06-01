@@ -16,9 +16,7 @@ class ReservationResource extends JsonResource
 
     protected function getRandomColor(): string
     {
-        $randIndex = floor(rand() * count($this->longDurationColors));
-
-        return $this->longDurationColors[$randIndex];
+        return $this->longDurationColors[rand(0, count($this->longDurationColors) - 1)];
     }
 
     /**
@@ -32,20 +30,9 @@ class ReservationResource extends JsonResource
         /** @var Reservation $resource */
         $resource = $this->resource;
 
-        /*$a = [
-            'id' => 1,
-            'name' => 'Иван Которин1',
-            'startDate' => '2023-05-23',
-            'endDate' => '2023-05-26',
-            'bgColor' => '#EEF2CB',
-            'people' => 2,
-        ];*/
-
-        //todo скорее всего это не финалочка
-
         return [
             'id' => $resource->getKey(),
-            'name' => $resource->client->name,
+            'name' => $resource->client->getFullName(),
             'startDate' => $resource->date_income,
             'endDate' => $resource->date_outcome,
             'bgColor' => $this->getRandomColor(),

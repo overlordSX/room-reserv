@@ -41,4 +41,9 @@ class Client extends Model
     {
         return $this->hasMany(Reservation::class);
     }
+
+    public function getFullName(): string
+    {
+        return $this->family . ' ' . $this->name . ' ' . $this->surname;
+    }
 }

@@ -23,4 +23,15 @@ class ClientController extends Controller
 
         return redirect(route('dashboard'));
     }
+
+    /**
+     * //todo для поиска клиентов в форме добавления Брони
+     * поиск совпадений
+     *
+     * @return void
+     */
+//    public function findCoincidences(/* PhoneRequest $request */)
+//    {
+//        Client::query()->whereRaw('WHERE LOCATE(?, phone)', [$request])->get();
+//    }
 }

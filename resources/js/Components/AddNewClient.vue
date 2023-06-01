@@ -113,8 +113,15 @@ const form = useForm({
     email: '',
 });
 
+const emit = defineEmits<{
+    (e: 'confirm'): void
+}>()
+
+
 const submit = () => {
-    form.post(route('dashboard.clients.save'))
+    form.post(route('dashboard.clients.save'), {
+        onSuccess: () => emit('confirm'),
+    })
 };
 
 </script>

@@ -4,9 +4,9 @@ namespace App\Http\Resources;
 
 use App\Models\Room;
 use Illuminate\Http\Request;
-use Illuminate\Http\Resources\Json\JsonResource;
+use Ramsey\Collection\Collection;
 
-class RoomWithLoadResource extends JsonResource
+class RoomWithLoadResource extends BaseResource
 {
     /**
      * Transform the resource into an array.
@@ -15,16 +15,20 @@ class RoomWithLoadResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
+        /**
+         * @var Room $resource
+         */
         $resource = $this->resource;
 
+        /**
+         * @var Collection $reservations
+         */
+        $reservations = $this->additional['reservations'] ?? [];
+
         return [
-            'id' => $resource->id,
-            'name' => $resource->room,
-            'price' => $resource->price,
-            'square' => $resource->square,
-            'countOfRooms' => $resource->count_of_rooms,
-            'countOfBeds' => $resource->count_of_beds,
-            'floor' => $resource->floor,
+            'id' => $resource->getKey(),
+            'name' => $resource->name,
+            'load' => ReservationResource::collection($reservations[$resource->getKey()] ?? [])->resolve(),
         ];
     }
 }

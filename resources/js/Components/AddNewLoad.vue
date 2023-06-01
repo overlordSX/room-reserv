@@ -3,7 +3,7 @@
         <div class="add-new-load-popup">
             <div class="page__section-title">Форма заселения</div>
 
-            <button class="btn" @click="test()">Добавить клиента</button>
+            <button class="btn" @click="() => open()">Добавить клиента</button>
 
             <form class="add-hotel-form" @submit.prevent="submit">
                 <div class="add-hotel-form__item">
@@ -40,12 +40,13 @@
                 </div>
 
                 <div class="add-hotel-form__item">
-                    <InputLabel for="dates" value="Период пребывания"/>
+                    <InputLabel for="dates" value="Даты заезда и выезда"/>
 
                     <VueDatePicker
                         v-model="datePickerDate"
                         v-bind="datePickerSettings"
                         @update:model-value="setDateRange"
+                        @internal-model-change="setDateRange"
                     >
                     </VueDatePicker>
 
@@ -76,12 +77,14 @@ import AddNewClient from "@/Components/AddNewClient.vue";
 import {ref} from "vue";
 import VueDatePicker from "@vuepic/vue-datepicker";
 import {datePickerDefaultSettings} from "@/helpers/consts";
+import {TRoomLoad} from "@/types/TRoomLoad";
 
 const props = defineProps<{
     item: TRoomWithLoad,
+    startDate: Date,
 }>();
 
-const incomeDate = ref<Date>(new Date());
+const incomeDate = ref<Date>(new Date(props.startDate));
 const outcomeDate = ref<Date>(startDateAddDays(incomeDate.value, 1));
 
 const datePickerDate = ref([incomeDate.value, outcomeDate.value])
@@ -103,12 +106,25 @@ const form = useForm({
 });
 
 function setDateRange(modelData) {
-    incomeDate.value = new Date(modelData[0]);
-    outcomeDate.value = new Date(modelData[1]);
+    if (modelData[0]) {
+        incomeDate.value = new Date(modelData[0]);
+        form.dateIncome = incomeDate.value.toISOString();
+    }
+
+    if (modelData[1]) {
+        outcomeDate.value = new Date(modelData[1]);
+        form.dateOutcome = outcomeDate.value.toISOString();
+    }
 }
 
+const emit = defineEmits<{
+    (e: 'confirm'): void
+}>()
+
 const submit = () => {
-    form.post(route('dashboard.room.save-load', { room: props.item.id}));
+    form.post(route('dashboard.room.save-load', { room: props.item.id}), {
+        onSuccess: () => emit('confirm'),
+    });
 };
 
 function startDateAddDays(startDate: Date, addDays: number) {
@@ -118,18 +134,14 @@ function startDateAddDays(startDate: Date, addDays: number) {
     return localDate;
 }
 
-function test() {
-    // @ts-ignore
-    const { open, close } = useModal({
-        component: AddNewClient,
-        attrs: {
-            onConfirm() {
-                close();
-            },
+// @ts-ignore
+const { open, close } = useModal({
+    component: AddNewClient,
+    attrs: {
+        onConfirm() {
+            close();
         },
-    })
-
-    open();
-}
+    },
+})
 
 </script>

@@ -124,10 +124,10 @@
             </div>
         </template>
     </Base>
-    <ModalsContainer />
+    <ModalsContainer/>
 </template>
 
-<script setup lang="ts" >
+<script setup lang="ts">
 import Base from "@/Layouts/Base.vue";
 import {ref} from "vue";
 import {dateWithMonth, fullDate} from "@/helpers/dates";
@@ -144,7 +144,7 @@ type TComponentProps = {
     items: TRoomWithLoad[],
 }
 
-//todo почекать обновления vue, мб пофиксят
+// как нибудь чекнуть обновления vue, мб пофиксят
 // @ts-ignore
 const props = withDefaults(defineProps<TComponentProps>(), {
     dateFrom: new Date(),
@@ -179,7 +179,7 @@ function startDateAddDays(cntDays: number) {
     return localDate;
 }
 
-function getLoad(loads: TRoomLoad[]): TRoomLoad[] {
+function getLoad(loads?: TRoomLoad[]): TRoomLoad[] {
     let loadAr = [];
 
     for (let i = 0; i < daysInterval.value; i++) {
@@ -188,39 +188,41 @@ function getLoad(loads: TRoomLoad[]): TRoomLoad[] {
         })
     }
 
-    loads.forEach((load: TRoomLoad) => {
-        let loadStartDate = new Date(load.startDate);
-        let loadEndDate = new Date(load.endDate);
+    if (loads) {
+        loads.forEach((load: TRoomLoad) => {
+            let loadStartDate = new Date(load.startDate);
+            let loadEndDate = new Date(load.endDate);
 
-        if (loadStartDate < startDate.value && endDate > startDate.value) {
-            loadStartDate = startDate.value;
-        }
-
-        if (loadEndDate >= endDate.value && startDate < endDate.value) {
-            loadEndDate = startDateAddDays(daysInterval.value);
-        }
-
-        let dateDiffs = Math.abs(Math.floor((loadEndDate - loadStartDate) / (1000 * 60 * 60 * 24)));
-
-        if (dateDiffs === 1) {
-            load.bgColor = '#fff';
-        }
-
-        for (let i = 0; i < dateDiffs; i++) {
-            loadAr.forEach((tempLoad: TRoomLoad, index: number) => {
-                if (tempLoad.cellDate) {
-                let cellDateObj = new Date(tempLoad.cellDate);
-                let localDate = new Date(loadStartDate);
-
-                localDate.setDate(localDate.getDate() + i);
-
-                if (cellDateObj.getTime() === localDate.getTime()) {
-                    loadAr[index] = {...loadAr[index], ...load};
-                }
+            if (loadStartDate < startDate.value && endDate > startDate.value) {
+                loadStartDate = startDate.value;
             }
-            });
-        }
-    });
+
+            if (loadEndDate >= endDate.value && startDate < endDate.value) {
+                loadEndDate = startDateAddDays(daysInterval.value);
+            }
+
+            let dateDiffs = Math.abs(Math.floor((loadEndDate - loadStartDate) / (1000 * 60 * 60 * 24)));
+
+            if (dateDiffs === 1) {
+                load.bgColor = '#fff';
+            }
+
+            for (let i = 0; i < dateDiffs; i++) {
+                loadAr.forEach((tempLoad: TRoomLoad, index: number) => {
+                    if (tempLoad.cellDate) {
+                        let cellDateObj = new Date(tempLoad.cellDate);
+                        let localDate = new Date(loadStartDate);
+
+                        localDate.setDate(localDate.getDate() + i);
+
+                        if (cellDateObj.getTime() === localDate.getTime()) {
+                            loadAr[index] = {...loadAr[index], ...load};
+                        }
+                    }
+                });
+            }
+        });
+    }
 
     return loadAr;
 }
@@ -248,20 +250,15 @@ function chooseAction(item: TRoomWithLoad, load: TRoomLoad) {
     console.log(load);
 
     if (load.name === undefined) {
-        // исходя из документации - все написано правильно, но шторм жалуется
         // @ts-ignore
-        const { open, close } = useModal({
+        const {open, close} = useModal({
             component: AddNewLoad,
             attrs: {
                 item: item,
-                load: load,
-                //так можно слушать событие внутри компонента
-                /*onConfirm() {
+                startDate: load.cellDate,
+                onConfirm() {
                     close();
-                },*/
-            },
-            slots: {
-                default: '',
+                },
             },
         })
 

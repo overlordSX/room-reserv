@@ -14,130 +14,68 @@ class SchedulerController extends Controller
 {
     public function index(): \Inertia\Response
     {
-//        $reservations = Reservation::query()->groupBy('room_id')->get() ;
+        $leftEdge = (Carbon::now())->subWeeks(3);
+        $rightEdge = (Carbon::now())->addWeeks(3);
+        $dbDateFormat = 'Y-m-d';
 
-        //todo + join клиента и возможно руками надо будет группировать load
-        $rooms = Room::query()
-            ->selectRaw('select reservations.id, room_id')
-            ->leftJoin(
-                'reservations',
-                'rooms.id',
-                '=',
-                'reservations.room_id')
+
+        // todo фильтр
+        $rooms = Room::query()->select(['id', 'name'])->get();
+
+        $roomsId = $rooms->pluck('id');
+
+        $reservations = Reservation::query()
+            ->whereIn('room_id', $roomsId)
+            ->where('date_income', '>=', $leftEdge->format($dbDateFormat))
+            ->where('date_outcome', '<=', $rightEdge->format($dbDateFormat))
+            ->with(['client'])
             ->get();
 
-//        dd($rooms);
+//        $reservations = ->toArray();
 
-        $result = RoomWithLoadResource::collection($rooms)->resolve();
+        $resRooms = RoomWithLoadResource::collectWithAdditional($rooms, ['reservations' => $reservations->groupBy('room_id')])
+            ->resolve();
 
-
-
-        //todo
         return inertia('Scheduler', [
             'dateFrom' => date('Y-m-d'),
-            'items' => $result,
+            'items' => $resRooms,
         ]);
 
-
-        /*return inertia('Scheduler', [
-            'dateFrom' => date('Y-m-d'),
-            'items' => [
-                [
-                    'id' => 1,
-                    'name' => 'Номер 1',
-                    'load' => [
-                        [
-                            'id' => 1,
-                            'name' => 'Иван Которин1',
-                            'startDate' => '2023-05-23',
-                            'endDate' => '2023-05-26',
-                            'bgColor' => '#EEF2CB',
-                            'people' => 2,
-                        ],
-                        [
-                            'id' => 2,
-                            'name' => 'Кирилл Рева1',
-                            'startDate' => '2023-05-26',
-                            'endDate' => '2023-05-28',
-                            'bgColor' => '#E6E9D1',
-                            'people' => 1,
-                        ],
-                        [
-                            'id' => 3,
-                            'name' => 'Иван Которин2',
-                            'startDate' => '2023-05-28',
-                            'endDate' => '2023-05-29',
-                            'people' => 1,
-                        ],
-                        [
-                            'name' => 'Кирилл Рева2',
-                            'startDate' => '2023-05-29',
-                            'endDate' => '2023-06-01',
-                            'bgColor' => '#e8fcdb',
-                            'people' => 1,
-                        ],
-                    ]
-                ],
-                [
-                    'id' => 2,
-                    'name' => 'Номер 2',
-                    'load' => [
-                        [
-                            'id' => 1,
-                            'name' => 'Иван Которин3',
-                            'startDate' => '2023-05-24',
-                            'endDate' => '2023-05-25',
-                            'people' => 1,
-                        ],
-                        [
-                            'id' => 2,
-                            'name' => 'Кирилл Рева3',
-                            'startDate' => '2023-05-29',
-                            'endDate' => '2023-05-30',
-                            'people' => 1,
-                        ],
-                        [
-                            'id' => 3,
-                            'name' => 'Иван Которин4',
-                            'startDate' => '2023-05-30',
-                            'endDate' => '2023-05-31',
-                            'people' => 1,
-                        ],
-                    ]
-                ],
-                [
-                    'id' => 3,
-                    'name' => 'Номер 3',
-                    'load' => [],
+        /* 'items' => [
+            [
+                'id' => 1,
+                'name' => 'Номер 1',
+                'load' => [
+                    [
+                        'id' => 1,
+                        'name' => 'Иван Которин1',
+                        'startDate' => '2023-05-23',
+                        'endDate' => '2023-05-26',
+                        'bgColor' => '#EEF2CB',
+                        'people' => 2,
+                    ],
+                    ...
                 ]
             ],
-        ]);*/
+        ]*/
     }
 
     public function saveLoad(Room $room, RoomLoadRequest $request): RedirectResponse
     {
         $validated = $request->validated();
 
-        /*dd([
-            'count_of_guests' => $validated['countOfGuests'],
-            'date_income0' => Carbon::parse($validated['dateIncome'])->format('Y-m-d h:i:s'),
-            'date_income' => Carbon::parse($validated['dateIncome'])->setTimezone(0)->format('Y-m-d h:i:s'),
-            'date_outcome0' => Carbon::parse($validated['dateOutcome'])->format('Y-m-d h:i:s'),
-            'date_outcome' => Carbon::parse($validated['dateOutcome'])->setTimezone(0)->format('Y-m-d h:i:s'),
-            'room_id' => $room->getKey(),
-            'client_id' => Client::query()->firstWhere('phone', $validated['phone'])->getKey(),
-        ]);*/
-
         $client = Client::query()->firstWhere('phone', $validated['phone']);
 
-        dd($client);
+        if (is_null($client)) {
+            abort(404);
+        }
 
         Reservation::query()->create([
             'count_of_guests' => $validated['countOfGuests'],
             'date_income' => Carbon::parse($validated['dateIncome'])->format('Y-m-d '),
-            'date_outcome' => Carbon::parse($validated['dateOutcome'])->format('Y-m-d h:i:s'), //todo почекать что все норм при работе с датами (когда есть время)
+            'date_outcome' => Carbon::parse($validated['dateOutcome'])->format('Y-m-d'), //todo почекать что все норм при работе с датами (когда есть время) Y-m-d h:i:s
             'room_id' => $room->getKey(),
-            'client_id' => '',
+            'client_id' => $client->getKey(),
         ]);
 
         // по хорошему надо возвращать добавленный roomLoad, но пока что так
