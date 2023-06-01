@@ -30,3 +30,12 @@ declare module 'vue' {
 declare module '@inertiajs/core' {
     interface PageProps extends InertiaPageProps, AppPageProps {}
 }
+
+// todo DEV MODE
+/*
+declare var process: {
+    env: {
+        NODE_ENV: string
+    }
+}
+*/

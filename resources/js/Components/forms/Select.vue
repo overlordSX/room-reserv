@@ -1,44 +1,40 @@
-
 <template>
-<!--    todo select-->
     <Multiselect v-model="localValue"
                  v-bind="settings"
-                 :options="field.valueOptions"
-                 :canDeselect="!field.attrs?.required && !field.attrs?.multiple"
-                 :class="{'multiple': field.attrs?.multiple}"
+                 :options="valueOptions"
+                 :canDeselect="true"
     >
-<!--        <template #caret>
-            <span class="multiselect-arrow"
-                  aria-hidden="true"
-            >
-                <SvgSymbol name="dropdown" />
-            </span>
-        </template>-->
     </Multiselect>
 </template>
 
 <script setup lang="ts">
 import { ref, watch } from 'vue';
 import Multiselect from '@vueform/multiselect';
+import {TFormValueOption} from "@/types/TFormValueOption";
 
-const props = defineProps<{
+// @ts-ignore
+const props = withDefaults(defineProps<{
     modelValue: any,
-    // field: TField,
-}>();
+    valueOptions: Array<TFormValueOption>,
+    placeholder: string,
+    isRequired?: boolean,
+    mode?: string,
+}>(), {
+    isRequired: true,
+    mode: 'single',
+});
 
-// const mode =  props.field?.attrs?.multiple ? 'multiple' : 'single';
-//
-// const settings = {
-//     ...props.field?.attrs,
-//     noOptionsText: 'Список пуст',
-//     noResultsText: 'Элементы не&nbsp;найдены',
-//     mode: mode,
-//     hideSelected: !props.field?.attrs?.multiple,
-//     closeOnSelect: !props.field?.attrs?.multiple,
-//     canClear: !props.field?.attrs?.required,
-// };
-
-const mode = 'single';
+const settings = {
+    placeholder: props.placeholder,
+    noOptionsText: 'Список пуст',
+    noResultsText: 'Элементы не&nbsp;найдены',
+    groupLabel: 'Выбраны',
+    mode: props.mode,
+    hideSelected: true,
+    closeOnSelect: true,
+    canClear: props.isRequired,
+    multipleLabel: values => `${values.length} выбран`
+};
 
 const localValue = ref(props.modelValue);
 

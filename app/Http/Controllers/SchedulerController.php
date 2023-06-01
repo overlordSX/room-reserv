@@ -3,26 +3,44 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\RoomLoadRequest;
+use App\Http\Resources\HotelMinListResource;
+use App\Http\Resources\RoomMinListResource;
 use App\Http\Resources\RoomWithLoadResource;
 use App\Models\Client;
+use App\Models\Hotel;
 use App\Models\Reservation;
 use App\Models\Room;
 use Carbon\Carbon;
+use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
 
 class SchedulerController extends Controller
 {
-    public function index(): \Inertia\Response
+    public function index(Request $request): \Inertia\Response
     {
+        $roomsFilterIds = [];
+        $hotelFilterIds = [];
+
+        if ($request->has('roomsIds')) {
+            $roomsFilterIds = $request->input('roomsIds');
+        }
+
+        if ($request->has('hotelsIds')) {
+            $hotelFilterIds = $request->input('hotelsIds');
+        }
+
+//        dd($roomsIds, $hotelIds);
+
         $leftEdge = (Carbon::now())->subWeeks(3);
         $rightEdge = (Carbon::now())->addWeeks(3);
         $dbDateFormat = 'Y-m-d';
 
 
-        // todo фильтр
-        $rooms = Room::query()->select(['id', 'name'])->get();
+        // TODO фильтр
+        // + todo подгрузка дат дальше месяца влево вправо
+        $roomsIds = Room::query()->select(['id', 'name'])->get();
 
-        $roomsId = $rooms->pluck('id');
+        $roomsId = $roomsIds->pluck('id');
 
         $reservations = Reservation::query()
             ->whereIn('room_id', $roomsId)
@@ -31,14 +49,23 @@ class SchedulerController extends Controller
             ->with(['client'])
             ->get();
 
-//        $reservations = ->toArray();
-
-        $resRooms = RoomWithLoadResource::collectWithAdditional($rooms, ['reservations' => $reservations->groupBy('room_id')])
+        $resRooms = RoomWithLoadResource::collectWithAdditional($roomsIds, ['reservations' => $reservations->groupBy('room_id')])
             ->resolve();
+
+        $hotels = Hotel::query()
+            ->select(['id', 'name'])
+            ->get();
+
+        $resHotelsMin = HotelMinListResource::collection($hotels)->resolve();
+        $resRoomsMin = RoomMinListResource::collection($roomsIds)->resolve();
 
         return inertia('Scheduler', [
             'dateFrom' => date('Y-m-d'),
             'items' => $resRooms,
+            'hotelsMin' => $resHotelsMin,
+            'roomsMin' => $resRoomsMin,
+            'roomsFilterIds' => $roomsFilterIds,
+            'hotelsFilterIds' => $hotelFilterIds,
         ]);
 
         /* 'items' => [

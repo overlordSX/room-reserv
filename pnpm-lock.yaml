@@ -1,15 +1,15 @@
 lockfileVersion: '6.0'
 
 dependencies:
+  '@vueform/multiselect':
+    specifier: ^2.6.2
+    version: 2.6.2
   '@vuepic/vue-datepicker':
     specifier: ^5.1.2
     version: 5.1.2(vue@3.3.4)
   vue-final-modal:
     specifier: ^4.4.2
     version: 4.4.2(@vueuse/core@10.1.2)(@vueuse/integrations@10.1.2)(focus-trap@7.4.3)(vue@3.3.4)
-  vue-multiselect:
-    specifier: ^2.1.7
-    version: 2.1.7
   vue3-slide-up-down:
     specifier: ^2.0.1
     version: 2.0.1(vue@3.3.4)
@@ -393,6 +393,10 @@ packages:
 
   /@vue/shared@3.3.4:
     resolution: {integrity: sha512-7OjdcV8vQ74eiz1TZLzZP4JwqM5fA94K6yntPS5Z25r9HDuGNzaGdgvwKYq6S+MxwF0TFRwe50fIR/MYnakdkQ==}
+
+  /@vueform/multiselect@2.6.2:
+    resolution: {integrity: sha512-4BFvXyzyi0Pqi/lsYdGwONsQy+ypiVzuQbmoDUlttTxuoujFtf9AdeHi1ZhfIorXG9BiysK1HcQSfYB6USgwfQ==}
+    dev: false
 
   /@vuepic/vue-datepicker@5.1.2(vue@3.3.4):
     resolution: {integrity: sha512-1SFDntlbH9Ct4f7CRrXbIIq7xsKs584T1ZqZdaeS3REdnaK45+Kob2dJtY7zjyFjeXs8EVpch8YrJKMpmtJ2rw==}
@@ -1096,11 +1100,6 @@ packages:
       vue: 3.3.4
       watchpack: 2.4.0
     dev: true
-
-  /vue-multiselect@2.1.7:
-    resolution: {integrity: sha512-KIegcN+Ntwg3cbkY/jhw2s/+XJUM0Lpi/LcKFYCS8PrZHcWBl2iKCVze7ZCnRj3w8H7/lUJ9v7rj9KQiNxApBw==}
-    engines: {node: '>= 4.0.0', npm: '>= 3.0.0'}
-    dev: false
 
   /vue3-slide-up-down@2.0.1(vue@3.3.4):
     resolution: {integrity: sha512-lOuQC7Obpr4Mzg1afJYsHjPFHmVXp7WO7ilAry22HADQC4KYF7CnFHuwduFBJYjiQuaOjMyMCZAjkPoLqhg+lA==}

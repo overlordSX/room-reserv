@@ -18,39 +18,14 @@
                         </VueDatePicker>
                     </div>
 
-                    <div class="calendar-board__select-hotel select-hotel">
-                        <div class="select-hotel__title">
-                            Выберите отель из списка
-                        </div>
-                        <div class="select-hotel__list">
-                            <div class="select-hotel__item select-hotel__item--current">Отель 1</div>
-                            <div class="select-hotel__item">Отель 2</div>
-                            <div class="select-hotel__item">Отель 3</div>
-                            <div class="select-hotel__item">Отель 4</div>
-                            <div class="select-hotel__item">Отель 5</div>
-                        </div>
+                    <div class="calendar-board__select-hotel">
+                        <!-- todo сброс по нажатию на крестик -->
+                        <Select v-model="hotelFilterIdLocal" placeholder="Выберите отель из списка" :value-options="hotelsMin" :mode="'multiple'" />
                     </div>
 
-                    <div class="select-hotel-room">
-                        <div class="select-hotel-room__room">
-                            <input name="checkbox" type="checkbox">
-                            <label for="checkbox">Номер 1</label>
-                        </div>
-
-                        <div class="select-hotel-room__room">
-                            <input name="checkbox" type="checkbox">
-                            <label for="checkbox">Номер 2</label>
-                        </div>
-
-                        <div class="select-hotel-room__room">
-                            <input name="checkbox" type="checkbox">
-                            <label for="checkbox">Номер 3</label>
-                        </div>
-
-                        <div class="select-hotel-room__room">
-                            <input name="checkbox" type="checkbox">
-                            <label for="checkbox">Номер 4</label>
-                        </div>
+                    <div class="calendar-board__select-rooms">
+                        <!-- todo сброс по нажатию на крестик -->
+                        <Select v-model="roomsFilterIdsLocal" placeholder="Выберите номер из списка" :value-options="roomsMin" :mode="'multiple'" />
                     </div>
                 </div>
 
@@ -131,7 +106,7 @@
 
 <script setup lang="ts">
 import Base from "@/Layouts/Base.vue";
-import {ref} from "vue";
+import {ref, watch} from "vue";
 import {dateWithMonth, fullDate} from "@/helpers/dates";
 import {TRoomLoad} from "@/types/TRoomLoad";
 import VueDatePicker from "@vuepic/vue-datepicker";
@@ -140,27 +115,48 @@ import SchedulerHeader from "@/Layouts/SchedulerHeader.vue";
 import {ModalsContainer, useModal} from "vue-final-modal";
 import AddNewLoad from "@/Components/AddNewLoad.vue";
 import {TRoomWithLoad} from "@/types/TRoomWithLoad";
+import Select from "@/Components/forms/Select.vue";
+import {TFormValueOption} from "@/types/TFormValueOption";
+import {router} from "@inertiajs/vue3";
 
 type TComponentProps = {
     dateFrom?: string | Date,
     items: TRoomWithLoad[],
+    hotelsMin: Array<TFormValueOption>,
+    roomsMin: Array<TFormValueOption>,
+    //todo вожмно понадобится, либо через computed find по списку отелей
+    hotelsFilterIds?: number[],
+    roomsFilterIds?: number[],
 }
 
 // как нибудь чекнуть обновления vue, мб пофиксят
 // @ts-ignore
 const props = withDefaults(defineProps<TComponentProps>(), {
     dateFrom: new Date(),
+    hotelsFilterIds: () => [],
+    roomsFilterIds: () => [],
 });
 
+const today = new Date();
 const daysInterval = ref<number>(7);
 
-const today = new Date();
-
 const startDate = ref<Date>(new Date(props.dateFrom));
-
 const endDate = ref<Date>(startDateAddDays(daysInterval.value - 1));
-
 const datePickerDate = ref([startDate.value, endDate.value])
+
+const hotelFilterIdLocal = ref<number[]>(props.hotelsFilterIds);
+const roomsFilterIdsLocal = ref<number[]>(props.roomsFilterIds);
+
+const url = ref<URL | null>();
+url.value = new URL(window.location.href);
+
+watch(hotelFilterIdLocal, () => {
+    router.get(url.value, { 'hotelsIds': hotelFilterIdLocal.value});
+});
+
+watch(roomsFilterIdsLocal, () => {
+    router.get(url.value, { 'roomsIds': roomsFilterIdsLocal.value});
+});
 
 const datePickerSettings = {
     ...datePickerDefaultSettings,
@@ -174,10 +170,6 @@ const datePickerSettings = {
 
 function setDateRange(modelData) {
     startDate.value = new Date(modelData[0]);
-}
-
-function isTodayCell() {
-
 }
 
 function startDateAddDays(cntDays: number) {
