@@ -91,7 +91,9 @@
                                 <div
                                     v-for="(item, index) in daysInterval"
                                     :key="index"
-                                    class="room-calendar-item__date-header">
+                                    class="room-calendar-item__date-header"
+                                    :class="{'room-calendar-item__date-header--current': dateWithMonth(startDateAddDays(index)) === dateWithMonth(today)}"
+                                >
                                     {{ dateWithMonth(startDateAddDays(index)) }}
                                 </div>
                             </div>
@@ -152,6 +154,8 @@ const props = withDefaults(defineProps<TComponentProps>(), {
 
 const daysInterval = ref<number>(7);
 
+const today = new Date();
+
 const startDate = ref<Date>(new Date(props.dateFrom));
 
 const endDate = ref<Date>(startDateAddDays(daysInterval.value - 1));
@@ -170,6 +174,10 @@ const datePickerSettings = {
 
 function setDateRange(modelData) {
     startDate.value = new Date(modelData[0]);
+}
+
+function isTodayCell() {
+
 }
 
 function startDateAddDays(cntDays: number) {
