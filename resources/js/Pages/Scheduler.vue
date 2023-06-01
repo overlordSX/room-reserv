@@ -1,7 +1,7 @@
 <template>
     <Base title="Админка тип">
         <template #header>
-            <SchedulerHeader />
+            <SchedulerHeader/>
         </template>
 
         <template #full-page>
@@ -19,13 +19,13 @@
                     </div>
 
                     <div class="calendar-board__select-hotel">
-                        <!-- todo сброс по нажатию на крестик -->
-                        <Select v-model="hotelFilterIdLocal" placeholder="Выберите отель из списка" :value-options="hotelsMin" :mode="'multiple'" />
+                        <Select v-model="hotelFilterIdLocal" placeholder="Выберите отель из списка"
+                                :value-options="hotelsMin" :mode="'multiple'"/>
                     </div>
 
                     <div class="calendar-board__select-rooms">
-                        <!-- todo сброс по нажатию на крестик -->
-                        <Select v-model="roomsFilterIdsLocal" placeholder="Выберите номер из списка" :value-options="roomsMin" :mode="'multiple'" />
+                        <Select v-model="roomsFilterIdsLocal" placeholder="Выберите номер из списка"
+                                :value-options="roomsMin" :mode="'multiple'"/>
                     </div>
                 </div>
 
@@ -124,7 +124,6 @@ type TComponentProps = {
     items: TRoomWithLoad[],
     hotelsMin: Array<TFormValueOption>,
     roomsMin: Array<TFormValueOption>,
-    //todo вожмно понадобится, либо через computed find по списку отелей
     hotelsFilterIds?: number[],
     roomsFilterIds?: number[],
 }
@@ -151,11 +150,15 @@ const url = ref<URL | null>();
 url.value = new URL(window.location.href);
 
 watch(hotelFilterIdLocal, () => {
-    router.get(url.value, { 'hotelsIds': hotelFilterIdLocal.value});
+    let filterData = {'roomsIds': roomsFilterIdsLocal.value, 'hotelsIds': hotelFilterIdLocal.value}
+
+    router.get(url.value?.pathname, filterData, {preserveState: true});
 });
 
 watch(roomsFilterIdsLocal, () => {
-    router.get(url.value, { 'roomsIds': roomsFilterIdsLocal.value});
+    let filterData = {'roomsIds': roomsFilterIdsLocal.value, 'hotelsIds': hotelFilterIdLocal.value}
+
+    router.get(url.value?.pathname, filterData, {preserveState: true});
 });
 
 const datePickerSettings = {

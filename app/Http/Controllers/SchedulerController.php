@@ -29,27 +29,44 @@ class SchedulerController extends Controller
             $hotelFilterIds = $request->input('hotelsIds');
         }
 
-//        dd($roomsIds, $hotelIds);
-
         $leftEdge = (Carbon::now())->subWeeks(3);
         $rightEdge = (Carbon::now())->addWeeks(3);
         $dbDateFormat = 'Y-m-d';
 
 
-        // TODO фильтр
-        // + todo подгрузка дат дальше месяца влево вправо
-        $roomsIds = Room::query()->select(['id', 'name'])->get();
+        // todo подгрузка дат дальше месяца влево вправо
+
+        $roomModel = new Room();
+
+        $roomQuery = $roomModel->query()->select(['id', 'name']);
+        if (count($hotelFilterIds) > 0) {
+            $roomQuery->whereIn('hotel_id', $hotelFilterIds);
+        }
+
+        $roomsIds = $roomQuery->get();
 
         $roomsId = $roomsIds->pluck('id');
 
-        $reservations = Reservation::query()
-            ->whereIn('room_id', $roomsId)
+        $reservationModel = new Reservation();
+
+        $reservationQuery = $reservationModel->query()
             ->where('date_income', '>=', $leftEdge->format($dbDateFormat))
             ->where('date_outcome', '<=', $rightEdge->format($dbDateFormat))
-            ->with(['client'])
-            ->get();
+            ->with(['client']);
 
-        $resRooms = RoomWithLoadResource::collectWithAdditional($roomsIds, ['reservations' => $reservations->groupBy('room_id')])
+//        dd($roomsFilterIds);
+
+        if (count($roomsFilterIds) > 0) {
+            $reservationQuery->whereIn('room_id', $roomsFilterIds);
+        } else {
+            $reservationQuery->whereIn('room_id', $roomsId);
+        }
+
+        $reservations = $reservationQuery->get();
+
+        $roomsForScheduler = count($roomsFilterIds) > 0 ? $roomsIds->whereIn('id', $roomsFilterIds) : $roomsIds;
+
+        $resRooms = RoomWithLoadResource::collectWithAdditional($roomsForScheduler, ['reservations' => $reservations->groupBy('room_id')])
             ->resolve();
 
         $hotels = Hotel::query()
