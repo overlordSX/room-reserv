@@ -232,6 +232,7 @@ function getLoad(loads?: TRoomLoad[]): TRoomLoad[] {
 
 function currentDay() {
     let now = new Date();
+    // todo в ночное время немног неправильно отрабатывает
     startDate.value = new Date(now.getFullYear(), now.getMonth(), now.getDate(), -1 * now.getTimezoneOffset() / 60);
     endDate.value = new Date(startDateAddDays(daysInterval.value - 1));
     datePickerDate.value = [startDate.value, endDate.value];
