@@ -11,6 +11,7 @@
 import { ref, watch } from 'vue';
 import Multiselect from '@vueform/multiselect';
 import {TFormValueOption} from "@/types/TFormValueOption";
+import {plural} from "@/helpers/common";
 
 // @ts-ignore
 const props = withDefaults(defineProps<{
@@ -19,9 +20,11 @@ const props = withDefaults(defineProps<{
     placeholder: string,
     isRequired?: boolean,
     mode?: string,
+    selectedPlural?: Array<string>,
 }>(), {
     isRequired: true,
     mode: 'single',
+    selectedPlural: () => [],
 });
 
 const settings = {
@@ -33,7 +36,8 @@ const settings = {
     hideSelected: true,
     closeOnSelect: true,
     canClear: props.isRequired,
-    multipleLabel: values => `${values.length} выбран`
+    multipleLabel: values =>
+        `${values.length} ${ props.selectedPlural.length === 3 ? plural(props.selectedPlural, values.length) : ''} ${plural(['выбран','выбраны','выбраны'], values.length)}`
 };
 
 const localValue = ref(props.modelValue);

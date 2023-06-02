@@ -19,13 +19,23 @@
                     </div>
 
                     <div class="calendar-board__select-hotel">
-                        <Select v-model="hotelFilterIdLocal" placeholder="Выберите отель из списка"
-                                :value-options="hotelsMin" :mode="'multiple'"/>
+                        <Select
+                            v-model="hotelFilterIdLocal"
+                            placeholder="Выберите отель из списка"
+                            :value-options="hotelsMin"
+                            :mode="'multiple'"
+                            :selected-plural="['отель', 'отеля', 'отелей']"
+                        />
                     </div>
 
                     <div class="calendar-board__select-rooms">
-                        <Select v-model="roomsFilterIdsLocal" placeholder="Выберите номер из списка"
-                                :value-options="roomsMin" :mode="'multiple'"/>
+                        <Select
+                            v-model="roomsFilterIdsLocal"
+                            placeholder="Выберите номер из списка"
+                            :value-options="roomsMin"
+                            :mode="'multiple'"
+                            :selected-plural="['номер', 'номера', 'номеров']"
+                        />
                     </div>
                 </div>
 

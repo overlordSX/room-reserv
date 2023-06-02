@@ -23,12 +23,14 @@
                 </div>
 
                 <div class="hotel-list-item__stars">
-                    <span class="hotel-list-item__stars-count">{{ item.countOfStars }}</span> звезды
+                    <span class="hotel-list-item__stars-count">
+                        {{ item.countOfStars }}
+                    </span> {{ plural(['здвезда', 'звезды', 'звезд'], item.countOfStars) }}
                 </div>
             </div>
 
             <div v-if="item.countOfRooms" class="hotel-list-item__count-rooms">
-                {{ item.countOfRooms }} номеров
+                {{ item.countOfRooms }} {{ plural(['номер', 'номера', 'номеров'], item.countOfRooms) }}
             </div>
 
             <div class="hotel-list-item__address">
@@ -58,6 +60,7 @@
 
 import {THotel} from "@/types/THotel";
 import {Link} from "@inertiajs/vue3";
+import {plural} from "@/helpers/common";
 
 const props = defineProps<{
     item: THotel,
