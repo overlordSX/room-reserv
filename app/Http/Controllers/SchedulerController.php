@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\RoomLoadRequest;
+use App\Http\Requests\RoomLoadUpdateRequest;
 use App\Http\Resources\HotelMinListResource;
 use App\Http\Resources\RoomMinListResource;
 use App\Http\Resources\RoomWithLoadResource;
@@ -121,6 +122,42 @@ class SchedulerController extends Controller
             'room_id' => $room->getKey(),
             'client_id' => $client->getKey(),
         ]);
+
+        // по хорошему надо возвращать добавленный roomLoad, но пока что так
+        return redirect(route('dashboard'));
+    }
+
+    public function updateLoad(RoomLoadUpdateRequest $request): RedirectResponse
+    {
+        $validated = $request->validated();
+
+        $client = Client::query()->firstWhere('phone', $validated['phone']);
+
+        if (is_null($client)) {
+            abort(404);
+        }
+
+        $reservation = Reservation::query()->find($validated['loadId']);
+
+        if (is_null($reservation)) abort(404);
+
+        $reservation->update([
+            'count_of_guests' => $validated['countOfGuests'],
+            'date_income' => Carbon::parse($validated['dateIncome'])->format('Y-m-d '),
+            'date_outcome' => Carbon::parse($validated['dateOutcome'])->format('Y-m-d'), //todo почекать что все норм при работе с датами (когда есть время) Y-m-d h:i:s
+        ]);
+
+        // по хорошему надо возвращать добавленный roomLoad, но пока что так
+        return redirect(route('dashboard'));
+    }
+
+    public function deleteLoad(Request $request): RedirectResponse
+    {
+        $validated = $request->validate([
+            'loadId' => 'required|exists:' . Reservation::class . ',id',
+        ]);
+
+        Reservation::query()->where('id', '=', $validated['loadId'])->delete();
 
         // по хорошему надо возвращать добавленный roomLoad, но пока что так
         return redirect(route('dashboard'));

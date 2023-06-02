@@ -33,6 +33,7 @@ class ReservationResource extends JsonResource
         return [
             'id' => $resource->getKey(),
             'name' => $resource->client->getFullName(),
+            'phone' => $resource->client->phone,
             'startDate' => $resource->date_income,
             'endDate' => $resource->date_outcome,
             'bgColor' => $this->getRandomColor(),

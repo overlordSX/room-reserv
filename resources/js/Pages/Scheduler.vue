@@ -124,6 +124,7 @@ import {datePickerDefaultSettings} from "@/helpers/consts";
 import SchedulerHeader from "@/Layouts/SchedulerHeader.vue";
 import {ModalsContainer, useModal} from "vue-final-modal";
 import AddNewLoad from "@/Components/AddNewLoad.vue";
+import ShowLoad from "@/Components/ShowLoad.vue";
 import {TRoomWithLoad} from "@/types/TRoomWithLoad";
 import Select from "@/Components/forms/Select.vue";
 import {TFormValueOption} from "@/types/TFormValueOption";
@@ -261,7 +262,6 @@ function nextWeek() {
 }
 
 function chooseAction(item: TRoomWithLoad, load: TRoomLoad) {
-    console.log(load);
 
     if (load.name === undefined) {
         // @ts-ignore
@@ -273,6 +273,24 @@ function chooseAction(item: TRoomWithLoad, load: TRoomLoad) {
                 onConfirm() {
                     close();
                 },
+            },
+        })
+
+        open();
+    } else {
+        // @ts-ignore
+        const {open, close} = useModal({
+            component: ShowLoad,
+            attrs: {
+                item: item,
+                load: load,
+                onConfirm() {
+                    close();
+                },
+                /*onReload() {
+                    close();
+                    open();
+                },*/
             },
         })
 

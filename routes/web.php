@@ -51,6 +51,8 @@ Route::middleware('auth')->group(function () {
 
 //    Route::get('/dashboard', [SchedulerController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
      Route::post('/dashboard/room/{room}/add-load', [SchedulerController::class, 'saveLoad'])->name('dashboard.room.save-load');
+     Route::post('/dashboard/update-load', [SchedulerController::class, 'updateLoad'])->name('dashboard.room.update-load');
+     Route::post('/dashboard/delete-load', [SchedulerController::class, 'deleteLoad'])->name('dashboard.room.delete-load');
 });
 
 require __DIR__ . '/auth.php';
