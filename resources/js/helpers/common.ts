@@ -10,3 +10,20 @@ export function plural(forms: Array<string>, n: number): string {
     }
     return forms[idx] || '';
 }
+
+export function squarePlural(value: number) {
+    let formatter = new Intl.NumberFormat('ru', {
+        style: 'unit',
+        unit: 'square',
+        unitDisplay: 'short',
+    });
+
+    return formatter.format(value);
+}
+
+export function startDateAddDays(startDate: Date, addDays: number): Date {
+    let localDate = new Date(startDate);
+    localDate.setDate(localDate.getDate() + addDays);
+
+    return localDate;
+}

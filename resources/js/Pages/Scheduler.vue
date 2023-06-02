@@ -156,7 +156,7 @@ const datePickerDate = ref([startDate.value, endDate.value])
 const hotelFilterIdLocal = ref<number[]>(props.hotelsFilterIds);
 const roomsFilterIdsLocal = ref<number[]>(props.roomsFilterIds);
 
-const url = ref<URL | null>();
+const url = ref<URL | null>(null);
 url.value = new URL(window.location.href);
 
 watch(hotelFilterIdLocal, () => {

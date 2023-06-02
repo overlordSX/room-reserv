@@ -1,25 +1,21 @@
 <template class="index-template">
-    <Base title="hello, world" :can-login="canLogin" :can-register="canRegister">
+    <Base title="Главная страница" :can-login="canLogin" :can-register="canRegister">
         <template v-slot:full-page>
-            <SearchRooms />
+            <SearchRooms :hotelsMin="hotelsMin" />
         </template>
     </Base>
-
-    <!-- пример использования роутов laravel
-    <NavLink :href="route('dashboard')" :active="route().current('dashboard')">
-        Dashboard
-    </NavLink>
-    -->
 </template>
 
 <script setup lang="ts">
     import Base from "../Layouts/Base.vue";
     import SearchRooms from "../Partials/SearchRooms.vue";
+    import {TFormValueOption} from "@/types/TFormValueOption";
 
     type TComponentProps = {
-        title: string,
+        title?: string,
         canLogin?: boolean;
         canRegister?: boolean;
+        hotelsMin: Array<TFormValueOption>,
     };
 
     const props = defineProps<TComponentProps>();

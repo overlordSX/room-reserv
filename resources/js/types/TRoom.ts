@@ -8,7 +8,7 @@ export type TRoom = {
     price: number,
     square: number,
     countOfRooms: number,
-    countOFBeds: number,
+    countOfBeds: number,
     floor: number,
     load?: TRoomLoad[],
 }

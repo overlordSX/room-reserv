@@ -8,9 +8,10 @@
 <script setup lang="ts">
 import formatPrice from "@/helpers/price";
 
+// @ts-ignore
 const props = withDefaults(defineProps<{
-    unit: string,
     value: number,
+    unit?: string,
 }>(), {
     unit: '&#8381;',
 });

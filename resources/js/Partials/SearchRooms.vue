@@ -7,7 +7,7 @@
                 </div>
 
                 <div class="main-search__form">
-                    <RoomSearchForm />
+                    <RoomSearchForm :hotelsMin="hotelsMin"/>
                 </div>
             </div>
         </div>
@@ -17,4 +17,11 @@
 <script setup lang="ts">
 
 import RoomSearchForm from "../Components/RoomSearchForm.vue";
+import {TFormValueOption} from "@/types/TFormValueOption";
+
+type TComponentProps = {
+    hotelsMin: Array<TFormValueOption>,
+};
+
+const props = defineProps<TComponentProps>();
 </script>

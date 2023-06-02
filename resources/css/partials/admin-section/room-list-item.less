@@ -44,13 +44,34 @@
     }
 
     &__content {
+        display: flex;
+        flex-direction: column;
+        gap: var(--m12);
         padding: var(--m24);
     }
 
     &__name {
-        margin-bottom: var(--m20);
         font-size: var(--fs16);
         font-weight: 500;
+    }
+
+    &__info-price {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: var(--m12);
+    }
+
+    &__info {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+    }
+
+    &__price-night {
+        display: flex;
+        align-items: center;
+        gap: 4px;
     }
 
     &__icons-info {

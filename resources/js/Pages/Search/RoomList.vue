@@ -1,15 +1,11 @@
 <template>
     <Base title="Админка тип">
-        <template #header>
-            <SchedulerHeader/>
-        </template>
-
         <template #default>
             <div class="room-list page__section">
                 <Link
-                    :href="route('dashboard.hotels-list')"
+                    :href="route('main')"
                     class="btn">
-                    К списку отелей
+                    На главную
                 </Link>
 
                 <div class="room-list__header">
@@ -26,19 +22,12 @@
                         class="room-list__item room-list-item"
                     />
                 </div>
-
-                <div class="room-list__add-new">
-                    <Link
-                        :href="route('dashboard.hotels-list.rooms-list.add', hotelId)"
-                        class="room-list__plus" />
-                </div>
             </div>
         </template>
     </Base>
 </template>
 
 <script setup lang="ts">
-import SchedulerHeader from "@/Layouts/SchedulerHeader.vue";
 import Base from "@/Layouts/Base.vue";
 import {Link} from "@inertiajs/vue3";
 import RoomItem from "@/Pages/AdminSection/RoomItem.vue";
@@ -47,7 +36,7 @@ import {TRoom} from "@/types/TRoom";
 // @ts-ignore
 const props = withDefaults(defineProps<{
     items?: TRoom[],
-    hotelId: number,
+    hotelId?: number,
 }>(), {
     items: () => [],
 });

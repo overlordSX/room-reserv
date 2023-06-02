@@ -46,7 +46,7 @@
 import {Link} from "@inertiajs/vue3";
 import {TRoom} from "@/types/TRoom";
 import Price from "@/Components/Price.vue";
-import {plural} from "../../helpers/common";
+import {plural} from "@/helpers/common";
 import PicturePlaceholderSvg from "@/Components/PicturePlaceholderSvg.vue";
 
 const props = defineProps<{

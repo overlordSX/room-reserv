@@ -9,6 +9,7 @@
                 <div class="add-hotel-form__item">
                     <InputLabel for="phone" value="Номер телефона"/>
 
+                    <!-- todo multiselect, с группировками (полное имя - группа, в Items - его номер), в который подтягивается 5-10 последних клиентов -->
                     <TextInput
                         id="phone"
                         type="text"
@@ -77,6 +78,7 @@ import AddNewClient from "@/Components/AddNewClient.vue";
 import {ref} from "vue";
 import VueDatePicker from "@vuepic/vue-datepicker";
 import {datePickerDefaultSettings} from "@/helpers/consts";
+import {startDateAddDays} from "@/helpers/common";
 
 const props = defineProps<{
     item: TRoomWithLoad,
@@ -126,12 +128,7 @@ const submit = () => {
     });
 };
 
-function startDateAddDays(startDate: Date, addDays: number) {
-    let localDate = new Date(startDate);
-    localDate.setDate(localDate.getDate() + addDays);
 
-    return localDate;
-}
 
 // @ts-ignore
 const { open, close } = useModal({

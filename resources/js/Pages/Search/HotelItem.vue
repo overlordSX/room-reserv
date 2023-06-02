@@ -1,4 +1,5 @@
 <template>
+    <!-- todo вомзожно не нужен  -->
     <div class="hotel-list-item">
         <div class="hotel-list-item__picture-wrapper">
             <div v-if="item.photoUrl" class="hotel-list-item__picture">
@@ -33,21 +34,6 @@
             <div class="hotel-list-item__address">
                 Адрес: <span v-html="item.address" />
             </div>
-        </div>
-
-        <div class="hotel-list-item__actions">
-            <Link
-                :href="route('dashboard.hotels-list.rooms-list.add', item.id)"
-                class="hotel-list-item__btn btn"
-            >Добавить номер
-            </Link>
-
-            <Link
-                v-if="item.countOfRooms"
-                :href="route('dashboard.hotels-list.rooms-list', {id: item.id})"
-            class="hotel-list-item__btn btn"
-            >Показать номера
-            </Link>
         </div>
     </div>
 </template>

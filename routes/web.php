@@ -5,6 +5,7 @@ use App\Http\Controllers\HotelController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RoomController;
 use App\Http\Controllers\SchedulerController;
+use App\Http\Controllers\SearchAvailableRoomsController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -20,12 +21,8 @@ use Inertia\Inertia;
 |
 */
 
-Route::get('/', function () {
-    return Inertia::render('Index', [ // все это хавал Welcome
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-    ]);
-});
+Route::get('/', [SearchAvailableRoomsController::class, 'index'])->name('main');
+Route::get('/search', [SearchAvailableRoomsController::class, 'search'])->name('search');
 
 Route::get('/dashboard', [SchedulerController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
 
@@ -36,7 +33,7 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/dashboard/hotels-list', [HotelController::class, 'index'])->name('dashboard.hotels-list');
 
-    Route::get('/dashboard/hotels-list/add', [HotelController::class, 'add'])->name('dashboard.hotels-list.add');
+    Route::get('/dashboard/hotels-list/add', [HotelController::class, 'create'])->name('dashboard.hotels-list.add');
     Route::post('/dashboard/hotels-list/add', [HotelController::class, 'store'])->name('dashboard.hotels-list.save');
     //todo delete action for hotels
     // Route::delete('/dashboard/hotels-list/{id}/delete', [HotelController::class, 'delete'])->name('dashboard.hotels-list.delete');

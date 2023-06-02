@@ -29,7 +29,7 @@ class HotelController extends Controller
         return inertia('AdminSection/HotelList', ['items' => $hotelsList]);
     }
 
-    public function add(): \Inertia\Response|\Inertia\ResponseFactory
+    public function create(): \Inertia\Response|\Inertia\ResponseFactory
     {
         return inertia('AdminSection/AddHotel');
     }
