@@ -8,6 +8,7 @@ use App\Models\Hotel;
 use App\Models\Reservation;
 use App\Models\Room;
 use Carbon\Carbon;
+use Illuminate\Database\Query\Builder;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -69,8 +70,14 @@ class SearchAvailableRoomsController extends Controller
 
         $reservationQuery = Reservation::query()
             ->select(['id', 'room_id'])
-            ->where('date_income', '>=', Carbon::parse($startDate)->format('Y-m-d '))
-            ->where('date_outcome', '<=', Carbon::parse($endDate)->format('Y-m-d '));
+            ->where(function (\Illuminate\Database\Eloquent\Builder $query) use($startDate) {
+                $query->where('date_income', '>=', Carbon::parse($startDate)->format('Y-m-d '))
+                    ->Where('date_income', '<=', Carbon::parse($startDate)->format('Y-m-d '));
+            })
+            ->orWhere(function (\Illuminate\Database\Eloquent\Builder $query) use($endDate) {
+                $query->where('date_outcome', '>=', Carbon::parse($endDate)->format('Y-m-d '))
+                    ->Where('date_outcome', '<=', Carbon::parse($endDate)->format('Y-m-d '));
+            });
 
         $availableHotelRoomsFilter = count($hotelFilterIds) > 0 ? (Room::query()->whereIn('hotel_id', $hotelFilterIds)->get())->pluck('id') : null;
 
