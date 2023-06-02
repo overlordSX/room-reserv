@@ -27,8 +27,8 @@
                 </div>
             </div>
 
-            <div class="hotel-list-item__count-rooms todo">
-                10 номеров
+            <div v-if="item.countOfRooms" class="hotel-list-item__count-rooms">
+                {{ item.countOfRooms }} номеров
             </div>
 
             <div class="hotel-list-item__address">
@@ -43,8 +43,8 @@
             >Добавить номер
             </Link>
 
-            <!-- //todo можно добавить условие отображения, если номера есть то показывать -->
             <Link
+                v-if="item.countOfRooms"
                 :href="route('dashboard.hotels-list.rooms-list', {id: item.id})"
             class="hotel-list-item__btn btn"
             >Показать номера

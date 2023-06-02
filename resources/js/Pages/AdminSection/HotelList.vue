@@ -38,6 +38,7 @@ import {Link} from "@inertiajs/vue3";
 import {THotel} from "@/types/THotel";
 import HotelItem from "@/Pages/AdminSection/HotelItem.vue";
 
+// @ts-ignore
 const props = withDefaults(defineProps<{items: THotel[]}>(), {
     items: () => [],
 });

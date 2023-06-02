@@ -20,6 +20,7 @@ class HotelResource extends JsonResource
             'id' => $resource->id,
             'name' => $resource->name,
             'countOfStars' => $resource->count_of_stars,
+            'countOfRooms' => $resource->count_of_rooms ?? null,
             'address' => $resource->address,
             'photoUrl' => $resource->photo_url ?? null,
         ];
