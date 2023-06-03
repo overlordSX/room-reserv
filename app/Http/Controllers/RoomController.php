@@ -33,6 +33,9 @@ class RoomController extends Controller
     {
         $validated = $request->validated();
 
+        $photoPath = $request->photo->store('rooms', 'public');
+        $photosFolders = '/storage/';
+
         Room::query()->create([
             'name' => $validated['name'],
             'price' => $validated['price'],
@@ -41,6 +44,7 @@ class RoomController extends Controller
             'count_of_beds' => $validated['countOfBeds'],
             'floor' => $validated['floor'],
             'hotel_id' => $hotel->getKey(),
+            'photo_url' => $photosFolders . $photoPath,
         ]);
 
         return redirect(route('dashboard.hotels-list.rooms-list', ['hotel' => $hotel->getKey()]));

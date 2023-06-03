@@ -28,6 +28,7 @@ class RoomRequest extends FormRequest
             'countOfRooms' => 'required|integer|max:100|min:1',
             'countOfBeds' => 'required|integer|max:100|min:1',
             'floor' => 'required|integer|max:500|min:1',
+            'photo' => 'image',
         ];
     }
 }

@@ -25,6 +25,7 @@ class HotelRequest extends FormRequest
             'name' => 'required|string|max:255',
             'address' => 'required|string|max:255',
             'countOfStars' => 'required|integer|max:5|min:1',
+            'photo' => 'image',
         ];
     }
 }

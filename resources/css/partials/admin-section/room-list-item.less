@@ -13,7 +13,12 @@
     });
 
     &__picture {
-        .picture(219/329);
+        .picture(219/329, @fit: cover);
+        border-radius: 15px;
+
+        picture img {
+            display: block;
+        }
     }
 
     &__placeholder {

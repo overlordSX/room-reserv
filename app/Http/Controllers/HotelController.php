@@ -5,14 +5,12 @@ namespace App\Http\Controllers;
 use App\Http\Requests\HotelRequest;
 use App\Http\Resources\HotelResource;
 use App\Models\Hotel;
-use App\Models\Room;
 use Illuminate\Support\Facades\DB;
 use Symfony\Component\HttpFoundation\RedirectResponse;
-use Illuminate\Support\Facades\Schema;
 
 class HotelController extends Controller
 {
-    public function index(): \Inertia\Response|\Inertia\ResponseFactory
+    public function index(): \Inertia\Response
     {
         $hotels = Hotel::query()
             ->select(['id', 'name', 'count_of_stars', 'address', 'photo_url', 'count_of_rooms'])
@@ -29,7 +27,7 @@ class HotelController extends Controller
         return inertia('AdminSection/HotelList', ['items' => $hotelsList]);
     }
 
-    public function create(): \Inertia\Response|\Inertia\ResponseFactory
+    public function create(): \Inertia\Response
     {
         return inertia('AdminSection/AddHotel');
     }
@@ -38,13 +36,14 @@ class HotelController extends Controller
     {
         $validated = $request->validated();
 
-        // так можно дернуть названия полей из БД
-        //dd(Schema::getColumnListing('hotels'));
+        $photoPath = $request->photo->store('hotels', 'public');
+        $photosFolders = '/storage/';
 
         Hotel::query()->create([
             'name' => $validated['name'],
             'address' => $validated['address'],
             'count_of_stars' => $validated['countOfStars'],
+            'photo_url' => $photosFolders . $photoPath,
         ]);
 
         return redirect('dashboard/hotels-list');
