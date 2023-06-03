@@ -1,0 +1,59 @@
+@import "../../_var";
+
+.show-room {
+    display: flex;
+    flex-direction: column;
+
+    &__picture-wrapper {
+        margin-bottom: var(--m32);
+    }
+
+    &__picture {
+        .picture(299/511, @fit: cover);
+        border-radius: 15px;
+
+        picture img {
+            display: block;
+        }
+    }
+
+    &__placeholder {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        aspect-ratio: 329/219;
+        box-sizing: border-box;
+        background-color: @cBgGrey;
+        border-radius: 15px;
+        border: 2px solid @cBordersBlack;
+        overflow: hidden;
+        z-index: 2;
+
+        svg {
+            position: absolute;
+            content: '';
+            display: block;
+            height: 100%;
+            width: calc(100% + 6px);
+            left: -3px;
+            top: 0;
+            stroke-width: max(.8%, 1px);
+            stroke: currentColor;
+            z-index: -1;
+        }
+    }
+
+    &__name {
+        margin-bottom: var(--m16);
+        font-size: var(--fs24);
+        font-weight: 600;
+    }
+
+    &__info {
+        display: flex;
+        flex-direction: column;
+        gap: var(--m8);
+        color: @cTextGreyLight;
+    }
+}

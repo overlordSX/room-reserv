@@ -1,5 +1,10 @@
  <template>
-    <div class="room-list-item">
+    <Link
+        :href="route('search.available-room', {
+            room: item.id,
+            ...searchParams,
+        })"
+        class="room-list-item">
         <div class="room-list-item__picture-wrapper">
             <div v-if="item.photoUrl" class="room-list-item__picture">
                 <picture>
@@ -33,12 +38,19 @@
                     </div>
                 </div>
 
-                <div class="room-list-item__price-night">
-                    <Price :value="item.price" /> / ночь
+                <div class="room-list-item__price-btn">
+                    <div class="room-list-item__price-night">
+                        <Price :value="item.price * countOfDays"/>
+                        / {{countOfDays + ' ' + plural(['ночь','ночи','ночей'], countOfDays)}}
+                    </div>
+
+                    <div class="room-list-item__btn">
+                        <button class="btn">Выбрать</button>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
+    </Link>
 </template>
 
 <script setup lang="ts">
@@ -48,8 +60,18 @@ import {TRoom} from "@/types/TRoom";
 import Price from "@/Components/Price.vue";
 import {plural} from "@/helpers/common";
 import PicturePlaceholderSvg from "@/Components/PicturePlaceholderSvg.vue";
+import {TSearchParams} from "@/types/TSearchParams";
+import {computed} from "vue";
 
 const props = defineProps<{
     item: TRoom,
+    searchParams: TSearchParams,
 }>();
+
+const countOfDays = computed<number>(() => {
+    let start = new Date(props.searchParams.startDate);
+    let end = new Date(props.searchParams.endDate);
+
+    return Math.abs(Math.floor((end - start) / (1000 * 60 * 60 * 24)));
+});
 </script>

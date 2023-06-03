@@ -23,6 +23,7 @@ use Inertia\Inertia;
 
 Route::get('/', [SearchAvailableRoomsController::class, 'index'])->name('main');
 Route::get('/search', [SearchAvailableRoomsController::class, 'search'])->name('search');
+Route::get('/search/available-room/{room}', [SearchAvailableRoomsController::class, 'showRoom'])->name('search.available-room');
 
 Route::get('/dashboard', [SchedulerController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
 

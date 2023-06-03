@@ -14,6 +14,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+use Inertia\Response;
 
 
 class SearchAvailableRoomsController extends Controller
@@ -70,11 +71,11 @@ class SearchAvailableRoomsController extends Controller
 
         $reservationQuery = Reservation::query()
             ->select(['id', 'room_id'])
-            ->where(function (\Illuminate\Database\Eloquent\Builder $query) use($startDate) {
+            ->where(function (\Illuminate\Database\Eloquent\Builder $query) use ($startDate) {
                 $query->where('date_income', '>=', Carbon::parse($startDate)->format('Y-m-d '))
                     ->Where('date_income', '<=', Carbon::parse($startDate)->format('Y-m-d '));
             })
-            ->orWhere(function (\Illuminate\Database\Eloquent\Builder $query) use($endDate) {
+            ->orWhere(function (\Illuminate\Database\Eloquent\Builder $query) use ($endDate) {
                 $query->where('date_outcome', '>=', Carbon::parse($endDate)->format('Y-m-d '))
                     ->Where('date_outcome', '<=', Carbon::parse($endDate)->format('Y-m-d '));
             });
@@ -100,6 +101,46 @@ class SearchAvailableRoomsController extends Controller
 
         return inertia('Search/RoomList', [
             'items' => RoomResource::collection($availableToReserveRooms)->resolve(),
+            'searchParams' => [
+                'startDate' => $startDate,
+                'endDate' => $endDate,
+                'countOfGuests' => $countOfGuests,
+            ],
+        ]);
+    }
+
+    public function showRoom(Room $room, Request $request): RedirectResponse|Response
+    {
+        $startDate = null;
+        $endDate = null;
+        $countOfGuests = null;
+
+
+        if ($request->has('startDate')) {
+            $startDate = $request->input('startDate');
+        }
+        if ($request->has('endDate')) {
+            $endDate = $request->input('endDate');
+        }
+        if ($request->has('hotelsIds')) {
+            $hotelFilterIds = $request->input('hotelsIds');
+        }
+        if ($request->has('countOfGuests')) {
+            $countOfGuests = $request->input('countOfGuests');
+        }
+
+        if (is_null($startDate) || is_null($endDate)) {
+            return redirect('/');
+        }
+//        dd($room, $request);
+
+        return inertia('Search/ShowRoom', [
+            'item' => RoomResource::make($room)->resolve(),
+            'searchParams' => [
+                'startDate' => $startDate,
+                'endDate' => $endDate,
+                'countOfGuests' => $countOfGuests,
+            ],
         ]);
     }
 }

@@ -1,6 +1,7 @@
 @import "../../_var";
 
 .room-list-item {
+    .clear-link();
     .transit('box-shadow, opacity');
     display: flex;
     flex-direction: column;
@@ -73,8 +74,19 @@
         gap: 4px;
     }
 
+    &__price-btn {
+        display: flex;
+        flex-direction: column;
+        gap: 10px
+    }
+
+    &__btn {
+        align-self: flex-end;
+    }
+
     &__price-night {
         display: flex;
+        flex-wrap: wrap;
         align-items: center;
         gap: 4px;
     }
