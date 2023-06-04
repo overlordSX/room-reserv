@@ -8,13 +8,13 @@ use App\Models\Hotel;
 use App\Models\Reservation;
 use App\Models\Room;
 use Carbon\Carbon;
-use Illuminate\Database\Query\Builder;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use Inertia\Response;
+use Illuminate\Database\Eloquent\Builder;
 
 
 class SearchAvailableRoomsController extends Controller
@@ -71,14 +71,14 @@ class SearchAvailableRoomsController extends Controller
 
         $reservationQuery = Reservation::query()
             ->select(['id', 'room_id'])
-            ->where(function (\Illuminate\Database\Eloquent\Builder $query) use ($startDate) {
+            ->where(function (Builder $query) use ($startDate, $endDate) {
                 $query->where('date_income', '>=', Carbon::parse($startDate)->format('Y-m-d '))
-                    ->Where('date_income', '<=', Carbon::parse($startDate)->format('Y-m-d '));
+                    ->Where('date_income', '<', Carbon::parse($endDate)->format('Y-m-d '));
             })
-            ->orWhere(function (\Illuminate\Database\Eloquent\Builder $query) use ($endDate) {
-                $query->where('date_outcome', '>=', Carbon::parse($endDate)->format('Y-m-d '))
-                    ->Where('date_outcome', '<=', Carbon::parse($endDate)->format('Y-m-d '));
-            });
+                ->orWhere(function (Builder $query) use ($startDate, $endDate) {
+                    $query->where('date_outcome', '>', Carbon::parse($startDate)->format('Y-m-d '))
+                        ->Where('date_outcome', '<=', Carbon::parse($endDate)->format('Y-m-d '));
+                });
 
         $availableHotelRoomsFilter = count($hotelFilterIds) > 0 ? (Room::query()->whereIn('hotel_id', $hotelFilterIds)->get())->pluck('id') : null;
 
