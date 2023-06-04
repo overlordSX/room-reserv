@@ -31,10 +31,9 @@ class SchedulerController extends Controller
             $hotelFilterIds = $request->input('hotelsIds');
         }
 
-        $leftEdge = (Carbon::now())->subWeeks(3);
+        /*$leftEdge = (Carbon::now())->subWeeks(3);
         $rightEdge = (Carbon::now())->addWeeks(3);
-        $dbDateFormat = 'Y-m-d';
-
+        $dbDateFormat = 'Y-m-d';*/
 
         // todo подгрузка дат дальше месяца влево вправо
 
@@ -52,8 +51,8 @@ class SchedulerController extends Controller
         $reservationModel = new Reservation();
 
         $reservationQuery = $reservationModel->query()
-            ->where('date_income', '>=', $leftEdge->format($dbDateFormat))
-            ->where('date_outcome', '<=', $rightEdge->format($dbDateFormat))
+            /*->where('date_income', '>=', $leftEdge->format($dbDateFormat))
+            ->where('date_outcome', '<=', $rightEdge->format($dbDateFormat))*/
             ->with(['client']);
 
         if (count($roomsFilterIds) > 0) {
@@ -117,7 +116,7 @@ class SchedulerController extends Controller
         Reservation::query()->create([
             'count_of_guests' => $validated['countOfGuests'],
             'date_income' => Carbon::parse($validated['dateIncome'])->format('Y-m-d '),
-            'date_outcome' => Carbon::parse($validated['dateOutcome'])->format('Y-m-d'), //todo почекать что все норм при работе с датами (когда есть время) Y-m-d h:i:s
+            'date_outcome' => Carbon::parse($validated['dateOutcome'])->format('Y-m-d'),
             'room_id' => $room->getKey(),
             'client_id' => $client->getKey(),
         ]);
@@ -144,7 +143,7 @@ class SchedulerController extends Controller
         Reservation::query()->create([
             'count_of_guests' => $validated['countOfGuests'],
             'date_income' => Carbon::parse($validated['dateIncome'])->format('Y-m-d '),
-            'date_outcome' => Carbon::parse($validated['dateOutcome'])->format('Y-m-d'), //todo можно проверить что все норм при работе с датами (когда есть время) Y-m-d h:i:s
+            'date_outcome' => Carbon::parse($validated['dateOutcome'])->format('Y-m-d'),
             'room_id' => $room->getKey(),
             'client_id' => $client->getKey(),
             'is_approved' => false,
@@ -168,7 +167,7 @@ class SchedulerController extends Controller
         $reservation->update([
             'count_of_guests' => $validated['countOfGuests'],
             'date_income' => Carbon::parse($validated['dateIncome'])->format('Y-m-d '),
-            'date_outcome' => Carbon::parse($validated['dateOutcome'])->format('Y-m-d'), //todo почекать что все норм при работе с датами (когда есть время) Y-m-d h:i:s
+            'date_outcome' => Carbon::parse($validated['dateOutcome'])->format('Y-m-d'),
         ]);
 
         return redirect(route('dashboard'));
