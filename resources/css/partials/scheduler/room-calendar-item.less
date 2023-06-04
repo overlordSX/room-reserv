@@ -1,9 +1,7 @@
 @import "../../_var";
 
 .room-calendar-item {
-    display: grid;
-    grid-template-columns: .7fr repeat(7, 1fr);
-    gap: var(--m8);
+    .grid(8, @columnGap: var(--m8));
 
     &__room-name {
         display: flex;
@@ -18,11 +16,12 @@
         align-items: center;
         justify-content: center;
         min-height: 40px;
-        padding: 12px 14px;
+        padding: 10px 8px;
         box-sizing: border-box;
         border-bottom: 1px solid @cBordersBrand;
         background-color: var(--long-duration-bg-color, @cWhite);
         cursor: pointer;
+        hyphens: auto;
 
         .hover({
             .room-calendar-item {
