@@ -38,6 +38,7 @@ class ReservationResource extends JsonResource
             'endDate' => $resource->date_outcome,
             'bgColor' => $this->getRandomColor(),
             'people' => $resource->count_of_guests,
+            'isApproved' => (bool)$resource->is_approved,
         ];
     }
 }

@@ -14,6 +14,7 @@ use Illuminate\Support\Carbon;
  * @property Carbon date_outcome
  * @property int client_id
  * @property int hotel_id
+ * @property int is_approved
  * @property Room room
  * @property Client client
  */
@@ -30,6 +31,7 @@ class Reservation extends Model
         'date_outcome',
         'client_id',
         'room_id',
+        'is_approved',
     ];
 
     use HasFactory;

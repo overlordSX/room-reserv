@@ -12,6 +12,10 @@
                 </a>
 
                 <div class="header__nav header-nav">
+<!--                    <NavLink :href="route('dashboard.requested-reserve.list')" :active="$page.url.startsWith('/dashboard/requested-reserve')">
+                        Заявки
+                    </NavLink>-->
+
                     <NavLink :href="route('dashboard.hotels-list')" :active="$page.url.startsWith('/dashboard/hotels-list')">
                         Отели
                     </NavLink>

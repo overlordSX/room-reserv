@@ -7,4 +7,5 @@ export type TRoomLoad = {
     startDate: string,
     endDate: string,
     cellDate?: string,
+    isApproved: boolean,
 }

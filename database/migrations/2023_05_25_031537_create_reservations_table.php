@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('reservations', function (Blueprint $table) {
             $table->id();
+            $table->tinyInteger('is_approved')->default(true);
             $table->integer('count_of_guests');
             $table->date('date_income');
             $table->date('date_outcome');

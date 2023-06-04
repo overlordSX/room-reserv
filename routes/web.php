@@ -24,6 +24,7 @@ use Inertia\Inertia;
 Route::get('/', [SearchAvailableRoomsController::class, 'index'])->name('main');
 Route::get('/search', [SearchAvailableRoomsController::class, 'search'])->name('search');
 Route::get('/search/available-room/{room}', [SearchAvailableRoomsController::class, 'showRoom'])->name('search.available-room');
+Route::post('/reservations/room/{room}/add-load', [SchedulerController::class, 'saveNotVerifiedLoad'])->name('reservations.room.add-load');
 
 Route::get('/dashboard', [SchedulerController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
 
@@ -50,10 +51,10 @@ Route::middleware('auth')->group(function () {
 
     Route::post('/dashboard/clients/add', [ClientController::class, 'store'])->name('dashboard.clients.save');
 
-//    Route::get('/dashboard', [SchedulerController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
-     Route::post('/dashboard/room/{room}/add-load', [SchedulerController::class, 'saveLoad'])->name('dashboard.room.save-load');
-     Route::post('/dashboard/update-load', [SchedulerController::class, 'updateLoad'])->name('dashboard.room.update-load');
-     Route::post('/dashboard/delete-load', [SchedulerController::class, 'deleteLoad'])->name('dashboard.room.delete-load');
+    Route::post('/dashboard/room/{room}/add-load', [SchedulerController::class, 'saveLoad'])->name('dashboard.room.save-load');
+    Route::post('/dashboard/approve-load', [SchedulerController::class, 'approveLoad'])->name('dashboard.room.approve-load');
+    Route::post('/dashboard/update-load', [SchedulerController::class, 'updateLoad'])->name('dashboard.room.update-load');
+    Route::post('/dashboard/delete-load', [SchedulerController::class, 'deleteLoad'])->name('dashboard.room.delete-load');
 });
 
 require __DIR__ . '/auth.php';

@@ -3,9 +3,11 @@
 namespace App\Rules;
 
 use App\Models\Reservation;
+use Carbon\Carbon;
 use Closure;
 use Illuminate\Contracts\Validation\DataAwareRule;
 use Illuminate\Contracts\Validation\ValidationRule;
+use Illuminate\Database\Eloquent\Builder;
 
 class IsDateIntervalAvailableWithExceptions implements ValidationRule, DataAwareRule
 {
@@ -36,11 +38,22 @@ class IsDateIntervalAvailableWithExceptions implements ValidationRule, DataAware
      */
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
+        $startDate = $this->data['dateIncome'];
+        $endDate = $this->data['dateOutcome'];
+
         if (Reservation::query()
             ->whereNot('id', '=', $this->data['loadId'])
             ->where('room_id', '=', $this->data['roomId'])
-            ->where('date_income', '>=', $value)
-            ->where('date_outcome', '<=', $this->data['dateOutcome'])
+            ->where(function (Builder $query) use ($startDate, $endDate) {
+                $query->where(function (Builder $query) use ($startDate, $endDate) {
+                    $query->where('date_income', '>=', Carbon::parse($startDate)->format('Y-m-d '))
+                        ->Where('date_income', '<', Carbon::parse($endDate)->format('Y-m-d '));
+                })
+                    ->orWhere(function (Builder $query) use ($startDate, $endDate) {
+                        $query->where('date_outcome', '>', Carbon::parse($startDate)->format('Y-m-d '))
+                            ->Where('date_outcome', '<=', Carbon::parse($endDate)->format('Y-m-d '));
+                    });
+            })
             ->exists()) {
             $fail('В этом интервале дат уже есть бронирования, попробуйте выбрать другой');
         }

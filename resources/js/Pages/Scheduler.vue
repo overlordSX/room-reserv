@@ -96,7 +96,10 @@
                                     v-for="load in getLoad(item.load)"
                                     :key="load.cellDate"
                                     class="room-calendar-item__day-load"
-                                    :class="{'room-calendar-item__day-load--last-in-column': index + 1 === items.length}"
+                                    :class="{
+                                        'room-calendar-item__day-load--last-in-column': index + 1 === items.length,
+                                        'room-calendar-item__day-load--not-approved': load.name && !load.isApproved,
+                                    }"
                                     :style="{'--long-duration-bg-color': load.bgColor}"
                                     @click="chooseAction(item, load)"
                                 >
@@ -181,6 +184,10 @@ const datePickerSettings = {
     autoRange: daysInterval.value - 1,
     modelType: 'timestamp',
 }
+
+const syncData  = setInterval(async () => {
+    router.reload();
+}, 20000);
 
 function setDateRange(modelData) {
     startDate.value = new Date(modelData[0]);
@@ -287,10 +294,6 @@ function chooseAction(item: TRoomWithLoad, load: TRoomLoad) {
                 onConfirm() {
                     close();
                 },
-                /*onReload() {
-                    close();
-                    open();
-                },*/
             },
         })
 

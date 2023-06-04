@@ -2,7 +2,7 @@
 
 .room-calendar-item {
     display: grid;
-    grid-template-columns: .6fr repeat(7, 1fr);
+    grid-template-columns: .7fr repeat(7, 1fr);
     gap: var(--m8);
 
     &__room-name {
@@ -19,6 +19,7 @@
         justify-content: center;
         min-height: 40px;
         padding: 12px 14px;
+        box-sizing: border-box;
         border-bottom: 1px solid @cBordersBrand;
         background-color: var(--long-duration-bg-color, @cWhite);
         cursor: pointer;
@@ -34,6 +35,12 @@
         &--last-in-column {
             border-bottom-color: transparent;
             border-radius: 0 0 4px 4px;
+        }
+
+        &--not-approved {
+            border: 1px solid red;
+            background-image: linear-gradient(-45deg, fade(red, 20%) 25%, transparent 25%, transparent 50%, fade(red, 20%) 50%, fade(grey, 20%) 75%, transparent 75%, transparent) !important;
+            background-size: 4px 4px;
         }
     }
 

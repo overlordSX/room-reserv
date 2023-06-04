@@ -1,13 +1,21 @@
 <template>
     <VueFinalModal class="">
         <div class="show-load-popup">
-            <div class="page__section-title">Бронь</div>
+            <div class="page__section-title">
+                Бронь <span v-if="!load.isApproved" class="show-load-popup__not-approved">(не подтвержденная)</span>
+            </div>
 
             <div class="show-load-popup__info">
                 <div
                     :key="load.name"
                     class="show-load-popup__client-name">
                     {{ load.name }}
+                </div>
+
+                <div
+                    :key="load.phone"
+                    class="show-load-popup__client-phone">
+                    Номер: {{ load.phone }}
                 </div>
 
                 <div class="show-load-popup__dates">
@@ -34,8 +42,13 @@
             </div>
 
             <div class="show-load-popup__buttons">
-                <button class="show-load-popup__btn btn" @click="() => open()">Редактировать</button>
-                <button class="show-load-popup__btn btn btn--red" @click="deleteReservation()">Удалить</button>
+                <button v-if="!load.isApproved" class="show-load-popup__approve-btn btn" @click="approveReservation()">
+                    Подтвердить
+                </button>
+                <div class="show-load-popup__btn-group">
+                    <button class="show-load-popup__btn btn btn--blue" @click="() => open()">Редактировать</button>
+                    <button class="show-load-popup__btn btn btn--red" @click="deleteReservation()">Удалить</button>
+                </div>
             </div>
         </div>
     </VueFinalModal>
@@ -43,17 +56,8 @@
 
 <script setup lang="ts">
 import {VueFinalModal, useModal} from "vue-final-modal";
-import {router, useForm} from "@inertiajs/vue3";
-import InputError from "@/Components/InputError.vue";
-import InputNumber from "@/Components/InputNumber.vue";
-import InputLabel from "@/Components/InputLabel.vue";
-import TextInput from "@/Components/TextInput.vue";
+import {router} from "@inertiajs/vue3";
 import {TRoomWithLoad} from "@/types/TRoomWithLoad";
-import AddNewClient from "@/Components/AddNewClient.vue";
-import {ref} from "vue";
-import VueDatePicker from "@vuepic/vue-datepicker";
-import {datePickerDefaultSettings} from "@/helpers/consts";
-import {startDateAddDays} from "@/helpers/common";
 import {TRoomLoad} from "@/types/TRoomLoad";
 import EditLoad from "@/Components/EditLoad.vue";
 
@@ -85,8 +89,20 @@ function deleteReservation() {
         router.post(
             route('dashboard.room.delete-load'),
             {'loadId': props.load.id},
-            {onSuccess: emit('confirm'),
-        });
+            {
+                onSuccess: () => emit('confirm'),
+            });
+    }
+}
+
+function approveReservation() {
+    if (confirm('Вы подтвердили бронирование?')) {
+        router.post(
+            route('dashboard.room.approve-load'),
+            {'loadId': props.load.id},
+            {
+                onSuccess: () => emit('confirm'),
+            });
     }
 }
 

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ClientRoomLoadRequest;
 use App\Http\Requests\RoomLoadRequest;
 use App\Http\Requests\RoomLoadUpdateRequest;
 use App\Http\Resources\HotelMinListResource;
@@ -54,8 +55,6 @@ class SchedulerController extends Controller
             ->where('date_income', '>=', $leftEdge->format($dbDateFormat))
             ->where('date_outcome', '<=', $rightEdge->format($dbDateFormat))
             ->with(['client']);
-
-//        dd($roomsFilterIds);
 
         if (count($roomsFilterIds) > 0) {
             $reservationQuery->whereIn('room_id', $roomsFilterIds);
@@ -123,8 +122,33 @@ class SchedulerController extends Controller
             'client_id' => $client->getKey(),
         ]);
 
-        // по хорошему надо возвращать добавленный roomLoad, но пока что так
         return redirect(route('dashboard'));
+    }
+
+    public function saveNotVerifiedLoad(Room $room, ClientRoomLoadRequest $request): void
+    {
+        $validated = $request->validated();
+
+        $client = Client::query()->firstWhere('phone', $validated['phone']);
+
+        if (is_null($client)) {
+            $client = Client::query()->create([
+                'family' => $validated['family'],
+                'name' => $validated['name'],
+                'surname' => $validated['surname'],
+                'phone' => $validated['phone'],
+                'email' => $validated['email'],
+            ]);
+        }
+
+        Reservation::query()->create([
+            'count_of_guests' => $validated['countOfGuests'],
+            'date_income' => Carbon::parse($validated['dateIncome'])->format('Y-m-d '),
+            'date_outcome' => Carbon::parse($validated['dateOutcome'])->format('Y-m-d'), //todo можно проверить что все норм при работе с датами (когда есть время) Y-m-d h:i:s
+            'room_id' => $room->getKey(),
+            'client_id' => $client->getKey(),
+            'is_approved' => false,
+        ]);
     }
 
     public function updateLoad(RoomLoadUpdateRequest $request): RedirectResponse
@@ -147,7 +171,6 @@ class SchedulerController extends Controller
             'date_outcome' => Carbon::parse($validated['dateOutcome'])->format('Y-m-d'), //todo почекать что все норм при работе с датами (когда есть время) Y-m-d h:i:s
         ]);
 
-        // по хорошему надо возвращать добавленный roomLoad, но пока что так
         return redirect(route('dashboard'));
     }
 
@@ -159,7 +182,23 @@ class SchedulerController extends Controller
 
         Reservation::query()->where('id', '=', $validated['loadId'])->delete();
 
-        // по хорошему надо возвращать добавленный roomLoad, но пока что так
+        return redirect(route('dashboard'));
+    }
+
+    public function approveLoad(Request $request): RedirectResponse
+    {
+        $validated = $request->validate([
+            'loadId' => 'required|exists:' . Reservation::class . ',id',
+        ]);
+
+        $reservation = Reservation::query()->find($validated['loadId']);
+
+        if (is_null($reservation)) abort(404);
+
+        $reservation->update([
+            'is_approved' => 1,
+        ]);
+
         return redirect(route('dashboard'));
     }
 }

@@ -27,7 +27,7 @@ class ClientRequest extends FormRequest
             'name' => 'required|string|max:255',
             'surname' => 'required|string|max:255',
             'phone' => 'required|numeric|digits:11|unique:' . Client::class,
-            'email' => 'required|string|email|unique:' . Client::class,
+            'email' => 'required|string|email',
         ];
     }
 }
