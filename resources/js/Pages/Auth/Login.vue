@@ -54,7 +54,7 @@
                     </div>
                 </Link>
 
-                <button class="btn" :disabled="form.processing">
+                <button class="btn btn--white" :disabled="form.processing">
                     Войти
                 </button>
             </div>
