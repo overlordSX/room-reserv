@@ -4,7 +4,7 @@
             room: item.id,
             ...searchParams,
         })"
-        class="room-list-item">
+        class="room-list-item room-list-item--with-hover">
         <div class="room-list-item__picture-wrapper">
             <div v-if="item.photoUrl" class="room-list-item__picture">
                 <picture>

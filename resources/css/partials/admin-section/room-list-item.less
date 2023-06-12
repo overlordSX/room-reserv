@@ -2,16 +2,11 @@
 
 .room-list-item {
     .clear-link();
-    .transit('box-shadow, opacity');
     display: flex;
     flex-direction: column;
     background: @cWhite;
     border-radius: 15px;
     box-shadow: @dropdownShadow;
-
-    .hover({
-        box-shadow: @dropdownHoverShadow;
-    });
 
     &__picture {
         .picture(219/329, @fit: cover);
@@ -109,5 +104,25 @@
         line-height: var(--lh-caption);
     }
 
+    &__price-actions {
+        display: flex;
+        flex-direction: column;
+        gap: var(--m8);
+    }
 
+    &__actions {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: var(--m8);
+        align-self: flex-end;
+    }
+
+    &--with-hover {
+        .transit('box-shadow, opacity');
+
+        .hover({
+            box-shadow: @dropdownHoverShadow;
+        });
+    }
 }

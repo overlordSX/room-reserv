@@ -36,27 +36,15 @@
                 <InputError :message="form.errors.password"/>
             </div>
 
-            <div class="form__item">
-                <label>
+            <div class="form__footer">
+                <button class="btn btn--clear-white" :disabled="form.processing">
+                    Войти
+                </button>
+
+                <label class="form__remember">
                     <Checkbox name="remember" v-model:checked="form.remember"/>
                     <span>Запомнить меня</span>
                 </label>
-            </div>
-
-            <div class="form__footer">
-                <Link
-                    v-if="canResetPassword"
-                    :href="route('password.request')"
-                    class="link link--hover-uline"
-                >
-                    <div class="link__text">
-                        Забыли пароль?
-                    </div>
-                </Link>
-
-                <button class="btn btn--white" :disabled="form.processing">
-                    Войти
-                </button>
             </div>
         </form>
     </GuestLayout>

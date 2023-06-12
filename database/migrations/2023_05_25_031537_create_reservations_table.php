@@ -17,8 +17,8 @@ return new class extends Migration
             $table->integer('count_of_guests');
             $table->date('date_income');
             $table->date('date_outcome');
-            $table->foreignId('client_id')->constrained();
-            $table->foreignId('room_id')->constrained();
+            $table->foreignId('client_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('room_id')->constrained()->cascadeOnDelete();
             $table->timestamps();
         });
     }

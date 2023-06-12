@@ -20,6 +20,14 @@
             <img :src="url" alt="">
         </div>
 
+        <div v-else-if="form.photo" class="add-hotel-form__image-preview">
+            <img :src="form.photo" alt="">
+        </div>
+
+        <div v-if="url || form.photo" class="add-hotel-form__item">
+        <button class="btn btn--red" @click="deletePicture()">Удалить картинку</button>
+        </div>
+
         <div class="add-hotel-form__item">
             <InputLabel for="name" value="Название"/>
 
@@ -71,7 +79,7 @@
         <div class="form__footer">
             <button class="btn"
                     :disabled="form.processing">
-                Отправить
+                Сохранить изменения
             </button>
         </div>
     </form>
@@ -86,18 +94,23 @@ import InputError from "@/Components/InputError.vue";
 import TextInput from "@/Components/TextInput.vue";
 import InputNumber from "@/Components/InputNumber.vue";
 import {ref} from "vue";
+import {THotel} from "@/types/THotel";
+
+const props = defineProps<{
+    hotel: THotel,
+}>();
 
 const form = useForm({
-    name: '',
-    countOfStars: 5,
-    address: '',
-    photo: null,
+    name: props.hotel.name,
+    countOfStars: props.hotel.countOfStars,
+    address: props.hotel.address,
+    photo: props.hotel.photoUrl,
 });
 
 const submit = () => {
-    form.post(route('dashboard.hotels-list.save'), {
-         forceFormData: true,
-     });
+    form.post(route('dashboard.hotel.update', {hotel: props.hotel.id}), {
+        forceFormData: true,
+    });
 };
 
 const url = ref<URL | null>(null);
@@ -105,5 +118,9 @@ const url = ref<URL | null>(null);
 function previewImage(e) {
     const file = e.target.files[0];
     url.value = new URL(URL.createObjectURL(file));
+}
+
+function deletePicture() {
+    form.photo = null;
 }
 </script>

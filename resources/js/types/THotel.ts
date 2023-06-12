@@ -4,5 +4,5 @@ export type THotel = {
     countOfStars?: number,
     countOfRooms?: number,
     address?: string,
-    photoUrl?: string,
+    photoUrl: string | null,
 }

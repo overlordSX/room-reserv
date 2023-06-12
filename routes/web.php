@@ -29,24 +29,27 @@ Route::post('/reservations/room/{room}/add-load', [SchedulerController::class, '
 Route::get('/dashboard', [SchedulerController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    //todo по сути не нужно, но можно добавить, если будет не хватать
+    /*    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');*/
 
     Route::get('/dashboard/hotels-list', [HotelController::class, 'index'])->name('dashboard.hotels-list');
 
     Route::get('/dashboard/hotels-list/add', [HotelController::class, 'create'])->name('dashboard.hotels-list.add');
     Route::post('/dashboard/hotels-list/add', [HotelController::class, 'store'])->name('dashboard.hotels-list.save');
-    //todo delete action for hotels
-    // Route::delete('/dashboard/hotels-list/{id}/delete', [HotelController::class, 'delete'])->name('dashboard.hotels-list.delete');
+    Route::get('/dashboard/hotel/{hotel}/edit', [HotelController::class, 'edit'])->name('dashboard.hotel.edit');
+    Route::post('/dashboard/hotel/{hotel}/update', [HotelController::class, 'update'])->name('dashboard.hotel.update');
+    Route::post('/dashboard/hotel/{hotel}/delete', [HotelController::class, 'delete'])->name('dashboard.hotel.delete');
 
     //внутри экшена происходит магия, из инертии можно передать параметр, либо тем именем который он назван в роуте, либо через id
     Route::get('/dashboard/hotels-list/{hotel}/rooms-list', [RoomController::class, 'index'])->name('dashboard.hotels-list.rooms-list');
 
     Route::get('/dashboard/hotels-list/{hotel}/rooms-list/add', [RoomController::class, 'add'])->name('dashboard.hotels-list.rooms-list.add');
     Route::post('/dashboard/hotels-list/{hotel}/rooms-list/add', [RoomController::class, 'store'])->name('dashboard.hotels-list.rooms-list.save');
-    //todo delete action for rooms
-    // Route::delete('/dashboard/hotels-list/{hotelId}/rooms-list/{roomId}/delete', [HotelController::class, 'delete'])->name('dashboard.hotels-list.rooms-list.delete');
+    Route::get('/dashboard/room/{room}/edit', [RoomController::class, 'edit'])->name('dashboard.room.edit');
+    Route::post('/dashboard/room/{room}/update', [RoomController::class, 'update'])->name('dashboard.room.update');
+    Route::post('/dashboard/room/{room}//delete', [RoomController::class, 'delete'])->name('dashboard.room.delete');
 
 
     Route::post('/dashboard/clients/add', [ClientController::class, 'store'])->name('dashboard.clients.save');

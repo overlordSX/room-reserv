@@ -14,12 +14,14 @@
 
                 <div class="add-hotel__header">
                     <div class="add-hotel__title page__section-title">
-                        Новый отель
+                        <span v-if="isEdit && hotel?.name">Отель {{hotel.name}}</span>
+                        <span v-else>Новый отель</span>
                     </div>
                 </div>
 
                 <div class="add-hotel__form">
-                    <AddHotelForm />
+                    <EditHotelForm v-if="isEdit && hotel" :hotel="hotel" />
+                    <AddHotelForm v-else />
                 </div>
             </div>
         </template>
@@ -31,4 +33,9 @@ import SchedulerHeader from "@/Layouts/SchedulerHeader.vue";
 import Base from "@/Layouts/Base.vue";
 import {Link} from "@inertiajs/vue3";
 import AddHotelForm from "@/Pages/AdminSection/AddHotelForm.vue";
+import {THotel} from "@/types/THotel";
+import EditHotelForm from "@/Pages/AdminSection/EditHotelForm.vue";
+
+const props = defineProps<{isEdit?: boolean, hotel?: THotel}>();
+
 </script>

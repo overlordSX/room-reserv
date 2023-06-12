@@ -4,7 +4,7 @@ export type TRoom = {
     id: number,
     hotelId: number,
     name: string,
-    photoUrl?: string,
+    photoUrl: string | null,
     price: number,
     square: number,
     countOfRooms: number,

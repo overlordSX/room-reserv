@@ -8,7 +8,7 @@
             </div>
 
             <div v-else class="hotel-list-item__placeholder">
-                <PicturePlaceholderSvg />
+                <PicturePlaceholderSvg/>
             </div>
 
         </div>
@@ -16,7 +16,9 @@
         <div class="hotel-list-item__info">
             <div class="hotel-list-item__name-stars">
                 <div class="hotel-list-item__name">
-                    {{ item.name }}
+                    <a :href="route('dashboard.hotels-list.rooms-list', {id: item.id})" class="link link--hover-green">
+                        {{ item.name }}
+                    </a>
                 </div>
 
                 <div class="hotel-list-item__stars">
@@ -31,7 +33,7 @@
             </div>
 
             <div class="hotel-list-item__address">
-                Адрес: <span v-html="item.address" />
+                Адрес: <span v-html="item.address"/>
             </div>
         </div>
 
@@ -45,7 +47,7 @@
             <Link
                 v-if="item.countOfRooms"
                 :href="route('dashboard.hotels-list.rooms-list', {id: item.id})"
-            class="hotel-list-item__btn btn"
+                class="hotel-list-item__btn btn"
             >Показать номера
             </Link>
         </div>

@@ -14,7 +14,7 @@
                     </Link>
 
                     <Link
-                        :href="route('dashboard.hotels-list.rooms-list', {id: hotelId})"
+                        :href="route('dashboard.hotels-list.rooms-list', {hotel: hotelId})"
                         class="btn">
                         К списку номеров
                     </Link>
@@ -22,12 +22,14 @@
 
                 <div class="add-hotel__header">
                     <div class="add-hotel__title page__section-title">
-                        Новый номер
+                        <span v-if="isEdit && room?.name">Номер {{room.name}}</span>
+                        <span v-else>Новый номер</span>
                     </div>
                 </div>
 
                 <div class="add-hotel__form">
-                    <AddRoomForm :hotel-id="hotelId"/>
+                    <EditRoomForm v-if="isEdit && room" :room="room"/>
+                    <AddRoomForm v-else :hotel-id="hotelId"/>
                 </div>
             </div>
         </template>
@@ -39,6 +41,8 @@ import SchedulerHeader from "@/Layouts/SchedulerHeader.vue";
 import Base from "@/Layouts/Base.vue";
 import {Link} from "@inertiajs/vue3";
 import AddRoomForm from "@/Pages/AdminSection/AddRoomForm.vue";
+import {TRoom} from "@/types/TRoom";
+import EditRoomForm from "@/Pages/AdminSection/EditRoomForm.vue";
 
-const props = defineProps<{ hotelId: number }>();
+const props = defineProps<{ hotelId: number, isEdit?: boolean, room?: TRoom}>();
 </script>

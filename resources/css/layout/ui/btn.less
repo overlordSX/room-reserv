@@ -164,4 +164,21 @@
         --btn-border-color: @cBlue;
         --btn-hover-border-color: @cBlue;
     }
+
+    &--icon {
+        .size(40px);
+        padding: 2px;
+
+        svg {
+            .transit(fill);
+            display: block;
+            fill: currentColor;
+        }
+
+        .hover({
+            svg {
+                fill: var(--btn-border-color);
+            }
+        });
+    }
 }

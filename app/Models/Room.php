@@ -15,6 +15,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property int count_of_rooms
  * @property int count_of_beds
  * @property int floor
+ * @property int hotel_id
  * @property Hotel hotel
  */
 class Room extends Model

@@ -45,6 +45,7 @@
                 <button v-if="!load.isApproved" class="show-load-popup__approve-btn btn" @click="approveReservation()">
                     Подтвердить
                 </button>
+
                 <div class="show-load-popup__btn-group">
                     <button class="show-load-popup__btn btn btn--blue" @click="() => open()">Редактировать</button>
                     <button class="show-load-popup__btn btn btn--red" @click="deleteReservation()">Удалить</button>

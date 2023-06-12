@@ -125,6 +125,11 @@
         --link-hover-border-color: currentColor;
     }
 
+    &--uline,
+    &--hover-uline {
+        --link-border-style: solid;
+    }
+
     &--dashed,
     &--hover-dashed {
         --link-border-style: dashed;
@@ -210,6 +215,10 @@
             display: block;
             max-width: 100%;
         }
+    }
+
+    &--hover-green {
+        --link-hover-color: @cBrand;
     }
 }
 

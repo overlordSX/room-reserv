@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\StringOrFileRule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class RoomRequest extends FormRequest
@@ -28,7 +29,7 @@ class RoomRequest extends FormRequest
             'countOfRooms' => 'required|integer|max:100|min:1',
             'countOfBeds' => 'required|integer|max:100|min:1',
             'floor' => 'required|integer|max:500|min:1',
-            'photo' => 'image',
+            'photo' => ['nullable', new StringOrFileRule()],
         ];
     }
 }

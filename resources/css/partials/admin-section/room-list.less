@@ -1,6 +1,19 @@
 @import "../../_var";
 
 .room-list {
+    &__actions {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    &__controls {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px var(--m16);
+    }
+
     &__header {
         display: flex;
         align-items: center;
